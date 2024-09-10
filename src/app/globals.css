@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+ font-family: 'Lot';
+ src: url('/fonts/Lot-Regular.woff2') format('woff2');
+ font-style: normal;
+}
+
+@font-face {
+ font-family: 'Josefin Sans';
+ src: url('/fonts/Josefin-Sans.woff2') format('woff2');
+ font-style: normal;
+}
+
+:root {
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --rainy-day: #E6E5E2;
+  --moss-green: #928E43;
+  --dusk-glow: #C77743;
+  --black-sand: #4E5253;
+  --dawn-rays: #D6AC42;
+  --ocean-blue: #6C9396;
+  --foreground-rgb: #F3F3F0;
+  --white-water: #F3F3F0;
+}
+
+body {
+  color: var(--foreground-rgb);
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

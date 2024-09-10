@@ -1,0 +1,34 @@
+import { EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/outline';
+
+import Logo from '@/components/svg/Logo';
+import Whatsapp from '@/components/svg/Whatsapp';
+import Instagram from '@/components/svg/Instagram';
+
+export default function Footer() {
+  return (
+    <div className="grid sm:grid-cols-2 sm:grid-flow-col gap-6 items-center p-6 bg-black-sand">
+      <div className="flex justify-center">
+        <Logo className="h-20 sm:h-32 fill-white-water"/>
+      </div>
+      <ul className="text-sm font-light space-y-2">
+        <li className="flex">
+          <EnvelopeIcon className="size-6 mr-2 fill-dawn-rays text-black-sand" />
+          cocomanubali@gmail.com
+        </li>
+        <li className="flex">
+          <Whatsapp className="size-6 mr-2 fill-moss-green" />
+          +62 0000 0000
+        </li>
+        <li className="flex">
+          <Instagram className="size-6 mr-2 text-ocean-blue fill-ocean-blue" />
+          @cocomanu.bali
+        </li>
+        <li className="flex">
+          <MapPinIcon className="size-6 mr-2 fill-dusk-glow text-black-sand" />
+          Yeh Sumbul, Mendoyo, Jembrana Regency, Bali 82262, Indonesia
+        </li>
+      </ul>
+    </div>
+    
+  )
+}
