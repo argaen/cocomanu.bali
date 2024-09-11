@@ -12,19 +12,19 @@ export default function Footer() {
       </div>
       <ul className="text-sm font-light space-y-2">
         <li className="flex">
-          <EnvelopeIcon className="size-6 mr-2 fill-dawn-rays text-black-sand" />
+          <EnvelopeIcon className="size-6 mr-2 fill-dawn-rays-200 text-black-sand" />
           cocomanubali@gmail.com
         </li>
         <li className="flex">
-          <Whatsapp className="size-6 mr-2 fill-moss-green" />
+          <Whatsapp className="size-6 mr-2 fill-moss-green-200" />
           +62 0000 0000
         </li>
         <li className="flex">
-          <Instagram className="size-6 mr-2 text-ocean-blue fill-ocean-blue" />
+          <Instagram className="size-6 mr-2 fill-ocean-blue-200" />
           @cocomanu.bali
         </li>
         <li className="flex">
-          <MapPinIcon className="size-6 mr-2 fill-dusk-glow text-black-sand" />
+          <MapPinIcon className="size-6 mr-2 fill-dusk-glow-200 text-black-sand" />
           Yeh Sumbul, Mendoyo, Jembrana Regency, Bali 82262, Indonesia
         </li>
       </ul>

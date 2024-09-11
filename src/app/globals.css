@@ -14,27 +14,30 @@
  font-style: normal;
 }
 
+@font-face {
+ font-family: 'Yeserva One';
+ src: url('/fonts/Yeserva-One.woff2') format('woff2');
+ font-style: normal;
+}
+
 :root {
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
   --rainy-day: #E6E5E2;
-  --moss-green: #928E43;
-  --dusk-glow: #C77743;
   --black-sand: #4E5253;
-  --dawn-rays: #D6AC42;
-  --ocean-blue: #6C9396;
-  --foreground-rgb: #F3F3F0;
   --white-water: #F3F3F0;
 }
 
 body {
-  color: var(--foreground-rgb);
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--white-water);
+}
+
+h1 {
+  font-family: 'Lot';
+  @apply text-5xl lg:text-6xl;
+}
+
+h2 {
+  font-family: 'Yeserva One';
+  @apply text-xl sm:text-3xl;
 }
 
 @layer utilities {

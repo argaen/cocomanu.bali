@@ -9,17 +9,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        'dusk-glow': {
+          100: '#9D4322',
+          200: '#C77743',
+          300: '#F2C09B',
+        },
+        'moss-green': {
+          100: '#565A27',
+          200: '#928E43',
+          300: '#C4C2A2',
+        },
+        'ocean-blue': {
+          100: '#045D5E',
+          200: '#6C9396',
+          300: '#B3C2C2',
+        },
+        'dawn-rays': {
+          100: '#BF8A05',
+          200: '#D6AC42',
+          300: '#D6AC42',
+        },
         'rainy-day': "var(--rainy-day)",
-        'moss-green': "var(--moss-green)",
-        'dusk-glow': "var(--dusk-glow)",
-        'black-sand': "var(--black-sand)",
-        'dawn-rays': "var(--dawn-rays)",
-        'ocean-blue': "var(--ocean-blue)",
         'white-water': "var(--white-water)",
+        'black-sand': "var(--black-sand)",
       },
       fontFamily: {
         lot: ['Lot', 'sans-serif'],
         josefin: ['Josefin Sans', 'sans-serif'],
+        yeserva: ['Yeserva One', 'sans-serif'],
         sans: ['Josefin Sans'],
       },
     },
