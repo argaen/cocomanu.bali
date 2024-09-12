@@ -32,7 +32,7 @@ export default function Section({
       <div className="grid sm:grid-cols-2">
         <div className={twMerge('relative w-full h-[500px] lg:h-[700px]', imageClassName)}>
           <Image
-            src={bg}
+            src={`${process.env.BASE_PATH}${bg}`}
             alt={title}
             fill
             className="object-cover"

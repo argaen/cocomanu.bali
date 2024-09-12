@@ -15,7 +15,7 @@ export default function Introduction({
             Where Work & Life Flow
           </h2>
           <Image
-            src={image}
+            src={`${process.env.BASE_PATH}${image}`}
             alt="Intro"
             width="200"
             height="200"
@@ -38,7 +38,7 @@ export default function Introduction({
         </div>
         <div className="hidden relative aspect-square h-[200px] md:h-[300px] lg:h-[400px] sm:block">
           <Image
-            src={image}
+            src={`${process.env.BASE_PATH}${image}`}
             alt="Intro"
             fill
             className="object-cover rounded-full"
