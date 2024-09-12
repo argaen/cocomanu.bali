@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Cocomanu",
   description: "Where work & life flow",
+  robots: {
+    index: false,
+  },
 };
 
 export default function RootLayout({

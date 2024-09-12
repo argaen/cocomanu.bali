@@ -12,6 +12,7 @@
  font-family: 'Josefin Sans';
  src: url('/fonts/Josefin-Sans.woff2') format('woff2');
  font-style: normal;
+ font-weight: 350;
 }
 
 @font-face {

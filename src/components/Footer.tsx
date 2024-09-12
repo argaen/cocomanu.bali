@@ -6,7 +6,7 @@ import Instagram from '@/components/svg/Instagram';
 
 export default function Footer() {
   return (
-    <div className="grid sm:grid-cols-2 sm:grid-flow-col gap-6 items-center p-6 bg-black-sand">
+    <div className="grid sm:grid-cols-2 sm:grid-flow-col gap-6 items-center p-14 bg-black-sand">
       <div className="flex justify-center">
         <Logo className="h-20 sm:h-32 fill-white-water"/>
       </div>

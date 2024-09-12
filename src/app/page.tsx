@@ -2,6 +2,7 @@ import TopNav from '@/components/TopNav';
 import Logo from '@/components/svg/Logo';
 import Footer from '@/components/Footer';
 import Section from '@/components/Section';
+import Introduction from '@/components/Introduction';
 
 export default function Home() {
   return (
@@ -19,6 +20,9 @@ export default function Home() {
           Bali, Indonesia
         </div>
       </div>
+      <Introduction
+        image="/img/work_life.jpg"
+      />
       <Section
         header="Cowork"
         bg="/img/cowork.png"
