@@ -23,14 +23,14 @@ export default function Section({
   text,
 }: SectionProps) {
   return (
-    <div className="bg-rainy-day">
+    <div id={header} className="bg-rainy-day">
       <h1
         className={twMerge('relative pt-6 text-center -mb-6 sm:hidden z-10', headerClassName)}
       >
         {header}
       </h1>
       <div className="grid sm:grid-cols-2">
-        <div className={twMerge('relative w-full h-[500px] lg:h-[700px]', imageClassName)}>
+        <div className={twMerge('relative w-full h-[550px] lg:h-[700px]', imageClassName)}>
           <Image
             src={bg}
             alt={title}
@@ -39,19 +39,19 @@ export default function Section({
           />
         </div>
         <div className={twMerge('flex justify-center items-center text-rainy-day p-6', contentClassName)}>
-          <div className="flex flex-col gap-20 xl:w-4/5">
+          <div className="flex flex-col gap-20 xl:w-6/7">
             <h1
               className={twMerge('hidden relative pt-6 text-center sm:block', headerClassName)}
             >
               {header}
             </h1>
-            <div className="flex flex-col gap-6 sm:h-1/2 justify-center lg:px-28">
+            <div className="flex flex-col gap-6 sm:h-1/2 justify-center sm:px-6 md:px-14 lg:px-28">
               <h2
                 className="text-moss-green-300 pb-4"
               >
                 {title}
               </h2>
-              <p className="text-sm leading-relaxed text-justify sm:text-base">
+              <p className="leading-relaxed text-justify">
                 {text}
               </p>
               <div className="flex justify-end">

@@ -29,16 +29,17 @@
 
 body {
   color: var(--white-water);
+  @apply text-sm md:text-base lg:text-xl 
 }
 
 h1 {
   font-family: 'Lot';
-  @apply text-5xl lg:text-6xl;
+  @apply text-5xl md:text-6xl lg:text-7xl;
 }
 
 h2 {
   font-family: 'Yeserva One';
-  @apply text-xl sm:text-3xl;
+  @apply text-xl sm:text-3xl md:text-4xl;
 }
 
 @layer utilities {

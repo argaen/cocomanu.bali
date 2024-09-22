@@ -10,11 +10,10 @@ import Link from 'next/link';
 import Logo from '@/components/svg/Logo1';
 
 const navigation = [
-  { name: 'Cowork', href: '#', current: true },
-  { name: 'Colive', href: '#', current: false },
-  { name: 'Community', href: '#', current: false },
-  { name: 'West Bali', href: '#', current: false },
-  { name: 'About us', href: '#', current: false },
+  { name: 'Cowork', href: '#Cowork', current: true },
+  { name: 'Colive', href: '#Colive', current: false },
+  { name: 'Community', href: '#Community', current: false },
+  { name: 'West Bali', href: '#West Bali', current: false },
 ]
 
 export default function TopNav() {
@@ -24,7 +23,7 @@ export default function TopNav() {
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center pl-2">
             <Link href="/">
-              <Logo className="h-20 py-2 fill-[#C4C2A2] w-auto" />
+              <Logo className="h-20 py-2 fill-moss-green-100 w-auto" />
             </Link>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:ml-6 sm:pr-0">
@@ -43,8 +42,8 @@ export default function TopNav() {
                     href={item.href}
                     aria-current={item.current ? 'page' : undefined}
                     className={classNames(
-                      item.current ? '' : 'text-gray-300 hover:bg-gray-700',
-                      'rounded-md px-3 py-2 text-sm font-medium',
+                      item.current ? '' : 'hover:text-white-water hover:bg-black-sand',
+                      'text-moss-green-200 rounded-md px-3 py-2 font-medium',
                     )}
                   >
                     {item.name}
@@ -66,7 +65,7 @@ export default function TopNav() {
               aria-current={item.current ? 'page' : undefined}
               className={classNames(
                 item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                'block rounded-md px-3 py-2 text-base font-medium',
+                'block rounded-md px-3 py-2 font-medium',
               )}
             >
               {item.name}

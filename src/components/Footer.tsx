@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="flex justify-center">
         <Logo className="h-20 sm:h-32 fill-white-water"/>
       </div>
-      <ul className="text-sm font-light space-y-2">
+      <ul className="text-base font-light space-y-2">
         <li className="flex">
           <EnvelopeIcon className="size-6 mr-2 fill-dawn-rays-200 text-black-sand" />
           cocomanubali@gmail.com
