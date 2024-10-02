@@ -1,10 +1,10 @@
 import { twMerge } from 'tailwind-merge';
 
-interface LogoProps {
+interface InstagramProps {
   className?: string;
 }
 
-export default function Instagram({ className }: LogoProps) {
+export default function Instagram({ className }: InstagramProps) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'

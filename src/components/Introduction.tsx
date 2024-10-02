@@ -1,48 +1,34 @@
-import Image from "next/image";
+import {twMerge} from "tailwind-merge";
 
 export type IntroductionProps = {
-  image: string;
+  title: string;
+  titleClassName?: string;
+  image: JSX.Element;
+  content: string | JSX.Element;
 };
 
 export default function Introduction({
+  title,
+  titleClassName = '',
   image,
+  content,
 }: IntroductionProps) {
   return (
-    <div className="flex items-center justify-center h-screen bg-black-sand">
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-16 px-10">
-        <div className="flex flex-col items-center h-5/6 md:w-4/6 lg:w-3/6 gap-16">
-          <h2 className="text-3xl lg:text-5xl text-center text-moss-green-300 px-8">
-            Where Work & Life Flow
+    <div className="flex items-center justify-center h-screen bg-black-sand md:px-6 lg:px-12">
+      <div className="flex flex-col sm:flex-row items-center justify-center md:gap-24 px-10">
+        <div className="flex flex-col items-center h-5/6 md:w-4/6 lg:w-3/6 gap-8">
+          <h2 className={twMerge("text-3xl lg:text-5xl text-center px-8 intersect:animate-fade-down intersect-once animate-delay-[250ms]", titleClassName)}>
+            {title}
           </h2>
-          <Image
-            src={image}
-            alt="Intro"
-            width="200"
-            height="200"
-            className="object-cover aspect-square rounded-full sm:hidden"
-          />
-          <div className="space-y-6 w-5/6">
-            <p>
-              Welcome to the first coworking and coliving space in the Medewi area.
-            </p>
-            <p>
-              Here, your day starts with sunrise surf sessions and ends with wild sunsets over black sand beaches.
-            </p>
-            <p>
-              In between, you&apos;ll find a peaceful spot to focus, surrounded by the natural beauty of West Bali.
-            </p>
-            <p>
-              At Cocomanu, we&apos;ve created a place where you can get things done and enjoy the simple pleasures of island life.
-            </p>
+          <div className="relative h-[200px] w-[200px] sm:hidden">
+            {image}
+          </div>
+          <div className="space-y-6 w-5/6 intersect:animate-fade-up intersect-once animate-delay-[250ms]">
+            {content}
           </div>
         </div>
         <div className="hidden relative aspect-square h-[200px] md:h-[300px] lg:h-[400px] sm:block">
-          <Image
-            src={image}
-            alt="Intro"
-            fill
-            className="object-cover rounded-full"
-          />
+          {image}
         </div>
       </div>
     </div>

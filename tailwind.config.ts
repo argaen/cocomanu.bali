@@ -8,6 +8,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        'fade-in-out': 'fade-in-out 2s ease-in-out infinite',
+      },
+      keyframes: {
+        'fade-in-out': {
+          '0%': { opacity: '0' },        // All notes are invisible initially
+          '10%, 30%': { opacity: '1' },  // Fade-in effect (adjust percentage to control the timing)
+          '80%, 100%': { opacity: '0' }, // All notes fade out together
+        },
+      },
       colors: {
         'dusk-glow': {
           100: '#9D4322',
@@ -41,6 +51,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animated'),
+    require('tailwindcss-intersect'),
+  ],
 };
 export default config;

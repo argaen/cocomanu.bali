@@ -10,10 +10,10 @@ import Link from 'next/link';
 import Logo from '@/components/svg/Logo1';
 
 const navigation = [
-  { name: 'Cowork', href: '#Cowork', current: true },
-  { name: 'Colive', href: '#Colive', current: false },
-  { name: 'Community', href: '#Community', current: false },
-  { name: 'West Bali', href: '#West Bali', current: false },
+  { name: 'Cowork', href: '/cowork', current: true },
+  { name: 'Colive', href: '/colive', current: false },
+  { name: 'Community', href: '/community', current: false },
+  { name: 'West Bali', href: '/west-bali', current: false },
 ]
 
 export default function TopNav() {
