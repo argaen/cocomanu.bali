@@ -1,0 +1,15 @@
+{
+  "master": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-cocomanu-master-a012b-authRole",
+      "UnauthRoleArn": "arn:aws:iam::650534923181:role/amplify-cocomanu-master-a012b-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::650534923181:role/amplify-cocomanu-master-a012b-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-cocomanu-master-a012b-deployment",
+      "UnauthRoleName": "amplify-cocomanu-master-a012b-unauthRole",
+      "StackName": "amplify-cocomanu-master-a012b",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:650534923181:stack/amplify-cocomanu-master-a012b/5362c690-8086-11ef-bb73-06a70686eeb7",
+      "AmplifyAppId": "d3lobnxi5zotky"
+    }
+  }
+}
