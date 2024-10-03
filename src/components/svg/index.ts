@@ -15,6 +15,8 @@ export { default as WorkLife } from './WorkLife';
 export { default as Instagram } from './Instagram';
 export { default as Whatsapp } from './Whatsapp';
 
+export { default as ArrowLeft } from './ArrowLeft';
+export { default as ArrowRight } from './ArrowRight';
 
 export { default as Logo } from './Logo';
 export { default as Logo1 } from './Logo1';

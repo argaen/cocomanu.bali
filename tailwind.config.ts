@@ -14,8 +14,8 @@ const config: Config = {
       keyframes: {
         'fade-in-out': {
           '0%': { opacity: '0' },        // All notes are invisible initially
-          '10%, 30%': { opacity: '1' },  // Fade-in effect (adjust percentage to control the timing)
-          '80%, 100%': { opacity: '0' }, // All notes fade out together
+          '10%, 30%': { opacity: '1' },  // Fade-in effect
+          '80%, 100%': { opacity: '0' },
         },
       },
       colors: {

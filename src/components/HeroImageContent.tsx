@@ -9,6 +9,7 @@ export type HeroImageContentProps = {
   headerClassName: string;
   contentClassName: string;
   imageClassName?: string;
+  linkClassName?: string;
   title: string;
   text: string;
   href: string;
@@ -20,6 +21,7 @@ export default function HeroImageContent({
   image,
   contentClassName,
   imageClassName,
+  linkClassName,
   title,
   text,
   href,
@@ -34,7 +36,7 @@ export default function HeroImageContent({
           className="object-cover"
         />
       </div>
-      <div className={twMerge('flex justify-center items-center text-rainy-day p-6', contentClassName)}>
+      <div className={twMerge('flex justify-center items-center p-6', contentClassName)}>
         <div className="flex flex-col gap-20 xl:w-6/7">
           <h1
             className={twMerge('hidden relative pt-6 text-center sm:block intersect:animate-fade-down intersect-once animate-delay-[250ms]', headerClassName)}
@@ -53,7 +55,10 @@ export default function HeroImageContent({
             <div className="flex justify-end">
               <Link
                 href={href}
-                className={twMerge('flex items-center bg-dawn-rays-300 text-black-sand py-1 px-2 rounded-md')}
+                className={twMerge(
+                  'flex items-center py-1 px-2 rounded-md',
+                  linkClassName,
+                )}
               >
                 Explore
                 <ArrowRightIcon className="size-4 ml-1 font-bold"/>

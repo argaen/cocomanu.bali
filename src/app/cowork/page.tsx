@@ -16,6 +16,7 @@ import {
   Note,
   DoubleNote,
 } from '@/components/svg';
+import Gallery from '@/components/Gallery';
 
 export default function Cowork() {
   return (
@@ -71,17 +72,32 @@ export default function Cowork() {
       />
       <Section
         header="Your Oficce"
-        headerClassName="text-dusk-glow-200"
+        headerClassName="text-dusk-glow-200 pb-14"
+        className="pb-32"
         content={
-          <HeroImageContent
-            header="Cowork"
-            headerClassName="text-dusk-glow-100 sm:text-dusk-glow-200"
-            image="/img/cowork.png"
-            contentClassName="bg-dusk-glow-100"
-            imageClassName="intersect:animate-fade-right intersect-once"
-            title="The Perfect Tropical Office"
-            text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
-            href="/cowork"
+          <Gallery
+            images={[
+              {
+                src: '/img/cowork.png',
+                alt: 'Office',
+                caption: 'Amazing office',
+              },
+              {
+                src: '/img/colive.png',
+                alt: 'Office',
+                caption: 'lololol',
+              },
+              {
+                src: '/img/cowork.png',
+                alt: 'Office',
+                caption: 'Lorem ipsum lololol',
+              },
+              {
+                src: '/img/colive.png',
+                alt: 'Office',
+                caption: 'Lorem ipsum lalala',
+              },
+            ]}
           />
         }
       />
@@ -90,42 +106,38 @@ export default function Cowork() {
         header="Facilities"
         headerClassName="text-ocean-blue-200"
         content={(
-          <div className="flex flex-col py-20 gap-12">
-            <div className="flex items-center justify-center text-dusk-glow-300 px-6 gap-4 sm:gap-x-16 md:gap-x-24 lg:gap-x-32">
-              <div className="facility">
-                <Starlink className="size-12 md:size-24 lg:size-32 fill-transparent stroke-rainy-day" />
-                Starlink Wifi
-              </div>
-              <div className="facility animate-delay-[100ms]">
-                <Chairs className="size-12 md:size-24 lg:size-32 fill-rainy-day" />
-                Office Chairs
-              </div>
-              <div className="facility animate-delay-[200ms]">
-                <AC className="size-12 md:size-24 lg:size-32 fill-rainy-day" />
-                Full Indoor AC
-              </div>
-              <div className="facility animate-delay-[300ms]">
-                <PhoneBooth className="size-12 md:size-24 lg:size-32 fill-rainy-day" />
-                Phone Booths
-              </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 py-20 lg:px-40 gap-12">
+            <div className="facility">
+              <Starlink className="size-24 lg:size-32 fill-transparent stroke-rainy-day" />
+              Starlink Wifi
             </div>
-            <div className="flex items-center justify-center text-dusk-glow-300 px-6 gap-4 sm:gap-16 md:gap-x-24 lg:gap-x-32">
-              <div className="facility animate-delay-[400ms]">
-                <MeetingRoom className="size-12 md:size-24 lg:size-32 fill-rainy-day" />
-                Phone Booths
-              </div>
-              <div className="facility animate-delay-[500ms]">
-                <Chillout className="size-12 md:size-24 lg:size-32 fill-rainy-day" />
-                Phone Booths
-              </div>
-              <div className="facility animate-delay-[600ms]">
-                <Coffee className="size-12 md:size-24 lg:size-32 fill-rainy-day" />
-                Phone Booths
-              </div>
-              <div className="facility animate-delay-[700ms]">
-                <Community className="size-12 md:size-24 lg:size-32 fill-rainy-day" />
-                Phone Booths
-              </div>
+            <div className="facility animate-delay-[100ms]">
+              <Chairs className="size-24 lg:size-32 fill-rainy-day" />
+              Office Chairs
+            </div>
+            <div className="facility animate-delay-[200ms]">
+              <AC className="size-24 lg:size-32 fill-rainy-day" />
+              Full Indoor AC
+            </div>
+            <div className="facility animate-delay-[300ms]">
+              <PhoneBooth className="size-24 lg:size-32 fill-rainy-day" />
+              Phone Booths
+            </div>
+            <div className="facility animate-delay-[400ms]">
+              <MeetingRoom className="size-24 lg:size-32 fill-rainy-day" />
+              Meeting Room
+            </div>
+            <div className="facility animate-delay-[500ms]">
+              <Chillout className="size-24 lg:size-32 fill-rainy-day" />
+              Chillout Area
+            </div>
+            <div className="facility animate-delay-[600ms]">
+              <Coffee className="size-24 lg:size-32 fill-rainy-day" />
+              Coffee Bar
+            </div>
+            <div className="facility animate-delay-[700ms]">
+              <Community className="size-24 lg:size-32 fill-rainy-day" />
+              Community Events
             </div>
           </div>
         )}
