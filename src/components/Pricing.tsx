@@ -1,4 +1,4 @@
-import {CheckCircle} from "./svg";
+import { CheckCircle } from "./svg";
 
 export default function Pricing() {
   return (

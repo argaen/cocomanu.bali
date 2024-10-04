@@ -14,10 +14,10 @@ export default function Section({
   content,
 }: SectionProps) {
   return (
-    <div id={header} className={twMerge('bg-rainy-day', className)}>
+    <div id={header} className={twMerge('bg-rainy-day py-6', className)}>
       <h1
         className={twMerge(
-          'relative pt-6 text-center -mb-6 z-10',
+          'relative text-center -mb-6 z-10',
           headerClassName,
         )}
       >

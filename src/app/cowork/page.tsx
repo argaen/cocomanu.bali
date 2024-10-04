@@ -1,6 +1,9 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
+
 import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
-import Image from 'next/image';
 import Section from '@/components/Section';
 import {
   Starlink,
@@ -17,6 +20,7 @@ import {
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
 import Pricing from '@/components/Pricing';
+import Footer from '@/components/Footer';
 
 export default function Cowork() {
   return (
@@ -37,6 +41,7 @@ export default function Cowork() {
           <h1 className="text-dusk-glow-100">Cowork</h1>
         </main>
       </div>
+
       <Introduction
         title="Working at Cocomanu"
         titleClassName="text-dusk-glow-200"
@@ -70,6 +75,7 @@ export default function Cowork() {
           </div>
         )}
       />
+
       <Section
         header="Your Oficce"
         headerClassName="text-dusk-glow-200 pb-14"
@@ -101,6 +107,7 @@ export default function Cowork() {
           />
         }
       />
+
       <Section
         className="bg-black-sand"
         header="Facilities"
@@ -142,6 +149,7 @@ export default function Cowork() {
           </div>
         )}
       />
+
       <Section
         header="Pricing"
         headerClassName="pb-14 text-moss-green-200"
@@ -149,6 +157,30 @@ export default function Cowork() {
           <Pricing />
         }
       />
+
+      <div className="relative w-full h-[550px] lg:h-[700px]">
+        <Image
+          alt="hero"
+          src="/img/colive.png"
+          quality={90}
+          fill
+          className="-z-10 blur-sm object-cover"
+        />
+        <div className="flex flex-col h-full items-center justify-center gap-6">
+          <h2>Want to stay with us too?</h2>
+          <div className="flex justify-center">
+            <Link
+              href="/colive"
+              className="flex items-center py-1 px-2 rounded-md bg-ocean-blue-200"
+            >
+              Coliving
+              <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
     </div>
   );
 }
