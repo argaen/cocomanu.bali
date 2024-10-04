@@ -14,7 +14,7 @@ export default function Home() {
         <Image
           alt="hero"
           src="/img/photo1.png"
-          quality={100}
+          quality={90}
           fill
           className="-z-10 object-cover"
           priority

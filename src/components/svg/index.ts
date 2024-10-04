@@ -12,6 +12,7 @@ export { default as Starlink } from './Starlink';
 export { default as Treble } from './Treble';
 export { default as WorkLife } from './WorkLife';
 
+export { default as CheckCircle } from './CheckCircle';
 export { default as Instagram } from './Instagram';
 export { default as Whatsapp } from './Whatsapp';
 

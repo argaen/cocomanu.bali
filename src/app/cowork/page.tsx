@@ -2,7 +2,6 @@ import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
 import Image from 'next/image';
 import Section from '@/components/Section';
-import HeroImageContent from '@/components/HeroImageContent';
 import {
   Starlink,
   Chairs,
@@ -17,6 +16,7 @@ import {
   DoubleNote,
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
+import Pricing from '@/components/Pricing';
 
 export default function Cowork() {
   return (
@@ -25,7 +25,7 @@ export default function Cowork() {
         <Image
           alt="hero"
           src="/img/cowork.png"
-          quality={100}
+          quality={90}
           fill
           className="-z-10 object-cover"
           priority
@@ -141,6 +141,13 @@ export default function Cowork() {
             </div>
           </div>
         )}
+      />
+      <Section
+        header="Pricing"
+        headerClassName="pb-14 text-moss-green-200"
+        content={
+          <Pricing />
+        }
       />
     </div>
   );

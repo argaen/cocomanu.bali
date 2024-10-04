@@ -32,18 +32,19 @@ export default function HeroImageContent({
         <Image
           src={image}
           alt={title}
+          quality={90}
           fill
           className="object-cover"
         />
       </div>
       <div className={twMerge('flex justify-center items-center p-6', contentClassName)}>
-        <div className="flex flex-col gap-20 xl:w-6/7">
+        <div className="flex flex-col gap-20 xl:w-6/7 intersect:animate-fade-up intersect-once animate-delay-300">
           <h1
-            className={twMerge('hidden relative pt-6 text-center sm:block intersect:animate-fade-down intersect-once animate-delay-[250ms]', headerClassName)}
+            className={twMerge('hidden relative pt-6 text-center sm:block', headerClassName)}
           >
             {header}
           </h1>
-          <div className="flex flex-col gap-6 sm:h-1/2 justify-center sm:px-6 md:px-14 lg:px-28 intersect:animate-fade-up intersect-once animate-delay-[250ms]">
+          <div className="flex flex-col gap-6 sm:h-1/2 justify-center sm:px-6 md:px-14 lg:px-28">
             <h2
               className="text-moss-green-300 pb-4"
             >
