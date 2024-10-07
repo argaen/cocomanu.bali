@@ -37,7 +37,7 @@ const config: Config = {
         'dawn-rays': {
           100: '#BF8A05',
           200: '#D6AC42',
-          300: '#D6AC42',
+          300: '#F2E3AC',
         },
         'rainy-day': "var(--rainy-day)",
         'white-water': "var(--white-water)",

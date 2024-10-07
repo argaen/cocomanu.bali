@@ -4,8 +4,11 @@ import React from 'react';
 import Image from 'next/image';
 
 import { ArrowLeft, ArrowRight } from '@/components/svg';
+import {twMerge} from 'tailwind-merge';
 
 export type GalleryProps = {
+  arrowClassName: string;
+  selectorClassName: string;
   images: {
     src: string;
     alt: string;
@@ -15,6 +18,8 @@ export type GalleryProps = {
 
 export default function Gallery({
   images,
+  arrowClassName,
+  selectorClassName,
 }: GalleryProps) {
   const [index, setIndex] = React.useState(0);
 
@@ -23,7 +28,7 @@ export default function Gallery({
       <div className="flex items-center justify-center w-full overflow-x-clip">
         <div className="flex absolute items-enter justify-between w-screen md:w-[520px] px-2 z-10">
           <button
-            className="py-3 bg-white-water rounded-xl fill-dusk-glow-200 disabled:fill-dusk-glow-300"
+            className={twMerge('py-3 bg-white-water rounded-xl', arrowClassName)}
             disabled={index === 0}
             onClick={() => {
               setIndex(index - 1);
@@ -32,7 +37,7 @@ export default function Gallery({
             <ArrowLeft className="size-10"/>
           </button>
           <button
-            className="py-3 bg-white-water rounded-xl fill-dusk-glow-200 disabled:fill-dusk-glow-300"
+            className={twMerge('py-3 bg-white-water rounded-xl', arrowClassName)}
             disabled={index === images.length - 1}
             onClick={() => {
               setIndex(index + 1);
@@ -70,7 +75,7 @@ export default function Gallery({
           images.map((image, i) => (
             <button
               key={image.alt}
-              className={`p-2 rounded-xl transition-all duration-500 ${i === index ? 'bg-dusk-glow-200 px-4' : 'bg-white-water'}`}
+              className={`p-2 rounded-xl transition-all duration-500 ${i === index ? `${selectorClassName} px-4` : 'bg-white-water'}`}
               onClick={() => {
                 setIndex(i);
               }}

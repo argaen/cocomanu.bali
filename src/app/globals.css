@@ -48,9 +48,6 @@ h2 {
   }
 }
 
-/* Hack so this class is detected in the .facility class for animating once only */
-.intersect-once {}
-
 .facility {
-  @apply flex flex-col gap-2 items-center text-center intersect:animate-fade-up intersect-once;
+  @apply flex flex-col gap-2 items-center text-center text-dusk-glow-300;
 }

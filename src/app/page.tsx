@@ -60,6 +60,7 @@ export default function Home() {
         )}
       />
       <Section
+        className="py-0"
         header="Cowork"
         headerClassName="text-dusk-glow-100 sm:text-dusk-glow-200 sm:hidden"
         content={
@@ -77,6 +78,7 @@ export default function Home() {
         }
       />
       <Section
+        className="py-0"
         header="Colive"
         headerClassName="text-ocean-blue-100 sm:text-ocean-blue-200 sm:hidden"
         content={
@@ -94,6 +96,7 @@ export default function Home() {
         }
       />
       <Section
+        className="py-0"
         header="Community"
         headerClassName="text-dawn-rays-200 sm:text-dawn-rays-200 sm:hidden"
         content={
@@ -111,6 +114,7 @@ export default function Home() {
         }
       />
       <Section
+        className="py-0"
         header="West Bali"
         headerClassName="text-moss-green-200 sm:text-moss-green-200 sm:hidden"
         content={

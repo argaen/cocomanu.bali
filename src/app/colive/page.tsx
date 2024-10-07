@@ -6,29 +6,27 @@ import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
 import {
-  Starlink,
-  Chairs,
-  AC,
-  PhoneBooth,
-  MeetingRoom,
-  Chillout,
-  Coffee,
-  Community,
-  Treble,
-  Note,
-  DoubleNote,
+  Bar,
+  CatTail,
+  Couch,
+  Coworking,
+  Ensuite,
+  Garden,
+  Kitchen,
+  Pool,
+  Projector,
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
-import PricingCard from '@/components/PricingCard';
 import Footer from '@/components/Footer';
+import PricingCard from '@/components/PricingCard';
 
-export default function Cowork() {
+export default function Colive() {
   return (
     <div>
       <div id="hero">
         <Image
           alt="hero"
-          src="/img/cowork.png"
+          src="/img/colive.png"
           quality={90}
           fill
           className="-z-10 object-cover"
@@ -38,38 +36,33 @@ export default function Cowork() {
           <TopNav />
         </div>
         <main className="flex h-screen items-center justify-center">
-          <h1 className="text-dusk-glow-200 animate-fade-up animate-duration-500 animate-delay-1000">Cowork</h1>
+          <h1 className="text-ocean-blue-200 animate-fade-up animate-duration-500 animate-delay-1000">Colive</h1>
         </main>
       </div>
 
       <Introduction
-        title="Working at Cocomanu"
-        titleClassName="text-dusk-glow-200"
+        title="Living at Cocomanu"
+        titleClassName="text-ocean-blue-200"
         image={
           <>
             <Image
-              src="/img/cowork_illustration.svg"
+              src="/img/colive_illustration.svg"
               alt="Intro"
               fill
               className="object-contain"
             />
-            <div className="flex w-full justify-center">
-              <Treble className="size-6 md:size-8 lg:size-10 xl:size-12 fill-dusk-glow-300 animate-fade-in-out animate-infinite"/>
-              <Note className="size-6 md:size-8 lg:size-10 xl:size-12 fill-dusk-glow-300 relative -top-6 animate-fade-in-out animate-infinite animate-delay-[300ms]"/>
-              <DoubleNote className="size-6 md:size-8 lg:size-10 xl:size-12 fill-dusk-glow-300 animate-fade-in-out animate-infinite animate-delay-[600ms]"/>
+            <div className="flex w-full justify-center mt-[66px] md:mt-[100px] lg:mt-[138px]">
+              <CatTail className="fill-ocean-blue-300 size-4 md:size-6 mr-[91px] md:mr-[137px] lg:mr-[180px] animate-wiggle-more animate-infinite animate-duration-[2s] origin-right" />
             </div>
           </>
         }
         content={(
           <div>
             <p className="mb-4">
-              Let&apos;s talk about the realities of remote work. As digital nomads who&apos;
-              traveled the globe, we&apos;ve dealt with it all: unreliable internet, cramped workspaces,
-              no quiet spots for calls - and the ultimate productivity killer, watching others have
-              fun while you&apos;re stuck working.
+              Finding a home on the road as a digital nomad isn&apos;t easy. You want to connect with others but party hostels aren&apos;t your vibe. You crave routine, comfort and privacy, but staying alone in an Airbnb can feel isolating.
             </p>
             <p>
-              We&apos;ve made it our mission to eliminate these hassless so you can focus on what matters
+              That&apos;s why we created our coliving space with long-term stay in mind. With a full kitchen and living room, a refreshing pool and a lush edible garden, it&apos;s easy to find balance and community - all just steps away from our coworking space.
               the most.
             </p>
           </div>
@@ -77,12 +70,51 @@ export default function Cowork() {
       />
 
       <Section
-        header="Your Oficce"
-        headerClassName="text-dusk-glow-200 pb-14"
+        header="The House"
+        headerClassName="text-ocean-blue-200 pb-14"
         content={
           <Gallery
-            arrowClassName="fill-dusk-glow-200 disabled:fill-dusk-glow-300"
-            selectorClassName="bg-dusk-glow-200"
+            arrowClassName="fill-ocean-blue-200 disabled:fill-ocean-blue-300"
+            selectorClassName="bg-ocean-blue-200"
+            images={[
+              {
+                src: '/img/cowork.png',
+                alt: 'Office',
+                caption: 'Amazing office',
+              },
+              {
+                src: '/img/colive.png',
+                alt: 'Office',
+                caption: 'lololol',
+              },
+              {
+                src: '/img/cowork.png',
+                alt: 'Office',
+                caption: 'Lorem ipsum lololol',
+              },
+              {
+                src: '/img/colive.png',
+                alt: 'Office',
+                caption: 'Lorem ipsum lalala',
+              },
+            ]}
+          />
+        }
+      />
+
+      <div className="flex items-center justify-center bg-black-sand p-20 md:px-[100px] lg:px-[300px] xl:px-[500px]">
+        <p>
+          Each private room features a queen-sized bed, ensuite bathrooms and a desk so you have the option to work in peace whenever you need your own space.
+        </p>
+      </div>
+
+      <Section
+        header="Your Room"
+        headerClassName="text-ocean-blue-200 pb-14"
+        content={
+          <Gallery
+            arrowClassName="fill-ocean-blue-200 disabled:fill-ocean-blue-300"
+            selectorClassName="bg-ocean-blue-200"
             images={[
               {
                 src: '/img/cowork.png',
@@ -115,37 +147,37 @@ export default function Cowork() {
         headerClassName="text-ocean-blue-200"
         content={(
           <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 py-20 lg:px-40 gap-12">
-            <div className="facility intersect:animate-fade-up intersect-once">
-              <Starlink className="size-24 lg:size-32 fill-transparent stroke-rainy-day" />
-              Starlink Wifi
+            <div className="facility intersect:animate-fade-up intersect-once text-dusk-glow-300">
+              <Coworking className="size-24 lg:size-32 fill-transparent stroke-rainy-day" />
+              Coworking Access
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[100ms]">
-              <Chairs className="size-24 lg:size-32 fill-rainy-day" />
-              Office Chairs
+              <Ensuite className="size-24 lg:size-32 fill-rainy-day" />
+              Private ensuites
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[200ms]">
-              <AC className="size-24 lg:size-32 fill-rainy-day" />
-              Full Indoor AC
+              <Kitchen className="size-24 lg:size-32 fill-rainy-day" />
+              Full Shared Kitchen
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[300ms]">
-              <PhoneBooth className="size-24 lg:size-32 fill-rainy-day" />
-              Phone Booths
-            </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[400ms]">
-              <MeetingRoom className="size-24 lg:size-32 fill-rainy-day" />
-              Meeting Room
-            </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[500ms]">
-              <Chillout className="size-24 lg:size-32 fill-rainy-day" />
-              Chillout Area
-            </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[600ms]">
-              <Coffee className="size-24 lg:size-32 fill-rainy-day" />
+              <Bar className="size-24 lg:size-32 fill-rainy-day" />
               Coffee Bar
             </div>
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[400ms]">
+              <Projector className="size-24 lg:size-32 fill-rainy-day" />
+              Movie Projector
+            </div>
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[500ms]">
+              <Couch className="size-24 lg:size-32 fill-rainy-day" />
+              Giant Couch
+            </div>
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[600ms]">
+              <Pool className="size-24 lg:size-32 fill-rainy-day" />
+              Swimming Pool
+            </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[700ms]">
-              <Community className="size-24 lg:size-32 fill-rainy-day" />
-              Community Events
+              <Garden className="size-24 lg:size-32 fill-rainy-day" />
+              Community Garden
             </div>
           </div>
         )}
@@ -157,66 +189,57 @@ export default function Cowork() {
         content={
           <div className="flex flex-col md:flex-row md:items-start justify-center px-6 gap-y-12 gap-6 lg:gap-16">
             <PricingCard
-              title="Day Pass"
+              title="1 Night"
               perks={[
-                '1 free drink at the coffee bar',
-                'Full access to shared facilities',
-                'Unlimited phone booth usage',
+                'Includes a coworking day pass',
+                'All coliving facilities',
               ]}
               price={
                 <>
-                  150K/
+                  600K/
                   <span className="text-base">
-                   day
+                   night
                   </span>
                 </>
               }
             />
 
             <PricingCard
-              title="7-Day Pass"
+              title="7-Nights"
               perks={[
-                '3 free drinks at the coffee bar',
-                'Full access to shared facilities',
-                'Unlimited phone booth usage',
-                'Members-only Whatsapp group',
-                '10-page printing credits',
+                'Includes a 7-day coworking pass',
+                'All coliving facilities',
               ]}
               price={
                 <>
-                  700K/
+                  3.5M/
                   <span className="text-base">
                    week
                   </span>
                   <span className="text-base text-gray-400">
                     {' '}
-                    (100k/day)
+                    (500k/night)
                   </span>
                 </>
               }
             />
 
             <PricingCard
-              title="7-Day Pass"
+              title="30 Nights"
               perks={[
-                '10 free drinks at the coffee bar',
-                'Full access to shared facilities',
-                'Unlimited phone booth usage',
-                'Members-only Whatsapp group',
-                '30-page printing credits',
-                '4-hour group meeting room credits',
-                'Dedicated reserved desk',
-                'Free business address',
+                'Includes a 7-day coworking pass',
+                'All coliving facilities',
+                'Weekly room cleaning',
               ]}
               price={
                 <>
-                  2.4M/
+                  12M/
                   <span className="text-base">
                    month
                   </span>
                   <span className="text-base text-gray-400">
                     {' '}
-                    (80k/day)
+                    (400k/night)
                   </span>
                 </>
               }
@@ -228,19 +251,19 @@ export default function Cowork() {
       <div className="relative w-full h-[550px] lg:h-[700px]">
         <Image
           alt="hero"
-          src="/img/colive.png"
+          src="/img/community.jpeg"
           quality={90}
           fill
           className="-z-10 blur-sm object-cover"
         />
         <div className="flex flex-col h-full items-center justify-center gap-6">
-          <h2>Want to stay with us too?</h2>
+          <h2>Why do we keep coming back?</h2>
           <div className="flex justify-center">
             <Link
-              href="/colive"
-              className="flex items-center py-1 px-2 rounded-md bg-ocean-blue-200"
+              href="/community"
+              className="flex items-center py-1 px-2 rounded-md bg-dawn-rays-200"
             >
-              Coliving
+              Community
               <ArrowRightIcon className="size-4 ml-1 font-bold"/>
             </Link>
           </div>
