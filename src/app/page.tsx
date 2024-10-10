@@ -7,16 +7,24 @@ import Image from 'next/image';
 import HeroImageContent from '@/components/HeroImageContent';
 import { Laptop, WorkLife } from '@/components/svg';
 
+import HeroImage from '@/assets/images/photo1.png';
+import CoworkImage from '@/assets/images/cowork.png';
+import ColiveImage from '@/assets/images/colive.png';
+import CommunityImage from '@/assets/images/community.jpeg';
+import WestBaliImage from '@/assets/images/west_bali.jpeg';
+
 export default function Home() {
   return (
     <div>
       <div id="hero">
         <Image
-          alt="hero"
-          src="/img/photo1.png"
+          alt="Welcome to Cocomanu"
+          src={HeroImage}
           quality={90}
+          objectFit="cover"
           fill
-          className="-z-10 object-cover"
+          className="-z-10"
+          placeholder="blur"
           priority
         />
         <div className="absolute w-screen top-0">
@@ -62,12 +70,12 @@ export default function Home() {
       <Section
         className="py-0"
         header="Cowork"
-        headerClassName="text-dusk-glow-100 sm:text-dusk-glow-200 sm:hidden"
+        headerClassName="text-dusk-glow-200 sm:text-dusk-glow-200 sm:hidden"
         content={
           <HeroImageContent
             header="Cowork"
             headerClassName="text-dusk-glow-100 sm:text-dusk-glow-200"
-            image="/img/cowork.png"
+            image={CoworkImage}
             contentClassName="bg-dusk-glow-100"
             imageClassName="intersect:animate-fade-right intersect-once"
             linkClassName="bg-dusk-glow-200"
@@ -80,12 +88,12 @@ export default function Home() {
       <Section
         className="py-0"
         header="Colive"
-        headerClassName="text-ocean-blue-100 sm:text-ocean-blue-200 sm:hidden"
+        headerClassName="text-ocean-blue-200 sm:text-ocean-blue-200 sm:hidden"
         content={
           <HeroImageContent
             header="Colive"
             headerClassName="text-ocean-blue-100 sm:text-ocean-blue-200"
-            image="/img/colive.png"
+            image={ColiveImage}
             contentClassName="bg-ocean-blue-100"
             imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
             linkClassName="bg-ocean-blue-200"
@@ -103,7 +111,7 @@ export default function Home() {
           <HeroImageContent
             header="Community"
             headerClassName="text-dawn-rays-200 sm:text-dawn-rays-200"
-            image="/img/community.jpeg"
+            image={CommunityImage}
             contentClassName="bg-dawn-rays-100"
             imageClassName="intersect:animate-fade-right intersect-once"
             linkClassName="bg-dawn-rays-200"
@@ -121,7 +129,7 @@ export default function Home() {
           <HeroImageContent
             header="West Bali"
             headerClassName="text-moss-green-200 sm:text-moss-green-200"
-            image="/img/west_bali.jpeg"
+            image={WestBaliImage}
             contentClassName="bg-moss-green-100"
             imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
             linkClassName="bg-moss-green-200"

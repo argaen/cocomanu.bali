@@ -5,12 +5,13 @@ import Image from 'next/image';
 
 import { ArrowLeft, ArrowRight } from '@/components/svg';
 import {twMerge} from 'tailwind-merge';
+import type { StaticImageData } from 'next/image';
 
 export type GalleryProps = {
   arrowClassName: string;
   selectorClassName: string;
   images: {
-    src: string;
+    src: StaticImageData;
     alt: string;
     caption: string;
   }[];
@@ -63,7 +64,9 @@ export default function Gallery({
                   alt={image.alt}
                   quality={60}
                   fill
-                  className="object-cover"
+                  objectFit="cover"
+                  loading="lazy"
+                  placeholder="blur"
                 />
               </div>
             ))

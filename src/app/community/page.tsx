@@ -1,24 +1,37 @@
 import Image from 'next/image';
+import type { Metadata } from 'next';
 
 import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
-import Section from '@/components/Section';
 import {
   Clap,
   SurfBoy,
   SurfGirl,
 } from '@/components/svg';
 
+import HeroImage from '@/assets/images/community.jpeg';
+
+export const metadata: Metadata = {
+  title: "Cocomanu - Community",
+  description: "Our Community",
+  keywords: ['Community', 'Sumbul', 'Medewi'],
+  robots: {
+    index: false,
+  },
+};
+
 export default function Community() {
   return (
     <div>
       <div id="hero">
         <Image
-          alt="hero"
-          src="/img/community.jpeg"
+          alt="Our Community"
+          src={HeroImage}
           quality={90}
           fill
-          className="-z-10 object-cover"
+          objectFit="cover"
+          className="-z-10"
+          placeholder="blur"
           priority
         />
         <div className="absolute w-screen top-0">

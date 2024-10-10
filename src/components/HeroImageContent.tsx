@@ -3,8 +3,10 @@ import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
+import type { StaticImageData } from 'next/image';
+
 export type HeroImageContentProps = {
-  image: string;
+  image: StaticImageData;
   header: string;
   headerClassName: string;
   contentClassName: string;
@@ -34,7 +36,9 @@ export default function HeroImageContent({
           alt={title}
           quality={90}
           fill
-          className="object-cover"
+          loading="lazy"
+          objectFit="cover"
+          placeholder="blur"
         />
       </div>
       <div className={twMerge('flex justify-center items-center p-6', contentClassName)}>

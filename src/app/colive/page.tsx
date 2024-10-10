@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import type { Metadata } from 'next';
 
 import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
@@ -20,16 +21,32 @@ import Gallery from '@/components/Gallery';
 import Footer from '@/components/Footer';
 import PricingCard from '@/components/PricingCard';
 
+import HeroImage from '@/assets/images/colive.png';
+import CoworkImage from '@/assets/images/cowork.png';
+import CommunityImage from '@/assets/images/community.jpeg';
+import ColiveIllustration from '@/assets/images/colive_illustration.svg';
+
+export const metadata: Metadata = {
+  title: "Cocomanu - Coliving",
+  description: "Our Coliving space",
+  keywords: ['Coliving', 'Sumbul', 'Medewi'],
+  robots: {
+    index: false,
+  },
+};
+
 export default function Colive() {
   return (
     <div>
       <div id="hero">
         <Image
-          alt="hero"
-          src="/img/colive.png"
+          alt="Our Coliving space"
+          src={HeroImage}
           quality={90}
           fill
-          className="-z-10 object-cover"
+          objectFit="cover"
+          className="-z-10"
+          placeholder="blur"
           priority
         />
         <div className="absolute w-screen top-0">
@@ -46,10 +63,10 @@ export default function Colive() {
         image={
           <>
             <Image
-              src="/img/colive_illustration.svg"
-              alt="Intro"
+              src={ColiveIllustration}
+              alt="Your place to relax"
               fill
-              className="object-contain"
+              objectFit="contain"
             />
             <div className="flex w-full justify-center mt-[66px] md:mt-[100px] lg:mt-[138px]">
               <CatTail className="fill-ocean-blue-300 size-4 md:size-6 mr-[91px] md:mr-[137px] lg:mr-[180px] animate-wiggle-more animate-infinite animate-duration-[2s] origin-right" />
@@ -78,22 +95,22 @@ export default function Colive() {
             selectorClassName="bg-ocean-blue-200"
             images={[
               {
-                src: '/img/cowork.png',
+                src: CoworkImage,
                 alt: 'Office',
                 caption: 'Amazing office',
               },
               {
-                src: '/img/colive.png',
+                src: HeroImage,
                 alt: 'Office',
                 caption: 'lololol',
               },
               {
-                src: '/img/cowork.png',
+                src: CoworkImage,
                 alt: 'Office',
                 caption: 'Lorem ipsum lololol',
               },
               {
-                src: '/img/colive.png',
+                src: HeroImage,
                 alt: 'Office',
                 caption: 'Lorem ipsum lalala',
               },
@@ -117,22 +134,22 @@ export default function Colive() {
             selectorClassName="bg-ocean-blue-200"
             images={[
               {
-                src: '/img/cowork.png',
+                src: CoworkImage,
                 alt: 'Office',
                 caption: 'Amazing office',
               },
               {
-                src: '/img/colive.png',
+                src: HeroImage,
                 alt: 'Office',
                 caption: 'lololol',
               },
               {
-                src: '/img/cowork.png',
+                src: CoworkImage,
                 alt: 'Office',
                 caption: 'Lorem ipsum lololol',
               },
               {
-                src: '/img/colive.png',
+                src: HeroImage,
                 alt: 'Office',
                 caption: 'Lorem ipsum lalala',
               },
@@ -250,11 +267,14 @@ export default function Colive() {
 
       <div className="relative w-full h-[550px] lg:h-[700px]">
         <Image
-          alt="hero"
-          src="/img/community.jpeg"
-          quality={90}
+          alt="Check our Community"
+          src={CommunityImage}
+          quality={10}
+          loading="lazy"
+          placeholder="blur"
+          objectFit="cover"
           fill
-          className="-z-10 blur-sm object-cover"
+          className="-z-10 contrast-[.25]"
         />
         <div className="flex flex-col h-full items-center justify-center gap-6">
           <h2>Why do we keep coming back?</h2>

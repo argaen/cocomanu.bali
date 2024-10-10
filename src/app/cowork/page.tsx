@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import type { Metadata } from 'next';
 
 import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
@@ -22,16 +23,31 @@ import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
 import Footer from '@/components/Footer';
 
+import HeroImage from '@/assets/images/cowork.png';
+import ColiveImage from '@/assets/images/colive.png';
+import CoworkIllustration from '@/assets/images/cowork_illustration.svg';
+
+export const metadata: Metadata = {
+  title: "Cocomanu - Coworking",
+  description: "Our Coworking space",
+  keywords: ['Coworking', 'Sumbul', 'Medewi'],
+  robots: {
+    index: false,
+  },
+};
+
 export default function Cowork() {
   return (
     <div>
       <div id="hero">
         <Image
-          alt="hero"
-          src="/img/cowork.png"
+          alt="Our Coworking space"
+          src={HeroImage}
           quality={90}
           fill
-          className="-z-10 object-cover"
+          objectFit="cover"
+          className="-z-10"
+          placeholder="blur"
           priority
         />
         <div className="absolute w-screen top-0">
@@ -48,10 +64,10 @@ export default function Cowork() {
         image={
           <>
             <Image
-              src="/img/cowork_illustration.svg"
-              alt="Intro"
+              src={CoworkIllustration}
+              alt="Your place to focus"
+              objectFit="contain"
               fill
-              className="object-contain"
             />
             <div className="flex w-full justify-center">
               <Treble className="size-6 md:size-8 lg:size-10 xl:size-12 fill-dusk-glow-300 animate-fade-in-out animate-infinite"/>
@@ -85,22 +101,22 @@ export default function Cowork() {
             selectorClassName="bg-dusk-glow-200"
             images={[
               {
-                src: '/img/cowork.png',
+                src: HeroImage,
                 alt: 'Office',
                 caption: 'Amazing office',
               },
               {
-                src: '/img/colive.png',
+                src: ColiveImage,
                 alt: 'Office',
                 caption: 'lololol',
               },
               {
-                src: '/img/cowork.png',
+                src: HeroImage,
                 alt: 'Office',
                 caption: 'Lorem ipsum lololol',
               },
               {
-                src: '/img/colive.png',
+                src: ColiveImage,
                 alt: 'Office',
                 caption: 'Lorem ipsum lalala',
               },
@@ -227,11 +243,14 @@ export default function Cowork() {
 
       <div className="relative w-full h-[550px] lg:h-[700px]">
         <Image
-          alt="hero"
-          src="/img/colive.png"
-          quality={90}
+          alt="Check our Coliving space"
+          src={ColiveImage}
+          quality={10}
+          loading="lazy"
+          placeholder="blur"
+          objectFit="cover"
           fill
-          className="-z-10 blur-sm object-cover"
+          className="-z-10 contrast-[.25]"
         />
         <div className="flex flex-col h-full items-center justify-center gap-6">
           <h2>Want to stay with us too?</h2>
