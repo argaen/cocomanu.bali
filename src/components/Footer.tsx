@@ -13,19 +13,40 @@ export default function Footer() {
       <ul className="text-base font-light space-y-2">
         <li className="flex">
           <EnvelopeIcon className="size-6 mr-2 fill-dawn-rays-200 text-black-sand" />
-          cocomanubali@gmail.com
+          <a href="mailto:cocomanubali@gmail.com">cocomanubali@gmail.com</a>
         </li>
         <li className="flex">
           <Whatsapp className="size-6 mr-2 fill-moss-green-200" />
-          +62 0000 0000
+          <a
+            href="https://wa.me/6200000000"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            aria-label="Chat with us in Whatsapp"
+          >
+            +62 0000 0000
+          </a>
         </li>
         <li className="flex">
           <Instagram className="size-6 mr-2 fill-ocean-blue-200" />
-          @cocomanu.bali
+          <a
+            href="https://instagram.com/cocomanu.bali"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            aria-label="Check out our Instagram"
+          >
+            @cocomanu.bali
+          </a>
         </li>
         <li className="flex">
           <MapPinIcon className="size-6 mr-2 fill-dusk-glow-200 text-black-sand" />
-          Yeh Sumbul, Mendoyo, Jembrana Regency, Bali 82262, Indonesia
+          <a
+            href="https://maps.app.goo.gl/yDVWHJBSST2vGGKY6"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            aria-label="Where to find Cocomanu"
+          >
+            Yeh Sumbul, Mendoyo, Jembrana Regency, Bali 82262, Indonesia
+          </a>
         </li>
       </ul>
     </div>

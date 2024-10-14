@@ -15,17 +15,13 @@ import {
   Chillout,
   Coffee,
   Community,
-  Treble,
-  Note,
-  DoubleNote,
+  CoworkIllustration,
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
-import Footer from '@/components/Footer';
 
 import HeroImage from '@/assets/images/cowork.png';
 import ColiveImage from '@/assets/images/colive.png';
-import CoworkIllustration from '@/assets/images/cowork_illustration.svg';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coworking",
@@ -39,16 +35,16 @@ export const metadata: Metadata = {
 export default function Cowork() {
   return (
     <div>
-      <div id="hero">
+      <div id="hero" className="relative">
         <Image
           alt="Our Coworking space"
           src={HeroImage}
           quality={90}
           fill
-          objectFit="cover"
-          className="-z-10"
+          className="-z-10 object-cover"
           placeholder="blur"
           priority
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
         <div className="absolute w-screen top-0">
           <TopNav />
@@ -62,19 +58,7 @@ export default function Cowork() {
         title="Working at Cocomanu"
         titleClassName="text-dusk-glow-200"
         image={
-          <>
-            <Image
-              src={CoworkIllustration}
-              alt="Your place to focus"
-              objectFit="contain"
-              fill
-            />
-            <div className="flex w-full justify-center">
-              <Treble className="size-6 md:size-8 lg:size-10 xl:size-12 fill-dusk-glow-300 animate-fade-in-out animate-infinite"/>
-              <Note className="size-6 md:size-8 lg:size-10 xl:size-12 fill-dusk-glow-300 relative -top-6 animate-fade-in-out animate-infinite animate-delay-[300ms]"/>
-              <DoubleNote className="size-6 md:size-8 lg:size-10 xl:size-12 fill-dusk-glow-300 animate-fade-in-out animate-infinite animate-delay-[600ms]"/>
-            </div>
-          </>
+          <CoworkIllustration className="fill-dusk-glow-300 "/>
         }
         content={(
           <div>
@@ -107,17 +91,17 @@ export default function Cowork() {
               },
               {
                 src: ColiveImage,
-                alt: 'Office',
+                alt: 'Home',
                 caption: 'lololol',
               },
               {
                 src: HeroImage,
-                alt: 'Office',
+                alt: 'Office1',
                 caption: 'Lorem ipsum lololol',
               },
               {
                 src: ColiveImage,
-                alt: 'Office',
+                alt: 'Home1',
                 caption: 'Lorem ipsum lalala',
               },
             ]}
@@ -248,9 +232,8 @@ export default function Cowork() {
           quality={10}
           loading="lazy"
           placeholder="blur"
-          objectFit="cover"
           fill
-          className="-z-10 contrast-[.25]"
+          className="-z-10 object-cover contrast-[.25]"
         />
         <div className="flex flex-col h-full items-center justify-center gap-6">
           <h2>Want to stay with us too?</h2>
@@ -265,8 +248,6 @@ export default function Cowork() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Disclosure,
   DisclosureButton,
@@ -6,17 +8,20 @@ import {
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import Logo from '@/components/svg/Logo1';
 
 const navigation = [
-  { name: 'Cowork', href: '/cowork', current: true },
-  { name: 'Colive', href: '/colive', current: false },
-  { name: 'Community', href: '/community', current: false },
-  { name: 'West Bali', href: '/west-bali', current: false },
+  { name: 'Cowork', href: '/cowork' },
+  { name: 'Colive', href: '/colive' },
+  { name: 'Community', href: '/community' },
+  { name: 'West Bali', href: '/west-bali' },
 ]
 
 export default function TopNav() {
+  const path = usePathname();
+
   return (
     <Disclosure as="nav">
       <div className="px-2 pt-6 sm:px-6 lg:px-8">
@@ -40,9 +45,9 @@ export default function TopNav() {
                   <a
                     key={item.name}
                     href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={path === item.href ? 'page' : undefined}
                     className={classNames(
-                      item.current ? '' : 'hover:text-white-water hover:bg-black-sand',
+                      path === item.href ? 'bg-gray-900 text-white' : 'hover:text-white-water hover:bg-black-sand',
                       'text-moss-green-200 rounded-md px-3 py-2 font-medium',
                     )}
                   >
@@ -62,9 +67,9 @@ export default function TopNav() {
               key={item.name}
               as="a"
               href={item.href}
-              aria-current={item.current ? 'page' : undefined}
+              aria-current={path === item.href ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                path === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                 'block rounded-md px-3 py-2 font-medium',
               )}
             >

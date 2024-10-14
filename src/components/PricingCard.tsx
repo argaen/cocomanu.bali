@@ -13,7 +13,7 @@ export default function PricingCard({
 }: PricingCardProps) {
   return (
     <div className="bg-white-water text-black rounded-xl py-4 px-6 lg:px-12 mx-6 md:mx-0 intersect:animate-fade-up intersect-once">
-      <p className="font-extrabold text-3xl py-4">{title}</p>
+      <h2 className="py-4">{title}</h2>
       <span className="text-gray-400 py-2 text-base">What You&apos;ll Get</span>
       <ul className="py-4 space-y-4 text-sm">
         {

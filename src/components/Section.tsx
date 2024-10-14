@@ -14,7 +14,7 @@ export default function Section({
   content,
 }: SectionProps) {
   return (
-    <div id={header} className={twMerge('bg-rainy-day pb-6', className)}>
+    <div id={header} className={twMerge('bg-rainy-day pb-10', className)}>
       <h1
         className={twMerge(
           'relative text-center -mb-6 pt-10 z-10',

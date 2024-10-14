@@ -10,12 +10,21 @@ const config: Config = {
     extend: {
       animation: {
         'fade-in-out': 'fade-in-out 2s ease-in-out infinite',
+        'cat-tail': 'cat-tail 3s ease-in-out infinite',
       },
       keyframes: {
         'fade-in-out': {
           '0%': { opacity: '0' },        // All notes are invisible initially
           '10%, 30%': { opacity: '1' },  // Fade-in effect
           '80%, 100%': { opacity: '0' },
+        },
+        'cat-tail': {
+          '0%, 100%': {
+            transform: 'rotate(14deg) translateX(0px)',
+          },
+          '50%': {
+            transform: 'rotate(-6deg) translateX(2px)',
+          },
         },
       },
       colors: {

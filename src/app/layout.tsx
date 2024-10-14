@@ -2,6 +2,7 @@ import Script from 'next/script';
 import type { Metadata } from 'next';
 
 import './globals.css';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: "Cocomanu",
@@ -27,6 +28,7 @@ export default function RootLayout({
       <Script src="https://unpkg.com/tailwindcss-intersect@2.x.x/dist/observer.min.js" />
       <body>
         {children}
+        <Footer />
       </body>
     </html>
   );

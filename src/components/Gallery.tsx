@@ -64,9 +64,9 @@ export default function Gallery({
                   alt={image.alt}
                   quality={60}
                   fill
-                  objectFit="cover"
                   loading="lazy"
                   placeholder="blur"
+                  className="object-cover"
                 />
               </div>
             ))

@@ -8,7 +8,6 @@ import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
 import {
   Bar,
-  CatTail,
   Couch,
   Coworking,
   Ensuite,
@@ -16,15 +15,14 @@ import {
   Kitchen,
   Pool,
   Projector,
+  ColiveIllustration
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
-import Footer from '@/components/Footer';
 import PricingCard from '@/components/PricingCard';
 
 import HeroImage from '@/assets/images/colive.png';
 import CoworkImage from '@/assets/images/cowork.png';
 import CommunityImage from '@/assets/images/community.jpeg';
-import ColiveIllustration from '@/assets/images/colive_illustration.svg';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coliving",
@@ -38,16 +36,16 @@ export const metadata: Metadata = {
 export default function Colive() {
   return (
     <div>
-      <div id="hero">
+      <div id="hero" className="relative">
         <Image
           alt="Our Coliving space"
           src={HeroImage}
           quality={90}
           fill
-          objectFit="cover"
-          className="-z-10"
+          className="-z-10 object-cover"
           placeholder="blur"
           priority
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
         <div className="absolute w-screen top-0">
           <TopNav />
@@ -61,17 +59,7 @@ export default function Colive() {
         title="Living at Cocomanu"
         titleClassName="text-ocean-blue-200"
         image={
-          <>
-            <Image
-              src={ColiveIllustration}
-              alt="Your place to relax"
-              fill
-              objectFit="contain"
-            />
-            <div className="flex w-full justify-center mt-[66px] md:mt-[100px] lg:mt-[138px]">
-              <CatTail className="fill-ocean-blue-300 size-4 md:size-6 mr-[91px] md:mr-[137px] lg:mr-[180px] animate-wiggle-more animate-infinite animate-duration-[2s] origin-right" />
-            </div>
-          </>
+          <ColiveIllustration className="fill-ocean-blue-300"/>
         }
         content={(
           <div>
@@ -101,17 +89,17 @@ export default function Colive() {
               },
               {
                 src: HeroImage,
-                alt: 'Office',
+                alt: 'Home',
                 caption: 'lololol',
               },
               {
                 src: CoworkImage,
-                alt: 'Office',
+                alt: 'Office1',
                 caption: 'Lorem ipsum lololol',
               },
               {
                 src: HeroImage,
-                alt: 'Office',
+                alt: 'Home1',
                 caption: 'Lorem ipsum lalala',
               },
             ]}
@@ -135,22 +123,22 @@ export default function Colive() {
             images={[
               {
                 src: CoworkImage,
-                alt: 'Office',
+                alt: 'Office2',
                 caption: 'Amazing office',
               },
               {
                 src: HeroImage,
-                alt: 'Office',
+                alt: 'Home2',
                 caption: 'lololol',
               },
               {
                 src: CoworkImage,
-                alt: 'Office',
+                alt: 'Office3',
                 caption: 'Lorem ipsum lololol',
               },
               {
                 src: HeroImage,
-                alt: 'Office',
+                alt: 'Home3',
                 caption: 'Lorem ipsum lalala',
               },
             ]}
@@ -272,9 +260,8 @@ export default function Colive() {
           quality={10}
           loading="lazy"
           placeholder="blur"
-          objectFit="cover"
           fill
-          className="-z-10 contrast-[.25]"
+          className="-z-10 object-cover contrast-[.25]"
         />
         <div className="flex flex-col h-full items-center justify-center gap-6">
           <h2>Why do we keep coming back?</h2>
@@ -290,7 +277,6 @@ export default function Colive() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

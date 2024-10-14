@@ -27,7 +27,7 @@ export default function Introduction({
             {content}
           </div>
         </div>
-        <div className="hidden relative aspect-square h-[200px] md:h-[300px] lg:h-[400px] sm:block">
+        <div className="hidden aspect-square h-[200px] md:h-[300px] lg:h-[400px] sm:flex items-center justify-center">
           {image}
         </div>
       </div>

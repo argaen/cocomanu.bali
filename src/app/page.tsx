@@ -1,11 +1,10 @@
 import TopNav from '@/components/TopNav';
 import Logo from '@/components/svg/Logo';
-import Footer from '@/components/Footer';
 import Section from '@/components/Section';
 import Introduction from '@/components/Introduction';
 import Image from 'next/image';
 import HeroImageContent from '@/components/HeroImageContent';
-import { Laptop, WorkLife } from '@/components/svg';
+import { WorkLifeIllustration } from '@/components/svg';
 
 import HeroImage from '@/assets/images/photo1.png';
 import CoworkImage from '@/assets/images/cowork.png';
@@ -16,16 +15,16 @@ import WestBaliImage from '@/assets/images/west_bali.jpeg';
 export default function Home() {
   return (
     <div>
-      <div id="hero">
+      <div id="hero" className="relative">
         <Image
           alt="Welcome to Cocomanu"
           src={HeroImage}
           quality={90}
-          objectFit="cover"
           fill
-          className="-z-10"
+          className="-z-10 object-cover"
           placeholder="blur"
           priority
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
         <div className="absolute w-screen top-0">
           <TopNav />
@@ -45,10 +44,7 @@ export default function Home() {
         title="Where Work & Life Flow"
         titleClassName="text-moss-green-200"
         image={
-          <div className="flex flex-col items-center">
-            <WorkLife className="md:h-[200px] lg:h-[250px] xl:h-[300px] fill-moss-green-300 float-left animate-wiggle animate-infinite animate-duration-[4s]" />
-            <Laptop className="w-24 md:w-32 lg:w-48 fill-moss-green-300 -mt-5 md:-mt-8 lg:-mt-10 xl:-mt-12" />
-          </div>
+          <WorkLifeIllustration className="fill-moss-green-300 overflow-visible" />
         }
         content={(
           <div>
@@ -77,8 +73,8 @@ export default function Home() {
             headerClassName="text-dusk-glow-100 sm:text-dusk-glow-200"
             image={CoworkImage}
             contentClassName="bg-dusk-glow-100"
-            imageClassName="intersect:animate-fade-right intersect-once"
-            linkClassName="bg-dusk-glow-200"
+            imageClassName="intersect:animate-fade-right intersect-once hover:scale-110"
+            linkClassName="bg-dusk-glow-200 before:bg-dusk-glow-100"
             title="The Perfect Tropical Office"
             text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
             href="/cowork"
@@ -96,7 +92,7 @@ export default function Home() {
             image={ColiveImage}
             contentClassName="bg-ocean-blue-100"
             imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
-            linkClassName="bg-ocean-blue-200"
+            linkClassName="bg-ocean-blue-200 before:bg-ocean-blue-100"
             title="Home Away From Home"
             text="Miss the comfort and routine? You'll have a private ensuite in a villa with a shared full kitchen, a pool overlooking the river and seamless access to our coworking space."
             href="/colive"
@@ -114,7 +110,7 @@ export default function Home() {
             image={CommunityImage}
             contentClassName="bg-dawn-rays-100"
             imageClassName="intersect:animate-fade-right intersect-once"
-            linkClassName="bg-dawn-rays-200"
+            linkClassName="bg-dawn-rays-200 before:bg-dawn-rays-100"
             title="A Family Experience"
             text="Join a family of like-minded folks to surf together, embark on adventures, share dinners, and maybe even form friendships that last a lifetime."
             href="/community"
@@ -132,14 +128,13 @@ export default function Home() {
             image={WestBaliImage}
             contentClassName="bg-moss-green-100"
             imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
-            linkClassName="bg-moss-green-200"
+            linkClassName="bg-moss-green-200 before:bg-moss-green-100"
             title="The Bali You Missed"
             text="Discover the untouched beauty of West Bali, a region where time slows down and nature takes center stage."
             href="/west-bali"
           />
         }
       />
-      <Footer />
     </div>
   );
 }

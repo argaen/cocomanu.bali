@@ -30,15 +30,15 @@ export default function HeroImageContent({
 }: HeroImageContentProps) {
   return (
     <div className="grid sm:grid-cols-2">
-      <div className={twMerge('relative w-full h-[550px] lg:h-[700px]', imageClassName)}>
+      <div className={twMerge('relative w-full h-[550px] lg:h-[700px] overflow-hidden', imageClassName)}>
         <Image
           src={image}
           alt={title}
           quality={90}
           fill
           loading="lazy"
-          objectFit="cover"
           placeholder="blur"
+          className="object-cover transition-all duration-300 hover:scale-110"
         />
       </div>
       <div className={twMerge('flex justify-center items-center p-6', contentClassName)}>
@@ -61,12 +61,14 @@ export default function HeroImageContent({
               <Link
                 href={href}
                 className={twMerge(
-                  'flex items-center py-1 px-2 rounded-md',
+                  'flex items-center rounded-md transition-all duration-1000 before:absolute before:left-0 before:z-0 before:h-full before:w-0 before:outline-none before:transition-width before:duration-500 hover:before:w-full overflow-hidden relative',
                   linkClassName,
                 )}
               >
-                Explore
-                <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+                <span className="flex items-center py-1 px-2 z-10">
+                  Explore
+                  <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+                </span>
               </Link>
             </div>
           </div>
