@@ -26,9 +26,7 @@ export default function Home() {
           priority
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
-        <div className="absolute w-screen top-0">
-          <TopNav />
-        </div>
+        <TopNav />
         <main className="flex h-screen justify-center">
           <div className="relative top-1/3">
             <Logo className="h-32 sm:h-48 fill-moss-green-100 animate-fade-up animate-delay-1000" />

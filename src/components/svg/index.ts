@@ -25,7 +25,7 @@ export { default as ArrowRight } from './ArrowRight';
 
 export { default as Logo } from './Logo';
 export { default as Logo1 } from './Logo1';
-export { default as PalmTree } from './PalmTree';
+export { default as TextLogo } from './TextLogo';
 
 export { default as CoworkIllustration } from './CoworkIllustration';
 export { default as ColiveIllustration } from './ColiveIllustration';
