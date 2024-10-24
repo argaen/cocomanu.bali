@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+ font-family: 'Lot';
+ src: url('/fonts/Lot-Regular.woff2') format('woff2');
+ font-style: normal;
+ font-display: swap;
+}
+
+@font-face {
+ font-family: 'Josefin Sans';
+ src: url('/fonts/Josefin-Sans.woff2') format('woff2');
+ font-style: normal;
+ font-weight: 350;
+ font-display: swap;
+}
+
+@font-face {
+ font-family: 'Yeserva One';
+ src: url('/fonts/Yeserva-One.woff2') format('woff2');
+ font-style: normal;
+ font-display: swap;
+}
+
+:root {
+  --rainy-day: #E6E5E2;
+  --black-sand: #4E5253;
+  --white-water: #F3F3F0;
+}
+
+body {
+  color: var(--white-water);
+  @apply text-sm md:text-base lg:text-xl 
+}
+
+h1 {
+  font-family: 'Lot';
+  @apply text-5xl md:text-6xl lg:text-7xl;
+}
+
+h2 {
+  font-family: 'Yeserva One';
+  @apply text-xl sm:text-3xl md:text-4xl;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.facility {
+  @apply flex flex-col gap-2 items-center text-center text-dusk-glow-300;
+}
