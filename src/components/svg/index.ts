@@ -31,3 +31,4 @@ export { default as CoworkIllustration } from './CoworkIllustration';
 export { default as ColiveIllustration } from './ColiveIllustration';
 export { default as WorkLifeIllustration } from './WorkLifeIllustration';
 export { default as CommunityIllustration } from './CommunityIllustration';
+export { default as CowIllustration } from './CowIllustration';

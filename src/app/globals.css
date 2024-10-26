@@ -49,8 +49,20 @@ h2 {
   .text-balance {
     text-wrap: balance;
   }
-}
 
-.facility {
-  @apply flex flex-col gap-2 items-center text-center text-dusk-glow-300;
+  .facility {
+    @apply flex flex-col gap-2 items-center text-center text-dusk-glow-300;
+  }
+
+  .cta {
+    @apply flex items-center rounded-md transition-all duration-1000 overflow-hidden relative;
+  }
+
+  .cta::before {
+    @apply absolute left-0 z-0 h-full w-0 outline-none transition-all duration-500;
+  }
+
+  .cta:hover::before {
+    @apply w-full;
+  }
 }

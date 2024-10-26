@@ -268,10 +268,12 @@ export default function Colive() {
           <div className="flex justify-center">
             <Link
               href="/community"
-              className="flex items-center py-1 px-2 rounded-md bg-dawn-rays-200"
+              className="cta bg-dawn-rays-200 before:bg-dawn-rays-100"
             >
-              Community
-              <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+              <span className="flex items-center py-1 px-2 z-10">
+                Community
+                <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+              </span>
             </Link>
           </div>
         </div>

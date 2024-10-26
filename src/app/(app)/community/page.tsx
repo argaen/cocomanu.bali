@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
 
 import TopNav from '@/components/TopNav';
@@ -6,6 +8,7 @@ import Introduction from '@/components/Introduction';
 import { CommunityIllustration } from '@/components/svg';
 
 import HeroImage from '@/assets/images/community.jpeg';
+import WestBaliImage from '@/assets/images/west_bali.jpeg';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Community",
@@ -45,8 +48,8 @@ export default function Community() {
           <CommunityIllustration className="fill-dawn-rays-300" />
         }
         content={(
-          <div>
-            <p className="mb-4">
+          <div className="space-y-4">
+            <p>
               Here, you&apos;re not just living in a beautiful setting - you&apos;re joining a community of like-minded individuals, travellers and locals alike who bring their own unique perspective and stories.
             </p>
             <p>
@@ -55,6 +58,32 @@ export default function Community() {
           </div>
         )}
       />
+
+      <div className="relative w-full h-[550px] lg:h-[700px]">
+        <Image
+          alt="Check our Community"
+          src={WestBaliImage}
+          quality={10}
+          loading="lazy"
+          placeholder="blur"
+          fill
+          className="-z-10 object-cover contrast-[.25]"
+        />
+        <div className="flex flex-col h-full items-center justify-center gap-6">
+          <h2>What&apos;s on this side of Bali</h2>
+          <div className="flex justify-center">
+            <Link
+              href="/community"
+              className="cta bg-moss-green-200 before:bg-moss-green-100"
+            >
+              <span className="flex items-center py-1 px-2 z-10">
+                West Bali
+                <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+              </span>
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -61,8 +61,8 @@ export default function Cowork() {
           <CoworkIllustration className="fill-dusk-glow-300 "/>
         }
         content={(
-          <div>
-            <p className="mb-4">
+          <div className="space-y-4">
+            <p>
               Let&apos;s talk about the realities of remote work. As digital nomads who&apos;
               traveled the globe, we&apos;ve dealt with it all: unreliable internet, cramped workspaces,
               no quiet spots for calls - and the ultimate productivity killer, watching others have
@@ -240,10 +240,12 @@ export default function Cowork() {
           <div className="flex justify-center">
             <Link
               href="/colive"
-              className="flex items-center py-1 px-2 rounded-md bg-ocean-blue-200"
+              className="cta bg-ocean-blue-200 before:bg-ocean-blue-100"
             >
-              Coliving
-              <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+              <span className="flex items-center py-1 px-2 z-10">
+                Coliving
+                <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+              </span>
             </Link>
           </div>
         </div>

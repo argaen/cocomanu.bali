@@ -45,17 +45,17 @@ export default function Home() {
           <WorkLifeIllustration className="fill-moss-green-300 overflow-visible" />
         }
         content={(
-          <div>
-            <p className="pb-4">
+          <div className="space-y-4">
+            <p>
               Welcome to the first coworking and coliving space in the Medewi area.
             </p>
-            <p className="pb-4">
+            <p>
               Here, your day starts with sunrise surf sessions and ends with wild sunsets over black sand beaches.
             </p>
-            <p className="pb-4">
+            <p>
               In between, you&apos;ll find a peaceful spot to focus, surrounded by the natural beauty of West Bali.
             </p>
-            <p className="pb-4">
+            <p>
               At Cocomanu, we&apos;ve created a place where you can get things done and enjoy the simple pleasures of island life.
             </p>
           </div>

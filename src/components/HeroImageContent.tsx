@@ -61,7 +61,7 @@ export default function HeroImageContent({
               <Link
                 href={href}
                 className={twMerge(
-                  'flex items-center rounded-md transition-all duration-1000 before:absolute before:left-0 before:z-0 before:h-full before:w-0 before:outline-none before:transition-width before:duration-500 hover:before:w-full overflow-hidden relative',
+                  'cta',
                   linkClassName,
                 )}
               >
