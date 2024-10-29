@@ -1,4 +1,6 @@
 import Script from 'next/script';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from 'next';
 
 import '@/app/globals.css';
@@ -31,6 +33,8 @@ export default function RootLayout({
         <TopNav />
         {children}
         <Footer />
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
