@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { CheckCircle } from "./svg";
 
 export type PricingCardProps = {

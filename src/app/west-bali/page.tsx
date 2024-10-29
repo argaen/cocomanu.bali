@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
 
-import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
 import { CowIllustration } from '@/components/svg';
 
@@ -30,9 +29,6 @@ export default function WestBali() {
           priority
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
-        <div className="absolute w-screen top-0">
-          <TopNav />
-        </div>
         <main className="flex h-screen items-center justify-center">
           <h1 className="text-moss-green-200 animate-fade-up animate-duration-500 animate-delay-1000">West Bali</h1>
         </main>

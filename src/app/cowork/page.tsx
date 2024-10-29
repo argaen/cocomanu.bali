@@ -1,9 +1,10 @@
+import React from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
 
-import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
 import {
@@ -46,9 +47,6 @@ export default function Cowork() {
           priority
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
-        <div className="absolute w-screen top-0">
-          <TopNav />
-        </div>
         <main className="flex h-screen items-center justify-center">
           <h1 className="text-dusk-glow-200 animate-fade-up animate-duration-500 animate-delay-1000">Cowork</h1>
         </main>
@@ -80,32 +78,34 @@ export default function Cowork() {
         header="Your Oficce"
         headerClassName="text-dusk-glow-200 pb-14"
         content={
-          <Gallery
-            arrowClassName="fill-dusk-glow-200 disabled:fill-dusk-glow-300"
-            selectorClassName="bg-dusk-glow-200"
-            images={[
-              {
-                src: HeroImage,
-                alt: 'Office',
-                caption: 'Amazing office',
-              },
-              {
-                src: ColiveImage,
-                alt: 'Home',
-                caption: 'lololol',
-              },
-              {
-                src: HeroImage,
-                alt: 'Office1',
-                caption: 'Lorem ipsum lololol',
-              },
-              {
-                src: ColiveImage,
-                alt: 'Home1',
-                caption: 'Lorem ipsum lalala',
-              },
-            ]}
-          />
+          <div>
+            <Gallery
+              arrowClassName="fill-dusk-glow-200 disabled:fill-dusk-glow-300"
+              selectorClassName="bg-dusk-glow-200"
+              images={[
+                {
+                  src: HeroImage,
+                  alt: 'Office',
+                  caption: 'Amazing office',
+                },
+                {
+                  src: ColiveImage,
+                  alt: 'Home',
+                  caption: 'lololol',
+                },
+                {
+                  src: HeroImage,
+                  alt: 'Office1',
+                  caption: 'Lorem ipsum lololol',
+                },
+                {
+                  src: ColiveImage,
+                  alt: 'Home1',
+                  caption: 'Lorem ipsum lalala',
+                },
+              ]}
+            />
+          </div>
         }
       />
 
@@ -197,7 +197,7 @@ export default function Cowork() {
             />
 
             <PricingCard
-              title="7-Day Pass"
+              title="30-Day Pass"
               perks={[
                 '10 free drinks at the coffee bar',
                 'Full access to shared facilities',

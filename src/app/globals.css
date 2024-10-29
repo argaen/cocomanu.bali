@@ -32,7 +32,7 @@
 
 body {
   color: var(--white-water);
-  @apply text-sm md:text-base lg:text-xl 
+  @apply text-sm md:text-base bg-rainy-day lg:text-xl 
 }
 
 h1 {
@@ -64,5 +64,9 @@ h2 {
 
   .cta:hover::before {
     @apply w-full;
+  }
+
+  .chair {
+    @apply cursor-pointer;
   }
 }

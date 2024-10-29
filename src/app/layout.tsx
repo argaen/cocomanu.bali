@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 
 import '@/app/globals.css';
 import Footer from '@/components/Footer';
+import TopNav from '@/components/TopNav';
 
 export const metadata: Metadata = {
   title: "Cocomanu",
@@ -27,6 +28,7 @@ export default function RootLayout({
       </head>
       <Script src="https://unpkg.com/tailwindcss-intersect@2.x.x/dist/observer.min.js" />
       <body>
+        <TopNav />
         {children}
         <Footer />
       </body>
