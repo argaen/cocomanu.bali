@@ -48,7 +48,6 @@ export async function getPost(slug: string) {
 }
 
 function pageToPost(page: DatabaseObjectResponse) {
-  console.log(page.properties);
   return {
     id: page.id,
     title: ((page.properties['Name'] as unknown) as TitleProperty).title[0].plain_text,

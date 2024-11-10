@@ -2,10 +2,14 @@
   @apply mt-4 text-moss-green-200;
 }
 
-.rnr-paragraph {
+.rnr-paragraph, .rnr-bulleted_list_item, .rnr-quote {
   @apply py-2 text-black-sand;
 }
 
 .rnr-image {
-  @apply py-6 ml-auto mr-auto;
+  @apply flex flex-col items-center py-6 ml-auto mr-auto;
+}
+
+blockquote {
+  @apply border-l-4 border-l-black-sand ml-2 pl-2 italic;
 }
