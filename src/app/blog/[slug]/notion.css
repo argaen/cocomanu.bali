@@ -1,0 +1,11 @@
+.rnr-heading_2 {
+  @apply mt-4 text-moss-green-200;
+}
+
+.rnr-paragraph {
+  @apply py-2 text-black-sand;
+}
+
+.rnr-image {
+  @apply py-6 ml-auto mr-auto;
+}

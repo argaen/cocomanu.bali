@@ -32,7 +32,7 @@
 
 body {
   color: var(--white-water);
-  @apply text-sm md:text-base bg-rainy-day lg:text-xl 
+  @apply text-sm md:text-base lg:text-lg bg-rainy-day
 }
 
 h1 {

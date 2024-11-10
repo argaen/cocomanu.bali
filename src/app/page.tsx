@@ -70,7 +70,7 @@ export default function Home() {
             image={CoworkImage}
             contentClassName="bg-dusk-glow-100"
             imageClassName="intersect:animate-fade-right intersect-once hover:scale-110"
-            linkClassName="bg-dusk-glow-200 before:bg-dusk-glow-100"
+            linkClassName="bg-dusk-glow-200"
             title="The Perfect Tropical Office"
             text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
             href="/cowork"
@@ -88,46 +88,10 @@ export default function Home() {
             image={ColiveImage}
             contentClassName="bg-ocean-blue-100"
             imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
-            linkClassName="bg-ocean-blue-200 before:bg-ocean-blue-100"
+            linkClassName="bg-ocean-blue-200"
             title="Home Away From Home"
             text="Miss the comfort and routine? You'll have a private ensuite in a villa with a shared full kitchen, a pool overlooking the river and seamless access to our coworking space."
             href="/colive"
-          />
-        }
-      />
-      <Section
-        className="py-0"
-        header="Community"
-        headerClassName="text-dawn-rays-200 sm:text-dawn-rays-200 sm:hidden"
-        content={
-          <HeroImageContent
-            header="Community"
-            headerClassName="text-dawn-rays-200 sm:text-dawn-rays-200"
-            image={CommunityImage}
-            contentClassName="bg-dawn-rays-100"
-            imageClassName="intersect:animate-fade-right intersect-once"
-            linkClassName="bg-dawn-rays-200 before:bg-dawn-rays-100"
-            title="A Family Experience"
-            text="Join a family of like-minded folks to surf together, embark on adventures, share dinners, and maybe even form friendships that last a lifetime."
-            href="/community"
-          />
-        }
-      />
-      <Section
-        className="py-0"
-        header="West Bali"
-        headerClassName="text-moss-green-200 sm:text-moss-green-200 sm:hidden"
-        content={
-          <HeroImageContent
-            header="West Bali"
-            headerClassName="text-moss-green-200 sm:text-moss-green-200"
-            image={WestBaliImage}
-            contentClassName="bg-moss-green-100"
-            imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
-            linkClassName="bg-moss-green-200 before:bg-moss-green-100"
-            title="The Bali You Missed"
-            text="Discover the untouched beauty of West Bali, a region where time slows down and nature takes center stage."
-            href="/west-bali"
           />
         }
       />

@@ -29,7 +29,7 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/Yeserva-One.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <Script src="https://unpkg.com/tailwindcss-intersect@2.x.x/dist/observer.min.js" />
-      <body>
+      <body className="antialiased">
         <TopNav />
         {children}
         <Footer />

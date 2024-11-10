@@ -13,10 +13,8 @@ import { usePathname } from 'next/navigation';
 import { TextLogo } from './svg';
 
 const navigation = [
-  { name: 'Cowork', href: '/cowork' },
-  { name: 'Colive', href: '/colive' },
-  { name: 'Community', href: '/community' },
-  { name: 'West Bali', href: '/west-bali' },
+  { name: 'Home', href: '/' },
+  { name: 'Blog', href: '/blog' },
 ]
 
 export default function TopNav() {
@@ -25,17 +23,16 @@ export default function TopNav() {
 
   React.useState(() => {
     function handleScroll() {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 10);
     }
 
     if (typeof window !== "undefined") {
+      handleScroll();
       window.addEventListener('scroll', handleScroll);
       return () => {
         window.removeEventListener('scroll', handleScroll);
       };
     }
-
-    handleScroll();
   });
 
   return (
