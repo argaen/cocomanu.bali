@@ -13,7 +13,7 @@ import WestBaliImage from '@/assets/images/west_bali.jpeg';
 
 export default function Home() {
   return (
-    <div>
+    <main role="main">
       <div id="hero" className="relative">
         <Image
           alt="Welcome to Cocomanu"
@@ -25,11 +25,11 @@ export default function Home() {
           priority
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
-        <main className="flex h-screen justify-center">
+        <header role="banner" className="flex h-screen justify-center">
           <div className="relative top-1/3">
             <Logo className="h-32 sm:h-48 fill-moss-green-100 animate-fade-up animate-delay-1000" />
           </div>
-        </main>
+        </header>
         <div className="absolute bottom-0 left-0 flex w-full text-center font-light items-end justify-center pb-8 animate-fade-up animate-delay-1000">
           Medewi | Yeh Sumbul
           <br />
@@ -131,6 +131,6 @@ export default function Home() {
           />
         }
       />
-    </div>
+    </main>
   );
 }

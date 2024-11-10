@@ -24,10 +24,9 @@ export default function TopNav() {
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   React.useState(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      setIsScrolled(offset > 50);  // Change background after scrolling 50px
-    };
+    function handleScroll() {
+      setIsScrolled(window.scrollY > 50);
+    }
 
     if (typeof window !== "undefined") {
       window.addEventListener('scroll', handleScroll);
@@ -35,13 +34,18 @@ export default function TopNav() {
         window.removeEventListener('scroll', handleScroll);
       };
     }
+
+    handleScroll();
   });
 
   return (
     <div
       className={`fixed w-screen top-0 z-20`}
     >
-      <Disclosure as="nav">
+      <Disclosure
+        as="nav"
+        role="navigation"
+      >
         <div className={`p-2 sm:px-6 lg:px-8" transition-colors duration-300 ${isScrolled ? 'bg-rainy-day' : ''}`}>
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center pl-2">
