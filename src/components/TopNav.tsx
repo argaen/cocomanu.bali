@@ -37,7 +37,7 @@ export default function TopNav() {
 
   return (
     <div
-      className={`fixed w-screen top-0 z-20`}
+      className="fixed w-screen top-0 z-20"
     >
       <Disclosure
         as="nav"
@@ -47,7 +47,7 @@ export default function TopNav() {
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center pl-2">
               <Link href="/" aria-label="Navigate to home">
-                <TextLogo className="size-8 sm:size-36 py-2 fill-moss-green-100 w-auto" />
+                <TextLogo className="size-8 sm:size-36 py-2 fill-moss-green-200 w-auto" />
               </Link>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:ml-6 sm:pr-0">
@@ -66,7 +66,7 @@ export default function TopNav() {
                       href={item.href}
                       aria-current={path === item.href ? 'page' : undefined}
                       className={classNames(
-                        path === item.href ? 'bg-black-sand text-white-water' : 'hover:text-white-water hover:bg-black-sand',
+                        path === item.href ? 'bg-moss-green-200 text-white-water' : 'hover:text-white-water hover:bg-moss-green-200',
                         'text-black-sand rounded-md px-3 py-2 font-medium',
                       )}
                     >

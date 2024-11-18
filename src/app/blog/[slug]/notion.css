@@ -2,8 +2,12 @@
   @apply mt-4 text-moss-green-200;
 }
 
-.rnr-paragraph, .rnr-bulleted_list_item, .rnr-quote {
+.rnr-paragraph, .rnr-quote {
   @apply py-2 text-black-sand;
+}
+
+.rnr-bulleted_list_item {
+  @apply list-disc ml-6 text-black-sand;
 }
 
 .rnr-image {

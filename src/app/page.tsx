@@ -8,8 +8,6 @@ import { WorkLifeIllustration } from '@/components/svg';
 import HeroImage from '@/assets/images/photo1.png';
 import CoworkImage from '@/assets/images/cowork.png';
 import ColiveImage from '@/assets/images/colive.png';
-import CommunityImage from '@/assets/images/community.jpeg';
-import WestBaliImage from '@/assets/images/west_bali.jpeg';
 
 export default function Home() {
   return (
@@ -62,11 +60,12 @@ export default function Home() {
       <Section
         className="py-0"
         header="Cowork"
-        headerClassName="text-dusk-glow-200 sm:text-dusk-glow-200 sm:hidden"
+        headerClassName="text-dusk-glow-200 sm:hidden"
         content={
           <HeroImageContent
             header="Cowork"
-            headerClassName="text-dusk-glow-100 sm:text-dusk-glow-200"
+            headerClassName="sm:text-dusk-glow-200"
+            header2ClassName="text-dusk-glow-300"
             image={CoworkImage}
             contentClassName="bg-dusk-glow-100"
             imageClassName="intersect:animate-fade-right intersect-once hover:scale-110"
@@ -80,11 +79,12 @@ export default function Home() {
       <Section
         className="py-0"
         header="Colive"
-        headerClassName="text-ocean-blue-200 sm:text-ocean-blue-200 sm:hidden"
+        headerClassName="text-ocean-blue-200 sm:hidden"
         content={
           <HeroImageContent
             header="Colive"
-            headerClassName="text-ocean-blue-100 sm:text-ocean-blue-200"
+            headerClassName="sm:text-ocean-blue-200"
+            header2ClassName="text-ocean-blue-300"
             image={ColiveImage}
             contentClassName="bg-ocean-blue-100"
             imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"

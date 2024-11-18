@@ -7,6 +7,7 @@ export type HeroImageContentProps = {
   image: StaticImageData;
   header: string;
   headerClassName: string;
+  header2ClassName: string;
   contentClassName: string;
   imageClassName?: string;
   linkClassName?: string;
@@ -18,6 +19,7 @@ export type HeroImageContentProps = {
 export default function HeroImageContent({
   header,
   headerClassName,
+  header2ClassName,
   image,
   contentClassName,
   imageClassName,
@@ -47,7 +49,7 @@ export default function HeroImageContent({
           </h1>
           <div className="flex flex-col gap-6 sm:h-1/2 justify-center sm:px-6 md:px-14 lg:px-28">
             <h2
-              className="text-moss-green-300 pb-4"
+              className={twMerge('pb-4', header2ClassName)}
             >
               {title}
             </h2>

@@ -29,10 +29,14 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/Yeserva-One.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <Script src="https://unpkg.com/tailwindcss-intersect@2.x.x/dist/observer.min.js" />
-      <body className="antialiased">
+      <body className="flex flex-col h-screen antialiased">
         <TopNav />
-        {children}
-        <Footer />
+        <div className="mb-auto">
+          {children}
+        </div>
+        <div className="">
+          <Footer />
+        </div>
         <SpeedInsights />
         <Analytics />
       </body>
