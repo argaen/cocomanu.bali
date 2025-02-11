@@ -14,6 +14,7 @@ import { TextLogo } from './svg';
 
 const navigation = [
   { name: 'Home', href: '/' },
+  { name: 'Garden', href: '/garden' },
   { name: 'Blog', href: '/blog' },
 ]
 

@@ -69,7 +69,7 @@ export default function Home() {
             image={CoworkImage}
             contentClassName="bg-dusk-glow-100"
             imageClassName="intersect:animate-fade-right intersect-once hover:scale-110"
-            linkClassName="bg-dusk-glow-200"
+            linkClassName="bg-dusk-glow-200 before:bg-dusk-glow-100"
             title="The Perfect Tropical Office"
             text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
             href="/cowork"
@@ -88,10 +88,29 @@ export default function Home() {
             image={ColiveImage}
             contentClassName="bg-ocean-blue-100"
             imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
-            linkClassName="bg-ocean-blue-200"
+            linkClassName="bg-ocean-blue-200 before:bg-ocean-blue-100"
             title="Home Away From Home"
             text="Miss the comfort and routine? You'll have a private ensuite in a villa with a shared full kitchen, a pool overlooking the river and seamless access to our coworking space."
             href="/colive"
+          />
+        }
+      />
+      <Section
+        className="py-0"
+        header="Garden"
+        headerClassName="text-ocean-blue-200 sm:hidden"
+        content={
+          <HeroImageContent
+            header="Garden"
+            headerClassName="sm:text-moss-green-200"
+            header2ClassName="text-moss-green-300"
+            image={ColiveImage}
+            contentClassName="bg-moss-green-100"
+            imageClassName="intersect:animate-fade-left intersect-once"
+            linkClassName="bg-moss-green-200 before:bg-moss-green-100"
+            title="Nature At Home"
+            text="Our plants are for you, enjoy exploring our food forest, discover new tropical forests and learn how we transformed a rice padi back into a jungle."
+            href="/garden"
           />
         }
       />

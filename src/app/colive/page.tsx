@@ -21,7 +21,7 @@ import PricingCard from '@/components/PricingCard';
 
 import HeroImage from '@/assets/images/colive.png';
 import CoworkImage from '@/assets/images/cowork.png';
-import CommunityImage from '@/assets/images/community.jpeg';
+import GardenImage from '@/assets/images/photo1.png';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coliving",
@@ -251,8 +251,8 @@ export default function Colive() {
 
       <div className="relative w-full h-[550px] lg:h-[700px]">
         <Image
-          alt="Check our Community"
-          src={CommunityImage}
+          alt="Check our Garden"
+          src={GardenImage}
           quality={10}
           loading="lazy"
           placeholder="blur"
@@ -260,14 +260,14 @@ export default function Colive() {
           className="-z-10 object-cover contrast-[.25]"
         />
         <div className="flex flex-col h-full items-center justify-center gap-6">
-          <h2>Why do we keep coming back?</h2>
+          <h2>A place to relax and disconnect</h2>
           <div className="flex justify-center">
             <Link
-              href="/community"
-              className="cta bg-dawn-rays-200 before:bg-dawn-rays-100"
+              href="/garden"
+              className="cta bg-moss-green-200 before:bg-moss-green-100"
             >
               <span className="flex items-center py-1 px-2 z-10">
-                Community
+                Garden
                 <ArrowRightIcon className="size-4 ml-1 font-bold"/>
               </span>
             </Link>

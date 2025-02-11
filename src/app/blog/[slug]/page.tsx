@@ -5,7 +5,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
 import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
-import './notion.css';
+import '@/app/notion.css';
 import { getPost, getPosts } from '@/lib/notion';
 import RenderNotion from '@/components/RenderNotion';
 

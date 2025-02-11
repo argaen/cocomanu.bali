@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 
 import type { StaticImageData } from 'next/image';
+import {ArrowRightIcon} from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 export type HeroImageContentProps = {
   image: StaticImageData;
@@ -26,6 +28,7 @@ export default function HeroImageContent({
   linkClassName,
   title,
   text,
+  href,
 }: HeroImageContentProps) {
   return (
     <div className="grid sm:grid-cols-2">
@@ -57,9 +60,18 @@ export default function HeroImageContent({
               {text}
             </p>
             <div className="flex justify-end">
-                <span className={twMerge('flex cta items-center py-1 px-2 z-10', linkClassName)}>
-                  Coming soon...
+              <Link
+                href={href}
+                className={twMerge(
+                  'cta',
+                  linkClassName,
+                )}
+              >
+                <span className="flex items-center py-1 px-2 z-10">
+                  Explore
+                  <ArrowRightIcon className="size-4 ml-1 font-bold"/>
                 </span>
+              </Link>
             </div>
           </div>
         </div>
