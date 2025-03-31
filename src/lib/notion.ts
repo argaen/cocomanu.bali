@@ -87,6 +87,13 @@ export async function getPlants() {
         direction: "ascending",
       },
     ],
+    filter: {
+      property: "Available",
+      checkbox: {
+        equals: true,
+      },
+    }
+
   });
   const results = response.results as DatabaseObjectResponse[];
 
@@ -135,10 +142,37 @@ function pageToPlant(page: DatabaseObjectResponse) {
       })
     ),
     scientific: ((page.properties['Scientific Name'] as unknown) as RichTextProperty).rich_text[0]?.plain_text,
-    height: ((page.properties['Target Height'] as unknown) as NumberProperty).number,
-    width: ((page.properties['Canopy Width'] as unknown) as NumberProperty).number,
     slug: ((page.properties['Slug'] as unknown) as FormulaProperty).formula.string,
   };
+}
+
+export async function getPrices(id: string) {
+  const response = await notion.databases.query({
+    database_id: '1c5452d3e0138019939cdbfc87d7d581',
+    sorts: [
+      {
+        property: "Price",
+        direction: "ascending",
+      },
+    ],
+    filter: {
+      property: "Id",
+      title: {
+        equals: id,
+      },
+    }
+
+  });
+  const results = response.results as DatabaseObjectResponse[];
+
+  return results.map((page) => pageToPrices(page));
+}
+
+function pageToPrices(page: DatabaseObjectResponse) {
+  return {
+    name: ((page.properties['Name'] as unknown) as RichTextProperty).rich_text[0].plain_text,
+    price: ((page.properties['Price'] as unknown) as NumberProperty).number,
+  }
 }
 
 type TitleProperty = {

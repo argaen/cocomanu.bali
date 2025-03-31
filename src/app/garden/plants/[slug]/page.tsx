@@ -1,11 +1,11 @@
 import { indexGenerator, NotionBlock, rnrSlugify } from '@9gustin/react-notion-render'
 import Link from 'next/link';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
 import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import '@/app/notion.css';
-import { getPlant, getPlants } from '@/lib/notion';
+import { getPlant, getPlants, getPrices } from '@/lib/notion';
 import RenderNotion from '@/components/RenderNotion';
 
 export async function generateMetadata({
@@ -42,6 +42,7 @@ export default async function PlantPage({
 }: { params: Promise<{ slug: string }> }): Promise<JSX.Element> {
   const { slug } = await params;
   const { plant, blocks } = await getPlant(slug);
+  const prices = await getPrices(plant.slug);
 
   return (
     <div>
@@ -79,6 +80,54 @@ export default async function PlantPage({
             />
           </div>
           <div className="hidden md:block sticky top-40 w-1/5 h-fit text-base space-y-6 text-black-sand py-2">
+            <div>
+              <h3 className="uppercase tracking-wide mb-1 text-moss-green-200">
+                Inventory
+              </h3>
+              {
+                prices.length === 0 
+                && (
+                  <span className="text-sm">
+                    No inventory available right now but
+                    we have it in our garden so we may be able to provide
+                    cuttings or seeds.
+                  </span>
+                )
+              }
+              <ul className="list-disc pl-4 pb-4">
+                {
+                  prices.map(p => (
+                    <li key={p.name}>
+                      {p.name}
+                      :
+                      {' '}
+                      {
+                        p.price.toLocaleString(
+                          'en-US',
+                          {
+                            style: 'currency',
+                            currency: 'IDR',
+                            maximumFractionDigits: 0,
+                          }
+                        )
+                      }
+                    </li>
+                  ))
+                }
+              </ul>
+              <div className="flex items-center">
+                <Link
+                  href={`https://wa.me/6584080142?text="Hi Cocomanu! I'm%20interested%20in%20${plant.name}"`}
+                  className="cta bg-moss-green-200 before:bg-moss-green-100"
+                  aria-label="Contact us"
+                >
+                  <span className="flex text-white-water items-center py-1 px-2 z-10">
+                    Whatsapp us
+                    <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+                  </span>
+                </Link>
+              </div>
+            </div>
             <div>
               <h3 className="uppercase tracking-wide mb-1 text-moss-green-200">
                 Table of Contents
