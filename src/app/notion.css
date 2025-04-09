@@ -6,7 +6,7 @@
   @apply py-2 text-black-sand;
 }
 
-ul.rnr-bulleted_list_item {
+ul.rnr-bulleted_list_item, ol.rnr-numbered_list_item {
   @apply py-2 space-y-1 text-black-sand;
 }
 
