@@ -1,6 +1,7 @@
 import { Client } from "@notionhq/client";
 import { notFound } from "next/navigation";
 import type { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import type { NotionBlock } from "@9gustin/react-notion-render";
 
 const COLOR_MAP: {[color: string]: string} = {
   brown: '#a52a2acc',
@@ -55,7 +56,7 @@ export async function getPost(slug: string) {
 
   return {
     post: pageToPost(page as DatabaseObjectResponse),
-    blocks: blocks.results,
+    blocks: blocks.results as NotionBlock[],
   };
 }
 
@@ -121,7 +122,7 @@ export async function getPlant(slug: string) {
 
   return {
     plant: pageToPlant(page as DatabaseObjectResponse),
-    blocks: blocks.results,
+    blocks: blocks.results as NotionBlock[],
   };
 }
 

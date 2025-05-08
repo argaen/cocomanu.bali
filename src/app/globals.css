@@ -31,8 +31,7 @@
 }
 
 body {
-  color: var(--white-water);
-  @apply text-sm md:text-base lg:text-lg bg-rainy-day
+  @apply text-sm text-white-water md:text-base lg:text-lg bg-rainy-day
 }
 
 h1 {

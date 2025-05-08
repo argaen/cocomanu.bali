@@ -1,7 +1,6 @@
 import { Render, withContentValidation } from '@9gustin/react-notion-render';
 import type { NotionBlock, BlockComponentsMapperType } from '@9gustin/react-notion-render';
 import type { DropedProps } from '@9gustin/react-notion-render/dist/hoc/withContentValidation';
-import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import Image from 'next/image';
 
 
@@ -30,7 +29,7 @@ const CustomComponents: BlockComponentsMapperType = {
 export default function RenderNotion({
   blocks
 }: {
-  blocks: BlockObjectResponse[],
+  blocks: NotionBlock[],
 }): JSX.Element {
 
   return (

@@ -65,6 +65,7 @@ export default function Gallery({
                   quality={60}
                   fill
                   loading="lazy"
+                  unoptimized
                   placeholder="blur"
                   className="object-cover"
                 />

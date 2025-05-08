@@ -1,13 +1,14 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 
 import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
-import { CowIllustration } from '@/components/svg';
-
-import HeroImage from '@/assets/images/photo1.png';
 import Section from '@/components/Section';
-import Link from 'next/link';
+
+import FarmMap from '@/components/svg/FarmMap';
+import { CowIllustration } from '@/components/svg';
+import HeroImage from '@/assets/images/garden.jpeg';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Tropical Garden",
@@ -30,13 +31,14 @@ export default function Garden() {
           className="-z-10 object-cover"
           placeholder="blur"
           priority
+          unoptimized
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
         <div className="absolute w-screen top-0">
           <TopNav />
         </div>
         <main className="flex h-screen items-center justify-center">
-          <h1 className="text-moss-green-200 animate-fade-up animate-duration-500 animate-delay-1000">Tropical Garden</h1>
+          <h1 className="text-moss-green-200 animate-fade-up animate-duration-500 animate-delay-1000">Garden</h1>
         </main>
       </div>
 
@@ -64,15 +66,11 @@ export default function Garden() {
       />
 
       <Section
-        header="Plants"
+        header="Nature at Home"
         headerClassName="text-moss-green-200 pb-14"
         content={
-          <div>
-            Check our
-            {' '}
-            <Link href="/garden/plants">
-              plants
-            </Link>
+          <div className="flex justify-center items-center">
+            <FarmMap className="h-[90vh]" />
           </div>
         }
       />

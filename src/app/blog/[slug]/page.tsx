@@ -1,13 +1,9 @@
 import { DateTime } from 'luxon';
-import { indexGenerator, NotionBlock, rnrSlugify } from '@9gustin/react-notion-render'
-import Link from 'next/link';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
-import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import '@/app/notion.css';
 import { getPost, getPosts } from '@/lib/notion';
-import RenderNotion from '@/components/RenderNotion';
+import NotionArticle from '@/components/notion/NotionArticle';
 
 export async function generateMetadata({
   params
@@ -46,58 +42,21 @@ export default async function PostPage({
   const { post, blocks } = await getPost(slug);
 
   return (
-    <div>
-      <div className="pb-6">
-        <h1 className="text-2xl md:text-5xl lg:text-6xl text-moss-green-200">{post.title}</h1>
-        <time dateTime={post.date} className="text-black-sand">
-          {DateTime.fromISO(post.date).toLocaleString(DateTime.DATE_FULL)}
-        </time>
-      </div>
-      <div className="flex pb-12 gap-12">
-        <div className="md:w-4/5">
-          <RenderNotion
-            blocks={blocks as BlockObjectResponse[]}
-          />
+    <NotionArticle
+      title={post.title}
+      subtitle={
+        <div>
+          <time dateTime={post.date}>
+            {DateTime.fromISO(post.date).toLocaleString(DateTime.DATE_FULL)}
+          </time>
+          {' '}
+          |
+          {' '}
+          {post.reading}min read
         </div>
-        <div className="hidden md:block sticky top-40 w-1/5 h-fit text-sm space-y-6 text-black-sand py-2">
-          <div>
-            <h3 className="uppercase tracking-wide mb-1 text-moss-green-200">
-              Table of Contents
-            </h3>
-            <ul className="list-disc pl-4">
-              {
-                indexGenerator(blocks as NotionBlock[]).map(({ id, plainText }) => (
-                  <li key={id}>
-                    <a href={`#${rnrSlugify(plainText)}`}>
-                      {plainText}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-          <div>
-            <h3 className="uppercase tracking-wide mb-1 text-moss-green-200">
-              Tags
-            </h3>
-            {post.tags.map(t => {
-              return (
-                <span
-                  key={t.id}
-                  className="block text-xs w-fit p-1 mb-1 rounded-md opacity-60 text-white-water"
-                  style={{ backgroundColor: t.color }}
-                >
-                  {`#${t.name}`}
-                </span>
-              )
-            })}
-          </div>
-          <Link href="/blog" className="uppercase flex items-center text-moss-green-200">
-            Back
-            <ArrowRightIcon className="w-4 ml-1"/>
-          </Link>
-        </div>
-      </div>
-    </div>
+      }
+      content={blocks}
+      tags={post.tags}
+    />
   );
 }

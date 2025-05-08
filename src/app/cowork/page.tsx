@@ -45,6 +45,7 @@ export default function Cowork() {
           className="-z-10 object-cover"
           placeholder="blur"
           priority
+          unoptimized
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
         <main className="flex h-screen items-center justify-center">

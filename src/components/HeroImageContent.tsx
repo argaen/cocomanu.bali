@@ -40,6 +40,7 @@ export default function HeroImageContent({
           fill
           loading="lazy"
           placeholder="blur"
+          unoptimized
           className="object-cover transition-all duration-300 hover:scale-110"
         />
       </div>

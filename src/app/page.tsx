@@ -8,6 +8,7 @@ import { WorkLifeIllustration } from '@/components/svg';
 import HeroImage from '@/assets/images/photo1.png';
 import CoworkImage from '@/assets/images/cowork.png';
 import ColiveImage from '@/assets/images/colive.png';
+import GardenImage from '@/assets/images/garden.jpeg';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
           className="-z-10 object-cover"
           placeholder="blur"
           priority
+          unoptimized
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
         <header role="banner" className="flex h-screen justify-center">
@@ -98,13 +100,13 @@ export default function Home() {
       <Section
         className="py-0"
         header="Garden"
-        headerClassName="text-ocean-blue-200 sm:hidden"
+        headerClassName="text-moss-green-200 sm:hidden"
         content={
           <HeroImageContent
             header="Garden"
             headerClassName="sm:text-moss-green-200"
             header2ClassName="text-moss-green-300"
-            image={ColiveImage}
+            image={GardenImage}
             contentClassName="bg-moss-green-100"
             imageClassName="intersect:animate-fade-left intersect-once"
             linkClassName="bg-moss-green-200 before:bg-moss-green-100"

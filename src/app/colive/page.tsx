@@ -21,7 +21,7 @@ import PricingCard from '@/components/PricingCard';
 
 import HeroImage from '@/assets/images/colive.png';
 import CoworkImage from '@/assets/images/cowork.png';
-import GardenImage from '@/assets/images/photo1.png';
+import GardenImage from '@/assets/images/garden.jpeg';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coliving",
@@ -44,6 +44,7 @@ export default function Colive() {
           className="-z-10 object-cover"
           placeholder="blur"
           priority
+          unoptimized
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
         />
         <main className="flex h-screen items-center justify-center">
