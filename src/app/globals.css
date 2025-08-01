@@ -1,6 +1,56 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tailwindcss-animated";
+@import "tailwindcss-intersect";
+
+@theme {
+  --color-moss-green-100: '#565A27';
+  --color-moss-green-200: '#928E43';
+  --color-moss-green-300: '#C4C2A2';
+
+  --color-dusk-glow-100: '#9D4322';
+  --color-dusk-glow-200: '#C77743';
+  --color-dusk-glow-300: '#F2C09B';
+
+  --color-ocean-blue-100: '#045D5E';
+  --color-ocean-blue-200: '#6C9396';
+  --color-ocean-blue-300: '#B3C2C2';
+
+  --color-dawn-rays-100: '#BF8A05';
+  --color-dawn-rays-200: '#D6AC42';
+  --color-dawn-rays-300: '#F2E3AC';
+
+  --color-rainy-day: #E6E5E2;
+  --color-black-sand: #4E5253;
+  --color-white-water: #F3F3F0;
+
+  --font-lot: Lot, sans-serif;
+  --font-josefin: Josefin Sans, sans-serif;
+  --font-yeserva: Yeserva One, sans-serif;
+  --font-sans: Josefin Sans;
+
+  --animate-fade-in-out: fade-in-out 2s ease-in-out infinite;
+  @keyframes fade-in-scale {
+    0% {
+      opacity: 0;
+    }
+    10%, 30% {
+      opacity: 1;
+    }
+    80%, 100% {
+      opacity: 0;
+    }
+  }
+
+  --animate-cat-tail: cat-tail 3s ease-in-out infinite;
+  @keyframes cat-tail {
+    0%, 100% {
+      transform: rotate(14deg) translateX(0px);
+    }
+    50% {
+      transform: rotate(-6deg) translateX(2px);
+    }
+  }
+}
 
 @font-face {
  font-family: 'Lot';
@@ -24,12 +74,6 @@
  font-display: swap;
 }
 
-:root {
-  --rainy-day: #E6E5E2;
-  --black-sand: #4E5253;
-  --white-water: #F3F3F0;
-}
-
 body {
   @apply text-base text-white-water md:text-lg lg:text-xl bg-rainy-day
 }
@@ -44,28 +88,26 @@ h2 {
   @apply text-xl sm:text-3xl md:text-4xl;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.text-balance {
+  text-wrap: balance;
+}
 
-  .facility {
-    @apply flex flex-col gap-2 items-center text-center font-semibold;
-  }
+.facility {
+  @apply flex flex-col gap-2 items-center text-center font-semibold;
+}
 
-  .cta {
-    @apply flex items-center rounded-md transition-all duration-1000 overflow-hidden relative;
-  }
+.cta {
+  @apply flex items-center rounded-md transition-all duration-1000 overflow-hidden relative;
+}
 
-  .cta::before {
-    @apply absolute left-0 z-0 h-full w-0 outline-none transition-all duration-500;
-  }
+.cta::before {
+  @apply absolute left-0 z-0 h-full w-0 outline-none transition-all duration-500;
+}
 
-  .cta:hover::before {
-    @apply w-full;
-  }
+.cta:hover::before {
+  @apply w-full;
+}
 
-  .chair {
-    @apply cursor-pointer;
-  }
+.chair {
+  @apply cursor-pointer;
 }

@@ -40,7 +40,7 @@ export default function Cafe() {
           <TopNav />
         </div>
         <main className="flex h-screen items-center justify-center">
-          <h1 className="text-moss-green-200 animate-fade-up animate-duration-500 animate-delay-1000">Garden</h1>
+          <h1 className="text- animate-fade-up animate-duration-500 animate-delay-1000">Garden</h1>
         </main>
       </div>
 
