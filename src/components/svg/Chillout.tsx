@@ -20,4 +20,4 @@ export default function Chillout({ className }: ChilloutProps) {
 
     </svg>
   );
-
+}

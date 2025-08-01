@@ -62,7 +62,7 @@ export default function Cafe() {
 
       <Section
         header="A Low-Waste Cafe, by Design"
-        headerClassName="text-dawn-rays-200 text-3xl md:text-4xl lg:text-6xl font-yeserva pb-14 px-14"
+        headerClassName="text-dawn-rays-200 text-4xl lg:text-5xl font-yeserva pb-14 px-14"
         content={
           <div className="flex flex-col px-10 md:px-6 lg:px-12 justify-center items-center text-black-sand gap-y-10 pb-14">
             <div className="md:w-4/6 lg:w-1/2 space-y-4">
