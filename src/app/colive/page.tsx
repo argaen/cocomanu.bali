@@ -6,15 +6,15 @@ import type { Metadata } from 'next';
 import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
 import {
-  Bar,
-  Couch,
   Coworking,
   Ensuite,
   Garden,
   Kitchen,
   Pool,
   Projector,
-  ColiveIllustration
+  ColiveIllustration,
+  Patio,
+  SurfRack
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
@@ -56,7 +56,7 @@ export default function Colive() {
         title="Living at Cocomanu"
         titleClassName="text-ocean-blue-200"
         image={
-          <ColiveIllustration className="fill-ocean-blue-300"/>
+          <ColiveIllustration className="fill-ocean-blue-100"/>
         }
         content={(
           <div>
@@ -74,6 +74,7 @@ export default function Colive() {
       <Section
         header="The House"
         headerClassName="text-ocean-blue-200 pb-14"
+        className="bg-black-sand"
         content={
           <Gallery
             arrowClassName="fill-ocean-blue-200 disabled:fill-ocean-blue-300"
@@ -104,7 +105,7 @@ export default function Colive() {
         }
       />
 
-      <div className="flex items-center justify-center bg-black-sand p-20 md:px-[100px] lg:px-[300px] xl:px-[500px]">
+      <div className="flex items-center justify-center text-black-sand p-20 md:px-[100px] lg:px-[300px] xl:px-[500px]">
         <p>
           Each private room features a queen-sized bed, ensuite bathrooms and a desk so you have the option to work in peace whenever you need your own space.
         </p>
@@ -113,6 +114,7 @@ export default function Colive() {
       <Section
         header="Your Room"
         headerClassName="text-ocean-blue-200 pb-14"
+        className="bg-black-sand"
         content={
           <Gallery
             arrowClassName="fill-ocean-blue-200 disabled:fill-ocean-blue-300"
@@ -144,41 +146,40 @@ export default function Colive() {
       />
 
       <Section
-        className="bg-black-sand"
         header="Facilities"
         headerClassName="text-ocean-blue-200"
         content={(
-          <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 py-20 lg:px-40 gap-12">
-            <div className="facility intersect:animate-fade-up intersect-once text-dusk-glow-300">
-              <Coworking className="size-24 lg:size-32 fill-transparent stroke-rainy-day" />
+          <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 py-20 lg:px-40 gap-12 text-ocean-blue-100">
+            <div className="facility intersect:animate-fade-up intersect-once">
+              <Coworking className="size-24 lg:size-32 fill-black-sand" />
               Coworking Access
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[100ms]">
-              <Ensuite className="size-24 lg:size-32 fill-rainy-day" />
+              <Ensuite className="size-24 lg:size-32 fill-black-sand" />
               Private ensuites
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[200ms]">
-              <Kitchen className="size-24 lg:size-32 fill-rainy-day" />
-              Full Shared Kitchen
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[300ms]">
+              <Patio className="size-24 lg:size-32 fill-black-sand" />
+              Private Patio
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[300ms]">
-              <Bar className="size-24 lg:size-32 fill-rainy-day" />
-              Coffee Bar
+              <SurfRack className="size-24 lg:size-32 fill-black-sand" />
+              Private Surf Racks
+            </div>
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[200ms]">
+              <Kitchen className="size-24 lg:size-32 fill-black-sand" />
+              Full Shared Kitchen
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[400ms]">
-              <Projector className="size-24 lg:size-32 fill-rainy-day" />
+              <Projector className="size-24 lg:size-32 fill-black-sand" />
               Movie Projector
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[500ms]">
-              <Couch className="size-24 lg:size-32 fill-rainy-day" />
-              Giant Couch
-            </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[600ms]">
-              <Pool className="size-24 lg:size-32 fill-rainy-day" />
+              <Pool className="size-24 lg:size-32 fill-black-sand" />
               Swimming Pool
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[700ms]">
-              <Garden className="size-24 lg:size-32 fill-rainy-day" />
+              <Garden className="size-24 lg:size-32 fill-black-sand" />
               Community Garden
             </div>
           </div>
@@ -188,6 +189,7 @@ export default function Colive() {
       <Section
         header="Pricing"
         headerClassName="pb-14 text-moss-green-200"
+        className="bg-black-sand"
         content={
           <div className="flex flex-col md:flex-row md:items-start justify-center px-6 gap-y-12 gap-6 lg:gap-16">
             <PricingCard

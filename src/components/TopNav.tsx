@@ -14,7 +14,11 @@ import { TextLogo } from './svg';
 
 const navigation = [
   { name: 'Home', href: '/' },
+  { name: 'Cowork', href: '/cowork' },
+  { name: 'Colive', href: '/colive' },
   { name: 'Garden', href: '/garden' },
+  { name: 'Cafe', href: '/cafe' },
+  { name: 'Community', href: '/community' },
   { name: 'Blog', href: '/blog' },
 ]
 
@@ -22,7 +26,7 @@ export default function TopNav() {
   const path = usePathname();
   const [isScrolled, setIsScrolled] = React.useState(false);
 
-  React.useState(() => {
+  React.useEffect(() => {
     function handleScroll() {
       setIsScrolled(window.scrollY > 10);
     }
@@ -34,7 +38,7 @@ export default function TopNav() {
         window.removeEventListener('scroll', handleScroll);
       };
     }
-  });
+  }, []);
 
   return (
     <div
@@ -60,7 +64,7 @@ export default function TopNav() {
                 <XMarkIcon aria-hidden="true" className="hidden h-6 w-6 group-data-[open]:block" />
               </DisclosureButton>
               <div className="hidden sm:ml-6 sm:block">
-                <div className="flex space-x-4">
+                <div className="flex space-x-1 lg:space-x-4">
                   {navigation.map((item) => (
                     <a
                       key={item.name}

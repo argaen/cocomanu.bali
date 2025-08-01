@@ -37,10 +37,10 @@ export default function Home() {
         </div>
       </div>
       <Introduction
-        title="Where Work & Life Flow"
+        title="Where Work and Life Flow"
         titleClassName="text-moss-green-200"
         image={
-          <WorkLifeIllustration className="fill-moss-green-300 overflow-visible" />
+          <WorkLifeIllustration className="fill-moss-green-100 overflow-visible" />
         }
         content={(
           <div className="space-y-4">

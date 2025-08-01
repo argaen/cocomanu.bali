@@ -17,6 +17,8 @@ import {
   Coffee,
   Community,
   CoworkIllustration,
+  SolarPower,
+  Rooftop,
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
@@ -57,7 +59,7 @@ export default function Cowork() {
         title="Working at Cocomanu"
         titleClassName="text-dusk-glow-200"
         image={
-          <CoworkIllustration className="fill-dusk-glow-300 "/>
+          <CoworkIllustration className="fill-dusk-glow-100 "/>
         }
         content={(
           <div className="space-y-4">
@@ -76,6 +78,7 @@ export default function Cowork() {
       />
 
       <Section
+        className="bg-black-sand"
         header="Your Oficce"
         headerClassName="text-dusk-glow-200 pb-14"
         content={
@@ -111,41 +114,48 @@ export default function Cowork() {
       />
 
       <Section
-        className="bg-black-sand"
         header="Facilities"
-        headerClassName="text-ocean-blue-200"
+        headerClassName="text-dusk-glow-200"
         content={(
-          <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 py-20 lg:px-40 gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-5 px-10 md:px-20 py-20 lg:px-40 gap-12 text-dusk-glow-100">
             <div className="facility intersect:animate-fade-up intersect-once">
-              <Starlink className="size-24 lg:size-32 fill-transparent stroke-rainy-day" />
+              <Starlink className="size-24 lg:size-32 fill-black-sand" />
               Starlink Wifi
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[100ms]">
-              <Chairs className="size-24 lg:size-32 fill-rainy-day" />
-              Office Chairs
+              <SolarPower className="size-24 lg:size-32 fill-black-sand" />
+              Solar Power
+            </div>
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[100ms]">
+              <Chairs className="size-24 lg:size-32 fill-black-sand" />
+              Chairs
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[200ms]">
-              <AC className="size-24 lg:size-32 fill-rainy-day" />
-              Full Indoor AC
+              <AC className="size-24 lg:size-32 fill-black-sand" />
+              Indoor AC
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[300ms]">
-              <PhoneBooth className="size-24 lg:size-32 fill-rainy-day" />
+              <PhoneBooth className="size-24 lg:size-32 fill-black-sand" />
               Phone Booths
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[400ms]">
-              <MeetingRoom className="size-24 lg:size-32 fill-rainy-day" />
+              <MeetingRoom className="size-24 lg:size-32 fill-black-sand" />
               Meeting Room
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[500ms]">
-              <Chillout className="size-24 lg:size-32 fill-rainy-day" />
+              <Chillout className="size-24 lg:size-32 fill-black-sand" />
               Chillout Area
             </div>
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[500ms]">
+              <Rooftop className="size-24 lg:size-32 fill-black-sand" />
+              Rooftop
+            </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[600ms]">
-              <Coffee className="size-24 lg:size-32 fill-rainy-day" />
-              Coffee Bar
+              <Coffee className="size-24 lg:size-32 fill-black-sand" />
+              Outdoor Cafe
             </div>
             <div className="facility intersect:animate-fade-up intersect-once animate-delay-[700ms]">
-              <Community className="size-24 lg:size-32 fill-rainy-day" />
+              <Community className="size-24 lg:size-32 fill-black-sand" />
               Community Events
             </div>
           </div>
@@ -154,6 +164,7 @@ export default function Cowork() {
 
       <Section
         header="Pricing"
+        className="bg-black-sand"
         headerClassName="pb-14 text-moss-green-200"
         content={
           <div className="flex flex-col md:flex-row md:items-start justify-center px-6 gap-y-12 gap-6 lg:gap-16">

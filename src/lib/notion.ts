@@ -2,6 +2,7 @@ import { Client } from "@notionhq/client";
 import { notFound } from "next/navigation";
 import type { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import type { NotionBlock } from "@9gustin/react-notion-render";
+import {StringUnitLength} from "luxon";
 
 const COLOR_MAP: {[color: string]: string} = {
   brown: '#a52a2acc',
@@ -14,6 +15,24 @@ const COLOR_MAP: {[color: string]: string} = {
   yellow: '#D6AC42',
   red: '#C77743',
 }
+
+export type Plant = {
+  id: string;
+  name: string;
+  scientific: string;
+  slug: string;
+  image: string;
+  layer: {
+    id: string;
+    name: string;
+    color: string;
+  };
+  uses: {
+    id: string;
+    name: string;
+    color: string;
+  }[];
+};
 
 // Initializing a client
 export const notion = new Client({
@@ -79,7 +98,13 @@ function pageToPost(page: DatabaseObjectResponse) {
   };
 }
 
-export async function getPlants() {
+type GetPlantsProps = {
+  limit?: number;
+};
+
+export async function getPlants({
+  limit,
+}: GetPlantsProps = {}): Promise<Plant[]> {
   const response = await notion.databases.query({
     database_id: '13b452d3e01380ef9d46c2993f288622',
     sorts: [
@@ -93,15 +118,15 @@ export async function getPlants() {
       checkbox: {
         equals: true,
       },
-    }
-
+    },
+    page_size: limit,
   });
   const results = response.results as DatabaseObjectResponse[];
 
   return results.map((page) => pageToPlant(page));
 }
 
-export async function getPlant(slug: string) {
+export async function getPlant(slug: string): Promise<{plant: Plant, blocks: any}> {
   const response = await notion.databases.query({
     database_id: '13b452d3e01380ef9d46c2993f288622',
     filter: {
@@ -126,7 +151,7 @@ export async function getPlant(slug: string) {
   };
 }
 
-function pageToPlant(page: DatabaseObjectResponse) {
+function pageToPlant(page: DatabaseObjectResponse): Plant {
   return {
     id: page.id,
     name: ((page.properties['Name'] as unknown) as TitleProperty).title[0].plain_text,

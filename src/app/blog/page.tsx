@@ -68,7 +68,7 @@ export default async function PostsPage() {
                     className="cta bg-moss-green-200 before:bg-moss-green-100"
                     aria-label={`Read "${post.slug}"`}
                   >
-                    <span className="flex items-center py-1 px-2 z-10">
+                    <span className="flex text-white-water items-center py-1 px-2 z-10">
                       Read more
                       <ArrowRightIcon className="size-4 ml-1 font-bold"/>
                     </span>

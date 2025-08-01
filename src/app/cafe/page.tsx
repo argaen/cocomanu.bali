@@ -9,28 +9,24 @@ import Section from '@/components/Section';
 import Gallery from '@/components/Gallery';
 
 import FarmMap from '@/components/svg/FarmMap';
-import { GardenIllustration } from '@/components/svg';
+import { CafeIllustration, LowWasteIllustration } from '@/components/svg';
 import HeroImage from '@/assets/images/garden.jpeg';
-import { getPlants } from '@/lib/notion';
-import {PlantCollection} from '@/components/PlantCollection';
 
 export const metadata: Metadata = {
-  title: "Cocomanu - Tropical Garden",
-  description: "Discover our tropical garden",
-  keywords: ['garden', 'tropical', 'organic'],
+  title: "Cocomanu - Cafe",
+  description: "Try our meals",
+  keywords: ['food', 'meals', 'break'],
   robots: {
     index: false,
   },
 };
 
-export default async function Garden() {
-  const plants = await getPlants({ limit: 6});
-
+export default function Cafe() {
   return (
     <div>
       <div id="hero" className="relative">
         <Image
-          alt="Garden"
+          alt="Cafe"
           src={HeroImage}
           quality={90}
           fill
@@ -49,22 +45,41 @@ export default async function Garden() {
       </div>
 
       <Introduction
-        title="Nature At Home"
-        titleClassName="text-moss-green-200"
+        title="Food from the Garden"
+        titleClassName="text-dawn-rays-200"
         image={
-          <GardenIllustration className="fill-moss-green-100" />
+          <CafeIllustration className="fill-dawn-rays-100" />
         }
         content={(
           <div className="space-y-4">
             <p>
-              Tucked right in front of the coliving space, our 2000sqm garden is more than just a green backdrop.
+              Our cafe is open to all - coworking guests, coliving residents and anyone passing through Yeh Sumbul looking for something fresh and nourishing.
             </p>
 
-            <p>
-Designed using permaculture principles, the garden is a self-sustaining ecosystem that provides our cafe with seasonal herbs, greens, edible flowers and tropical fruits - all grown without chemicals and tended by hand.
-            </p>
           </div>
         )}
+      />
+
+      <Section
+        header="A Low-Waste Cafe, by Design"
+        headerClassName="text-dawn-rays-200 text-3xl md:text-4xl lg:text-6xl font-yeserva pb-14 px-14"
+        content={
+          <div className="flex flex-col px-10 md:px-6 lg:px-12 justify-center items-center text-black-sand gap-y-10 pb-14">
+            <div className="md:w-4/6 lg:w-1/2 space-y-4">
+              <p>
+                We believe good food shouldn&apos;t come at the planet&apos;s expense. That&apos;s why the Cocomanu Cafe is designed to operate as part of a closed-loop system:
+              </p>
+            </div>
+            <div className="relative aspect-square w-full md:w-[500px] lg:w-[600px] sm:flex items-center justify-center">
+              <LowWasteIllustration className="fill-black-sand" />
+            </div>
+            <div className="md:w-4/6 lg:w-1/2 space-y-4">
+              <p>
+                It&apos;s not perfect - but we&apos;re always improving. Every meal you enjoy here helps keep this little ecosystem in balance.
+              </p>
+            </div>
+          </div>
+        }
       />
 
       <Section
@@ -129,27 +144,12 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
         className="bg-black-sand"
         content={
           <div>
-            <div className="flex flex-col px-10 md:px-6 lg:px-12 justify-center items-center gap-6">
-              <div className="md:w-4/6 lg:w-1/2 space-y-4">
+            <div className="flex px-10 md:px-6 lg:px-12 justify-center items-center">
+              <div className="md:w-4/6 lg:w-3/6 space-y-4">
                 <p>
                   Each plant in our garden plays a role in the ecosystem we&apos;ve built. If you&apos;re the curious type, delve deeper into our library of the species we grow, how we use them and how they support each other.
                 </p>
               </div>
-              <div className="w-1/2 md:w-4/6 lg:w-1/2">
-                <PlantCollection
-                  plants={plants}
-                  containerClassName="lg:grid-cols-2"
-                />
-              </div>
-              <Link
-                href="/garden/plants"
-                className="cta text-lg bg-moss-green-200 before:bg-moss-green-100"
-              >
-                <span className="flex items-center py-2 px-4 z-10">
-                  Plant Pokedex
-                  <ArrowRightIcon className="size-4 ml-1 font-bold"/>
-                </span>
-              </Link>
             </div>
           </div>
         }

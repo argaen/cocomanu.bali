@@ -1,14 +1,14 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
+import Image from 'next/image';
+import Link from 'next/link';
 import dynamic from "next/dynamic";
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import { getPlants } from '@/lib/notion';
-import Image from 'next/image';
+import FarmMapBackground from './FarmMapBackground';
 
 const Tooltip = dynamic(() => import('../Tooltip'), { ssr: true });
-import FarmMapBackground from './FarmMapBackground';
-import Link from 'next/link';
-import {ArrowRightIcon} from '@heroicons/react/24/outline';
 
 interface FarmMapProps {
   className?: string;
@@ -18,8 +18,6 @@ const treeClass = "cursor-pointer hover:contrast-150 transition duration-200";
 
 export default async function FarmMap({ className }: FarmMapProps) {
   const plants = await getPlants();
-  console.log(plants);
-  
 
   return (
     <div>

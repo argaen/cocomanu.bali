@@ -31,12 +31,12 @@
 }
 
 body {
-  @apply text-sm text-white-water md:text-base lg:text-lg bg-rainy-day
+  @apply text-base text-white-water md:text-lg lg:text-xl bg-rainy-day
 }
 
 h1 {
   font-family: 'Lot';
-  @apply text-5xl md:text-6xl lg:text-7xl;
+  @apply text-5xl md:text-6xl lg:text-8xl;
 }
 
 h2 {
@@ -50,7 +50,7 @@ h2 {
   }
 
   .facility {
-    @apply flex flex-col gap-2 items-center text-center text-dusk-glow-300;
+    @apply flex flex-col gap-2 items-center text-center font-semibold;
   }
 
   .cta {
