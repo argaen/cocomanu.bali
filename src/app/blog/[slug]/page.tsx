@@ -1,3 +1,4 @@
+import React from 'react';
 import { DateTime } from 'luxon';
 import type { Metadata } from 'next';
 
@@ -37,7 +38,7 @@ export async function generateStaticParams() {
 
 export default async function PostPage({
   params,
-}: { params: Promise<{ slug: string }> }): Promise<JSX.Element> {
+}: { params: Promise<{ slug: string }> }): Promise<React.JSX.Element> {
   const { slug } = await params;
   const { post, blocks } = await getPost(slug);
 

@@ -1,10 +1,11 @@
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export type SectionProps = {
   className?: string;
   header: string;
   headerClassName: string;
-  content: JSX.Element;
+  content: React.JSX.Element;
 };
 
 export default function Section({
@@ -14,10 +15,10 @@ export default function Section({
   content,
 }: SectionProps) {
   return (
-    <div id={header} className={twMerge('bg-rainy-day pb-10', className)}>
+    <div id={header} className={twMerge('bg-rainy-day py-14', className)}>
       <h1
         className={twMerge(
-          'relative text-center -mb-6 pt-10 z-10',
+          'relative text-center -mb-6 z-10',
           headerClassName,
         )}
       >

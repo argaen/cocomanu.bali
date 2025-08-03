@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { indexGenerator, NotionBlock, rnrSlugify } from '@9gustin/react-notion-render'
@@ -7,7 +8,7 @@ import RenderNotion from '@/components/notion/RenderNotion';
 
 export type NotionArticleProps = {
   title: string;
-  subtitle: string | JSX.Element;
+  subtitle: string | React.JSX.Element;
   image?: string;
   content: NotionBlock[];
   tags: {
@@ -15,7 +16,7 @@ export type NotionArticleProps = {
     color: string,
     name: string,
   }[];
-  extraInfo?: JSX.Element;
+  extraInfo?: React.JSX.Element;
 }
 
 export default function NotionArticle({

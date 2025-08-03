@@ -60,8 +60,8 @@ export default function TopNav() {
               <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-black-sand sm:hidden">
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open main menu</span>
-                <Bars3Icon aria-hidden="true" className="block h-6 w-6 group-data-[open]:hidden" />
-                <XMarkIcon aria-hidden="true" className="hidden h-6 w-6 group-data-[open]:block" />
+                <Bars3Icon aria-hidden="true" className="block h-6 w-6 group-data-open:hidden" />
+                <XMarkIcon aria-hidden="true" className="hidden h-6 w-6 group-data-open:block" />
               </DisclosureButton>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-1 lg:space-x-4">
@@ -86,7 +86,7 @@ export default function TopNav() {
 
         <DisclosurePanel
           transition
-          className="py-2 origin-top transition duration-500 ease-in-out data-[closed]:bg-transparent data-[closed]:-translate-y-6 data-[closed]:opacity-0 sm:hidden z-20 bg-rainy-day"
+          className="py-2 origin-top transition duration-500 ease-in-out data-closed:bg-transparent data-closed:-translate-y-6 data-closed:opacity-0 sm:hidden z-20 bg-rainy-day"
         >
           <div className="flex flex-col items-center space-y-1 px-2 pb-3 pt-2">
             {navigation.map((item) => (

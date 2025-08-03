@@ -147,38 +147,38 @@ export default function Colive() {
 
       <Section
         header="Facilities"
-        headerClassName="text-ocean-blue-200"
+        headerClassName="text-ocean-blue-200 pb-20"
         content={(
-          <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 py-20 lg:px-40 gap-12 text-ocean-blue-100">
+          <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 lg:px-40 gap-12 text-ocean-blue-100">
             <div className="facility intersect:animate-fade-up intersect-once">
               <Coworking className="size-24 lg:size-32 fill-black-sand" />
               Coworking Access
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[100ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-100">
               <Ensuite className="size-24 lg:size-32 fill-black-sand" />
               Private ensuites
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[300ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-300">
               <Patio className="size-24 lg:size-32 fill-black-sand" />
               Private Patio
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[300ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-300">
               <SurfRack className="size-24 lg:size-32 fill-black-sand" />
               Private Surf Racks
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[200ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-200">
               <Kitchen className="size-24 lg:size-32 fill-black-sand" />
               Full Shared Kitchen
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[400ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-400">
               <Projector className="size-24 lg:size-32 fill-black-sand" />
               Movie Projector
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[600ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-600">
               <Pool className="size-24 lg:size-32 fill-black-sand" />
               Swimming Pool
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[700ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-700">
               <Garden className="size-24 lg:size-32 fill-black-sand" />
               Community Garden
             </div>

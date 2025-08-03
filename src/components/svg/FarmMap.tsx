@@ -23,9 +23,9 @@ export default async function FarmMap({ className }: FarmMapProps) {
     <div>
       {
         plants.map(p => (
-          <Tooltip key={p.slug} id={p.slug} clickable className="!w-[400px]">
+          <Tooltip key={p.slug} id={p.slug} clickable className="w-[400px]!">
             <div className="flex gap-2">
-              <div className="relative w-32 h-32 flex-shrink-0">
+              <div className="relative w-32 h-32 shrink-0">
                 <Image
                   src={p.image}
                   alt={p.name}

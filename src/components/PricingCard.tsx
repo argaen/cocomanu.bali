@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { CheckCircle } from "./svg";
+import { CheckCircle } from './svg';
 
 export type PricingCardProps = {
   title: string;
   perks: string[];
-  price: string | JSX.Element;
+  price: string | React.JSX.Element;
 }
 
 export default function PricingCard({

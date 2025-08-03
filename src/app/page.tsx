@@ -36,6 +36,7 @@ export default function Home() {
           Bali, Indonesia
         </div>
       </div>
+
       <Introduction
         title="Where Work and Life Flow"
         titleClassName="text-moss-green-200"

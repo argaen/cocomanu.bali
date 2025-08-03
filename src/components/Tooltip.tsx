@@ -12,7 +12,7 @@ export default function CustomTooltip({
 }: TooltipProps): React.JSX.Element {
   return (
     <Tooltip
-      className={`!bg-rainy-day !text-black-sand shadow-xl !rounded-lg !z-50 !opacity-100 whitespace-pre-wrap !overflow-visible ${className}`}
+      className={`bg-rainy-day! text-black-sand! shadow-xl rounded-lg! z-50! opacity-100! whitespace-pre-wrap overflow-visible! ${className}`}
       delayShow={100}
       {...props}
     >

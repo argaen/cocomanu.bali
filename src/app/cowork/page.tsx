@@ -115,46 +115,46 @@ export default function Cowork() {
 
       <Section
         header="Facilities"
-        headerClassName="text-dusk-glow-200"
+        headerClassName="text-dusk-glow-200 pb-20"
         content={(
-          <div className="grid grid-cols-2 md:grid-cols-5 px-10 md:px-20 py-20 lg:px-40 gap-12 text-dusk-glow-100">
+          <div className="grid grid-cols-2 md:grid-cols-5 px-10 md:px-20 lg:px-40 gap-12 text-dusk-glow-100">
             <div className="facility intersect:animate-fade-up intersect-once">
               <Starlink className="size-24 lg:size-32 fill-black-sand" />
               Starlink Wifi
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[100ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-100">
               <SolarPower className="size-24 lg:size-32 fill-black-sand" />
               Solar Power
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[100ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-100">
               <Chairs className="size-24 lg:size-32 fill-black-sand" />
               Chairs
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[200ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-200">
               <AC className="size-24 lg:size-32 fill-black-sand" />
               Indoor AC
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[300ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-300">
               <PhoneBooth className="size-24 lg:size-32 fill-black-sand" />
               Phone Booths
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[400ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-400">
               <MeetingRoom className="size-24 lg:size-32 fill-black-sand" />
               Meeting Room
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[500ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-500">
               <Chillout className="size-24 lg:size-32 fill-black-sand" />
               Chillout Area
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[500ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-500">
               <Rooftop className="size-24 lg:size-32 fill-black-sand" />
               Rooftop
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[600ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-600">
               <Coffee className="size-24 lg:size-32 fill-black-sand" />
               Outdoor Cafe
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-[700ms]">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-700">
               <Community className="size-24 lg:size-32 fill-black-sand" />
               Community Events
             </div>

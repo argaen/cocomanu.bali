@@ -1,13 +1,10 @@
-import { indexGenerator, NotionBlock, rnrSlugify } from '@9gustin/react-notion-render'
+import React from 'react';
 import Link from 'next/link';
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
-import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import '@/app/notion.css';
 import { getPlant, getPlants, getPrices } from '@/lib/notion';
-import RenderNotion from '@/components/notion/RenderNotion';
-import Image from 'next/image';
 import NotionArticle from '@/components/notion/NotionArticle';
 
 export async function generateMetadata({
@@ -41,7 +38,7 @@ export async function generateStaticParams() {
 
 export default async function PlantPage({
   params,
-}: { params: Promise<{ slug: string }> }): Promise<JSX.Element> {
+}: { params: Promise<{ slug: string }> }): Promise<React.JSX.Element> {
   const { slug } = await params;
   const { plant, blocks } = await getPlant(slug);
   const prices = await getPrices(plant.slug);

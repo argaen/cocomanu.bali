@@ -2,31 +2,53 @@
 @import "tailwindcss-animated";
 @import "tailwindcss-intersect";
 
+@font-face {
+ font-family: 'Lot';
+ src: url('/fonts/Lot-Regular.woff2') format('woff2');
+ font-style: normal;
+ font-display: swap;
+}
+
+@font-face {
+ font-family: 'Josefin Sans';
+ src: url('/fonts/Josefin-Sans.woff2') format('woff2');
+ font-style: normal;
+ font-weight: 350;
+ font-display: swap;
+}
+
+@font-face {
+ font-family: 'Yeserva One';
+ src: url('/fonts/Yeserva-One.woff2') format('woff2');
+ font-style: normal;
+ font-display: swap;
+}
+
 @theme {
-  --color-moss-green-100: '#565A27';
-  --color-moss-green-200: '#928E43';
-  --color-moss-green-300: '#C4C2A2';
+  --color-moss-green-100: #565A27;
+  --color-moss-green-200: #928E43;
+  --color-moss-green-300: #C4C2A2;
 
-  --color-dusk-glow-100: '#9D4322';
-  --color-dusk-glow-200: '#C77743';
-  --color-dusk-glow-300: '#F2C09B';
+  --color-dusk-glow-100: #9D4322;
+  --color-dusk-glow-200: #C77743;
+  --color-dusk-glow-300: #F2C09B;
 
-  --color-ocean-blue-100: '#045D5E';
-  --color-ocean-blue-200: '#6C9396';
-  --color-ocean-blue-300: '#B3C2C2';
+  --color-ocean-blue-100: #045D5E;
+  --color-ocean-blue-200: #6C9396;
+  --color-ocean-blue-300: #B3C2C2;
 
-  --color-dawn-rays-100: '#BF8A05';
-  --color-dawn-rays-200: '#D6AC42';
-  --color-dawn-rays-300: '#F2E3AC';
+  --color-dawn-rays-100: #BF8A05;
+  --color-dawn-rays-200: #D6AC42;
+  --color-dawn-rays-300: #F2E3AC;
 
   --color-rainy-day: #E6E5E2;
   --color-black-sand: #4E5253;
   --color-white-water: #F3F3F0;
 
-  --font-lot: Lot, sans-serif;
-  --font-josefin: Josefin Sans, sans-serif;
-  --font-yeserva: Yeserva One, sans-serif;
-  --font-sans: Josefin Sans;
+  --font-lot: 'Lot', sans-serif;
+  --font-josefin: 'Josefin Sans', sans-serif;
+  --font-yeserva: 'Yeserva One', sans-serif;
+  --font-sans: 'Josefin Sans';
 
   --animate-fade-in-out: fade-in-out 2s ease-in-out infinite;
   @keyframes fade-in-scale {
@@ -50,28 +72,6 @@
       transform: rotate(-6deg) translateX(2px);
     }
   }
-}
-
-@font-face {
- font-family: 'Lot';
- src: url('/fonts/Lot-Regular.woff2') format('woff2');
- font-style: normal;
- font-display: swap;
-}
-
-@font-face {
- font-family: 'Josefin Sans';
- src: url('/fonts/Josefin-Sans.woff2') format('woff2');
- font-style: normal;
- font-weight: 350;
- font-display: swap;
-}
-
-@font-face {
- font-family: 'Yeserva One';
- src: url('/fonts/Yeserva-One.woff2') format('woff2');
- font-style: normal;
- font-display: swap;
 }
 
 body {

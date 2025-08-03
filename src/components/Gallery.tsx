@@ -57,7 +57,7 @@ export default function Gallery({
             images.map((image, i) => (
               <div
                 key={i}
-                className={`relative flex-shrink-0 w-full h-[550px] transition ease-out duration-500 ${i === index ? 'scale-125' : 'scale-1'}`}
+                className={`relative shrink-0 w-full h-[550px] transition ease-out duration-500 ${i === index ? 'scale-125' : 'scale-1'}`}
               >
                 <Image
                   src={image.src}
