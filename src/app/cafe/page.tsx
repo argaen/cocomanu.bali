@@ -40,7 +40,7 @@ export default function Cafe() {
           <TopNav />
         </div>
         <main className="flex h-screen items-center justify-center">
-          <h1 className="text- animate-fade-up animate-duration-500 animate-delay-1000">Garden</h1>
+          <h1 className="text-dawn-rays-200 animate-fade-up animate-duration-500 animate-delay-1000">Garden</h1>
         </main>
       </div>
 
@@ -62,7 +62,7 @@ export default function Cafe() {
 
       <Section
         header="A Low-Waste Cafe, by Design"
-        headerClassName="text-dawn-rays-200 text-4xl lg:text-5xl font-yeserva pb-14 px-14"
+        headerClassName="text-dawn-rays-200 !text-4xl lg:!text-4xl !font-yeserva pb-14 px-14"
         content={
           <div className="flex flex-col px-10 md:px-6 lg:px-12 justify-center items-center text-black-sand gap-y-10 pb-14">
             <div className="md:w-4/6 lg:w-1/2 space-y-4">
@@ -84,7 +84,7 @@ export default function Cafe() {
 
       <Section
         header="The Ecosystem"
-        headerClassName="text-moss-green-200 pb-14"
+        headerClassName="text-moss-green-200"
         className="bg-black-sand"
         content={
           <Gallery
@@ -118,7 +118,7 @@ export default function Cafe() {
 
       <Section
         header="Explore"
-        headerClassName="text-moss-green-200 pb-14"
+        headerClassName="text-moss-green-200"
         content={
           <div>
             <div className="flex px-10 md:px-6 lg:px-12 justify-center items-center text-black-sand">
@@ -140,7 +140,7 @@ export default function Cafe() {
 
       <Section
         header="Learn More"
-        headerClassName="text-moss-green-200 pb-14"
+        headerClassName="text-moss-green-200"
         className="bg-black-sand"
         content={
           <div>

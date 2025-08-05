@@ -15,10 +15,10 @@ export default function Introduction({
   content,
 }: IntroductionProps) {
   return (
-    <div className="flex items-center justify-center bg-rainy-day text-black-sand py-14 md:px-6 lg:px-12">
+    <div className="flex items-center justify-center min-h-screen bg-rainy-day text-black-sand py-14 md:px-6 lg:px-12">
       <div className="flex flex-col sm:flex-row items-center justify-center px-10">
         <div className="flex flex-col items-center h-5/6 md:w-4/6 lg:w-3/6 gap-8 intersect:animate-fade-right intersect-once animate-delay-300">
-          <h1 className={twMerge("!text-4xl !md:text-5xl !lg:text-6xl !font-yeserva text-center md:text-left md:self-start w-9/12", titleClassName)}>
+          <h1 className={twMerge("!text-4xl md:!text-4xl lg:!text-5xl !font-yeserva text-center md:text-left md:self-start w-9/12", titleClassName)}>
             {title}
           </h1>
           <div className="relative w-[200px] sm:hidden">

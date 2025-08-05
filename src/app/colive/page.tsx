@@ -20,7 +20,6 @@ import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
 
 import HeroImage from '@/assets/images/colive.png';
-import CoworkImage from '@/assets/images/cowork.png';
 import GardenImage from '@/assets/images/garden.jpeg';
 
 export const metadata: Metadata = {
@@ -73,7 +72,7 @@ export default function Colive() {
 
       <Section
         header="The House"
-        headerClassName="text-ocean-blue-200 pb-14"
+        headerClassName="text-ocean-blue-200"
         className="bg-black-sand"
         content={
           <Gallery
@@ -81,7 +80,7 @@ export default function Colive() {
             selectorClassName="bg-ocean-blue-200"
             images={[
               {
-                src: CoworkImage,
+                src: HeroImage,
                 alt: 'Office',
                 caption: 'Amazing office',
               },
@@ -91,7 +90,7 @@ export default function Colive() {
                 caption: 'lololol',
               },
               {
-                src: CoworkImage,
+                src: HeroImage,
                 alt: 'Office1',
                 caption: 'Lorem ipsum lololol',
               },
@@ -113,7 +112,7 @@ export default function Colive() {
 
       <Section
         header="Your Room"
-        headerClassName="text-ocean-blue-200 pb-14"
+        headerClassName="text-ocean-blue-200"
         className="bg-black-sand"
         content={
           <Gallery
@@ -121,7 +120,7 @@ export default function Colive() {
             selectorClassName="bg-ocean-blue-200"
             images={[
               {
-                src: CoworkImage,
+                src: HeroImage,
                 alt: 'Office2',
                 caption: 'Amazing office',
               },
@@ -131,7 +130,7 @@ export default function Colive() {
                 caption: 'lololol',
               },
               {
-                src: CoworkImage,
+                src: HeroImage,
                 alt: 'Office3',
                 caption: 'Lorem ipsum lololol',
               },
@@ -147,7 +146,7 @@ export default function Colive() {
 
       <Section
         header="Facilities"
-        headerClassName="text-ocean-blue-200 pb-20"
+        headerClassName="text-ocean-blue-200"
         content={(
           <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 lg:px-40 gap-12 text-ocean-blue-100">
             <div className="facility intersect:animate-fade-up intersect-once">
@@ -188,7 +187,7 @@ export default function Colive() {
 
       <Section
         header="Pricing"
-        headerClassName="pb-14 text-moss-green-200"
+        headerClassName="text-moss-green-200"
         className="bg-black-sand"
         content={
           <div className="flex flex-col md:flex-row md:items-start justify-center px-6 gap-y-12 gap-6 lg:gap-16">

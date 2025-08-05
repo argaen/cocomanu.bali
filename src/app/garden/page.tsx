@@ -69,7 +69,7 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
 
       <Section
         header="The Ecosystem"
-        headerClassName="text-moss-green-200 pb-14"
+        headerClassName="text-moss-green-200"
         className="bg-black-sand"
         content={
           <Gallery
@@ -103,7 +103,7 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
 
       <Section
         header="Explore"
-        headerClassName="text-moss-green-200 pb-14"
+        headerClassName="text-moss-green-200"
         content={
           <div>
             <div className="flex px-10 md:px-6 lg:px-12 justify-center items-center text-black-sand">
@@ -125,7 +125,7 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
 
       <Section
         header="Learn More"
-        headerClassName="text-moss-green-200 pb-14"
+        headerClassName="text-moss-green-200"
         className="bg-black-sand"
         content={
           <div>

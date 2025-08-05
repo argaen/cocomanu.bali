@@ -6,7 +6,7 @@ import HeroImageContent from '@/components/HeroImageContent';
 import { WorkLifeIllustration } from '@/components/svg';
 
 import HeroImage from '@/assets/images/photo1.png';
-import CoworkImage from '@/assets/images/cowork.png';
+import CoworkImage from '@/assets/images/cowork-1.png';
 import ColiveImage from '@/assets/images/colive.png';
 import GardenImage from '@/assets/images/garden.jpeg';
 
@@ -61,9 +61,9 @@ export default function Home() {
         )}
       />
       <Section
-        className="py-0"
+        className="!py-0"
         header="Cowork"
-        headerClassName="text-dusk-glow-200 sm:hidden"
+        headerClassName="text-dusk-glow-200 sm:hidden mt-12 -mb-7 pb-0"
         content={
           <HeroImageContent
             header="Cowork"
@@ -71,7 +71,7 @@ export default function Home() {
             header2ClassName="text-dusk-glow-300"
             image={CoworkImage}
             contentClassName="bg-dusk-glow-100"
-            imageClassName="intersect:animate-fade-right intersect-once hover:scale-110"
+            imageClassName="intersect:animate-fade-right intersect-once"
             linkClassName="bg-dusk-glow-200 before:bg-dusk-glow-100"
             title="The Perfect Tropical Office"
             text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
@@ -80,9 +80,9 @@ export default function Home() {
         }
       />
       <Section
-        className="py-0"
+        className="!py-0"
         header="Colive"
-        headerClassName="text-ocean-blue-200 sm:hidden"
+        headerClassName="text-ocean-blue-200 sm:hidden mt-12 -mb-7 pb-0"
         content={
           <HeroImageContent
             header="Colive"
@@ -99,9 +99,9 @@ export default function Home() {
         }
       />
       <Section
-        className="py-0"
+        className="!py-0"
         header="Garden"
-        headerClassName="text-moss-green-200 sm:hidden"
+        headerClassName="text-moss-green-200 sm:hidden mt-12 -mb-7 pb-0"
         content={
           <HeroImageContent
             header="Garden"

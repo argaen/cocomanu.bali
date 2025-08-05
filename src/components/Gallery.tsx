@@ -29,7 +29,7 @@ export default function Gallery({
       <div className="flex items-center justify-center w-full overflow-x-clip">
         <div className="flex absolute items-enter justify-between w-screen md:w-[520px] px-2 z-10">
           <button
-            className={twMerge('py-3 bg-white-water rounded-xl', arrowClassName)}
+            className={twMerge('py-3 bg-white-water rounded-xl cursor-pointer disabled:!cursor-default', arrowClassName)}
             disabled={index === 0}
             onClick={() => {
               setIndex(index - 1);
@@ -38,7 +38,7 @@ export default function Gallery({
             <ArrowLeft className="size-10"/>
           </button>
           <button
-            className={twMerge('py-3 bg-white-water rounded-xl', arrowClassName)}
+            className={twMerge('py-3 bg-white-water rounded-xl cursor-pointer disabled:!cursor-default', arrowClassName)}
             disabled={index === images.length - 1}
             onClick={() => {
               setIndex(index + 1);
@@ -57,7 +57,7 @@ export default function Gallery({
             images.map((image, i) => (
               <div
                 key={i}
-                className={`relative shrink-0 w-full h-[550px] transition ease-out duration-500 ${i === index ? 'scale-125' : 'scale-1'}`}
+                className={`relative shrink-0 w-full h-[550px] transition ease-out duration-500`}
               >
                 <Image
                   src={image.src}
@@ -79,7 +79,7 @@ export default function Gallery({
           images.map((image, i) => (
             <button
               key={image.alt}
-              className={`p-2 rounded-xl transition-all duration-500 ${i === index ? `${selectorClassName} px-4` : 'bg-white-water'}`}
+              className={`p-2 rounded-xl transition-all duration-500 cursor-pointer ${i === index ? `${selectorClassName} px-4 !cursor-default` : 'bg-white-water'}`}
               onClick={() => {
                 setIndex(i);
               }}

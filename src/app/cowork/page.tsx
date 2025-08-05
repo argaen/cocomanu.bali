@@ -23,7 +23,7 @@ import {
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
 
-import HeroImage from '@/assets/images/cowork.png';
+import HeroImage from '@/assets/images/cowork-1.png';
 import ColiveImage from '@/assets/images/colive.png';
 
 export const metadata: Metadata = {
@@ -78,44 +78,42 @@ export default function Cowork() {
       />
 
       <Section
-        className="bg-black-sand"
         header="Your Oficce"
-        headerClassName="text-dusk-glow-200 pb-14"
+        className="bg-black-sand"
+        headerClassName="text-dusk-glow-200"
         content={
-          <div>
-            <Gallery
-              arrowClassName="fill-dusk-glow-200 disabled:fill-dusk-glow-300"
-              selectorClassName="bg-dusk-glow-200"
-              images={[
-                {
-                  src: HeroImage,
-                  alt: 'Office',
-                  caption: 'Amazing office',
-                },
-                {
-                  src: ColiveImage,
-                  alt: 'Home',
-                  caption: 'lololol',
-                },
-                {
-                  src: HeroImage,
-                  alt: 'Office1',
-                  caption: 'Lorem ipsum lololol',
-                },
-                {
-                  src: ColiveImage,
-                  alt: 'Home1',
-                  caption: 'Lorem ipsum lalala',
-                },
-              ]}
-            />
-          </div>
+          <Gallery
+            arrowClassName="fill-dusk-glow-200 disabled:fill-dusk-glow-300"
+            selectorClassName="bg-dusk-glow-200"
+            images={[
+              {
+                src: HeroImage,
+                alt: 'Office',
+                caption: 'Amazing office',
+              },
+              {
+                src: HeroImage,
+                alt: 'Office1',
+                caption: 'Lorem ipsum lololol',
+              },
+              {
+                src: HeroImage,
+                alt: 'Office2',
+                caption: 'Lorem ipsum lalala',
+              },
+              {
+                src: HeroImage,
+                alt: 'Office3',
+                caption: 'Lorem ipsum lalala',
+              },
+            ]}
+          />
         }
       />
 
       <Section
         header="Facilities"
-        headerClassName="text-dusk-glow-200 pb-20"
+        headerClassName="text-dusk-glow-200"
         content={(
           <div className="grid grid-cols-2 md:grid-cols-5 px-10 md:px-20 lg:px-40 gap-12 text-dusk-glow-100">
             <div className="facility intersect:animate-fade-up intersect-once">
@@ -126,35 +124,35 @@ export default function Cowork() {
               <SolarPower className="size-24 lg:size-32 fill-black-sand" />
               Solar Power
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-100">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-200">
               <Chairs className="size-24 lg:size-32 fill-black-sand" />
               Chairs
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-200">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-300">
               <AC className="size-24 lg:size-32 fill-black-sand" />
               Indoor AC
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-300">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-400">
               <PhoneBooth className="size-24 lg:size-32 fill-black-sand" />
               Phone Booths
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-400">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-500">
               <MeetingRoom className="size-24 lg:size-32 fill-black-sand" />
               Meeting Room
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-500">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-600">
               <Chillout className="size-24 lg:size-32 fill-black-sand" />
               Chillout Area
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-500">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-700">
               <Rooftop className="size-24 lg:size-32 fill-black-sand" />
               Rooftop
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-600">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-800">
               <Coffee className="size-24 lg:size-32 fill-black-sand" />
               Outdoor Cafe
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-700">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-900">
               <Community className="size-24 lg:size-32 fill-black-sand" />
               Community Events
             </div>
@@ -165,7 +163,7 @@ export default function Cowork() {
       <Section
         header="Pricing"
         className="bg-black-sand"
-        headerClassName="pb-14 text-moss-green-200"
+        headerClassName="text-moss-green-200"
         content={
           <div className="flex flex-col md:flex-row md:items-start justify-center px-6 gap-y-12 gap-6 lg:gap-16">
             <PricingCard

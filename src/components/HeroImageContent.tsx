@@ -41,7 +41,7 @@ export default function HeroImageContent({
           loading="lazy"
           placeholder="blur"
           unoptimized
-          className="object-cover transition-all duration-300 hover:scale-110"
+          className="object-cover transition-all duration-300"
         />
       </div>
       <div className={twMerge('flex justify-center items-center p-6', contentClassName)}>
