@@ -12,10 +12,13 @@ export type HeroImageContentProps = {
   header2ClassName: string;
   contentClassName: string;
   imageClassName?: string;
+  imageInnerClassName?: string;
   linkClassName?: string;
   title: string;
   text: string;
   href: string;
+  linkText?: string;
+  linkDisabled?: boolean;
 };
 
 export default function HeroImageContent({
@@ -25,10 +28,13 @@ export default function HeroImageContent({
   image,
   contentClassName,
   imageClassName,
+  imageInnerClassName,
   linkClassName,
   title,
   text,
   href,
+  linkText = 'Explore',
+  linkDisabled = false,
 }: HeroImageContentProps) {
   return (
     <div className="grid sm:grid-cols-2">
@@ -41,7 +47,7 @@ export default function HeroImageContent({
           loading="lazy"
           placeholder="blur"
           unoptimized
-          className="object-cover transition-all duration-300"
+          className={twMerge('object-cover transition-all duration-300', imageInnerClassName)}
         />
       </div>
       <div className={twMerge('flex justify-center items-center p-6', contentClassName)}>
@@ -61,18 +67,32 @@ export default function HeroImageContent({
               {text}
             </p>
             <div className="flex justify-end">
-              <Link
-                href={href}
-                className={twMerge(
-                  'cta',
-                  linkClassName,
-                )}
-              >
-                <span className="flex items-center py-1 px-2 z-10">
-                  Explore
-                  <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+              {linkDisabled ? (
+                <span
+                  className={twMerge(
+                    'cta opacity-60 cursor-not-allowed transition-none hover:before:w-0 before:transition-none before:w-0',
+                    linkClassName,
+                  )}
+                  aria-disabled="true"
+                >
+                  <span className="flex items-center py-1 px-2 z-10">
+                    {linkText}
+                  </span>
                 </span>
-              </Link>
+              ) : (
+                <Link
+                  href={href}
+                  className={twMerge(
+                    'cta',
+                    linkClassName,
+                  )}
+                >
+                  <span className="flex items-center py-1 px-2 z-10">
+                    {linkText}
+                    <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+                  </span>
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from 'next';
 
 import '@/app/globals.css';
+import { CartProvider } from '@/context/CartContext';
 import Footer from '@/components/Footer';
 import TopNav from '@/components/TopNav';
 
@@ -30,13 +31,15 @@ export default function RootLayout({
       </head>
       <Script src="https://unpkg.com/tailwindcss-intersect@2.x.x/dist/observer.min.js" />
       <body className="flex flex-col h-screen antialiased">
-        <TopNav />
-        <div className="mb-auto">
-          {children}
-        </div>
-        <div className="">
-          <Footer />
-        </div>
+        <CartProvider>
+          <TopNav />
+          <div className="mb-auto">
+            {children}
+          </div>
+          <div className="">
+            <Footer />
+          </div>
+        </CartProvider>
         <SpeedInsights />
         <Analytics />
       </body>

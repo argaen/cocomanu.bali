@@ -8,11 +8,10 @@ import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
 import Gallery from '@/components/Gallery';
 
-import FarmMap from '@/components/svg/FarmMap';
 import { GardenIllustration } from '@/components/svg';
 import HeroImage from '@/assets/images/garden.jpeg';
 import { getPlants } from '@/lib/notion';
-import {PlantCollection} from '@/components/PlantCollection';
+import { PlantCollection } from '@/components/PlantCollection';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Tropical Garden",
@@ -24,7 +23,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Garden() {
-  const plants = await getPlants({ limit: 6});
+  const [plants, mapPlants] = await Promise.all([
+    getPlants({ limit: 6 }),
+    getPlants(),
+  ]);
 
   return (
     <div>
@@ -102,31 +104,9 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
       />
 
       <Section
-        header="Explore"
+        header="Our Plants"
         headerClassName="text-moss-green-200"
-        content={
-          <div>
-            <div className="flex px-10 md:px-6 lg:px-12 justify-center items-center text-black-sand">
-              <div className="md:w-4/6 lg:w-3/6 space-y-4">
-                <p>
-                  Curious about what&apos;s growing or where to find a shady spot to sit? 
-                </p>
-                <p>
-                  Use our interactive garden map to navigate the space, discover key plant zones, and learn how different areas of the garden connect to our daily life at Cocomanu.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center">
-              <FarmMap className="h-[90vh]" />
-            </div>
-          </div>
-        }
-      />
-
-      <Section
-        header="Learn More"
-        headerClassName="text-moss-green-200"
-        className="bg-black-sand"
+        className="text-black-sand"
         content={
           <div>
             <div className="flex flex-col px-10 md:px-6 lg:px-12 justify-center items-center gap-6">
@@ -145,7 +125,7 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
                 href="/garden/plants"
                 className="cta text-lg bg-moss-green-200 before:bg-moss-green-100"
               >
-                <span className="flex items-center py-2 px-4 z-10">
+                <span className="flex items-center py-2 px-4 z-10 text-white-water">
                   Plant Pokedex
                   <ArrowRightIcon className="size-4 ml-1 font-bold"/>
                 </span>
@@ -154,32 +134,6 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
           </div>
         }
       />
-
-      <div className="relative w-full h-[550px] lg:h-[700px]">
-        <Image
-          alt="Try our meals"
-          src={HeroImage}
-          quality={10}
-          loading="lazy"
-          placeholder="blur"
-          fill
-          className="-z-10 object-cover contrast-[.25]"
-        />
-        <div className="flex flex-col h-full items-center justify-center gap-6">
-          <h2>Try our meals</h2>
-          <div className="flex justify-center">
-            <Link
-              href="/cafe"
-              className="cta bg-dawn-rays-200 before:bg-dawn-rays-100"
-            >
-              <span className="flex items-center py-1 px-2 z-10">
-                Garden
-                <ArrowRightIcon className="size-4 ml-1 font-bold"/>
-              </span>
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

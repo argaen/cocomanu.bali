@@ -40,7 +40,7 @@ export function PlantCollection({
               className="flex-1 p-2 pt-0 flex flex-col bg-opacity-15"
             >
               <div>
-                <h2 className="text-xl text-moss-green-200">
+                <h2 className="!text-2xl text-moss-green-200">
                   {plant.name}
                 </h2>
                 <h3 className="text-sm italic opacity-50 text-black-sand">

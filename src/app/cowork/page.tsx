@@ -78,12 +78,12 @@ export default function Cowork() {
       />
 
       <Section
-        header="Your Oficce"
+        header="Your Office"
         className="bg-black-sand"
         headerClassName="text-dusk-glow-200"
         content={
           <Gallery
-            arrowClassName="fill-dusk-glow-200 disabled:fill-dusk-glow-300"
+            arrowClassName="text-dusk-glow-200"
             selectorClassName="bg-dusk-glow-200"
             images={[
               {

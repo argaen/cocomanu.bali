@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
@@ -5,20 +7,19 @@ import Link from 'next/link';
 import dynamic from "next/dynamic";
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
-import { getPlants } from '@/lib/notion';
+import type { Plant } from '@/lib/notion';
 import FarmMapBackground from './FarmMapBackground';
 
 const Tooltip = dynamic(() => import('../Tooltip'), { ssr: true });
 
 interface FarmMapProps {
   className?: string;
+  plants: Plant[];
 }
 
 const treeClass = "cursor-pointer hover:contrast-150 transition duration-200";
 
-export default async function FarmMap({ className }: FarmMapProps) {
-  const plants = await getPlants();
-
+export default function FarmMap({ className, plants }: FarmMapProps) {
   return (
     <div>
       {

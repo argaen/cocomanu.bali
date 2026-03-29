@@ -10,16 +10,13 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { CartNavButton } from '@/context/CartContext';
 import { TextLogo } from './svg';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Cowork', href: '/cowork' },
-  { name: 'Colive', href: '/colive' },
   { name: 'Garden', href: '/garden' },
-  { name: 'Cafe', href: '/cafe' },
-  { name: 'Community', href: '/community' },
-  { name: 'Blog', href: '/blog' },
+  { name: 'Shop', href: '/shop' },
 ]
 
 export default function TopNav() {
@@ -48,22 +45,15 @@ export default function TopNav() {
         as="nav"
         role="navigation"
       >
-        <div className={`p-2 sm:px-6 lg:px-8" transition-colors duration-300 ${isScrolled ? 'bg-rainy-day' : ''}`}>
+        <div className={`p-2 sm:px-6 lg:px-8 transition-colors duration-300 ${isScrolled ? 'bg-rainy-day' : ''}`}>
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center pl-2">
               <Link href="/" aria-label="Navigate to home">
                 <TextLogo className="size-8 sm:size-36 py-2 fill-moss-green-200 w-auto" />
               </Link>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:ml-6 sm:pr-0">
-              {/* Mobile menu button*/}
-              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-black-sand sm:hidden">
-                <span className="absolute -inset-0.5" />
-                <span className="sr-only">Open main menu</span>
-                <Bars3Icon aria-hidden="true" className="block h-6 w-6 group-data-open:hidden" />
-                <XMarkIcon aria-hidden="true" className="hidden h-6 w-6 group-data-open:block" />
-              </DisclosureButton>
-              <div className="hidden sm:ml-6 sm:block">
+            <div className="absolute inset-y-0 right-0 flex items-center gap-1 pr-2 sm:ml-6 sm:gap-2 sm:pr-0">
+              <div className="hidden sm:ml-2 sm:block">
                 <div className="flex space-x-1 lg:space-x-4">
                   {navigation.map((item) => (
                     <a
@@ -80,6 +70,14 @@ export default function TopNav() {
                   ))}
                 </div>
               </div>
+              <CartNavButton />
+              {/* Mobile menu button */}
+              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-black-sand sm:hidden">
+                <span className="absolute -inset-0.5" />
+                <span className="sr-only">Open main menu</span>
+                <Bars3Icon aria-hidden="true" className="block h-6 w-6 group-data-open:hidden" />
+                <XMarkIcon aria-hidden="true" className="hidden h-6 w-6 group-data-open:block" />
+              </DisclosureButton>
             </div>
           </div>
         </div>

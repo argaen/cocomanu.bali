@@ -76,7 +76,7 @@ export default function Colive() {
         className="bg-black-sand"
         content={
           <Gallery
-            arrowClassName="fill-ocean-blue-200 disabled:fill-ocean-blue-300"
+            arrowClassName="text-ocean-blue-200"
             selectorClassName="bg-ocean-blue-200"
             images={[
               {
@@ -116,7 +116,7 @@ export default function Colive() {
         className="bg-black-sand"
         content={
           <Gallery
-            arrowClassName="fill-ocean-blue-200 disabled:fill-ocean-blue-300"
+            arrowClassName="text-ocean-blue-200"
             selectorClassName="bg-ocean-blue-200"
             images={[
               {

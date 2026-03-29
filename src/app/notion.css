@@ -1,3 +1,5 @@
+@reference "./globals.css";
+
 .rnr-heading_2 {
   @apply mt-4 text-moss-green-200;
 }

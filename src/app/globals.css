@@ -111,6 +111,18 @@ h2 {
   @apply w-full;
 }
 
+.cta[aria-disabled="true"] {
+  @apply pointer-events-none transition-none;
+}
+
+.cta[aria-disabled="true"]::before {
+  @apply w-0 transition-none;
+}
+
+.cta[aria-disabled="true"]:hover::before {
+  @apply w-0;
+}
+
 .chair {
   @apply cursor-pointer;
 }

@@ -72,10 +72,13 @@ export default function Home() {
             image={CoworkImage}
             contentClassName="bg-dusk-glow-100"
             imageClassName="intersect:animate-fade-right intersect-once"
+            imageInnerClassName="scale-[1.01]"
             linkClassName="bg-dusk-glow-200 before:bg-dusk-glow-100"
             title="The Perfect Tropical Office"
             text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
             href="/cowork"
+            linkText="Coming soon"
+            linkDisabled
           />
         }
       />
@@ -91,10 +94,13 @@ export default function Home() {
             image={ColiveImage}
             contentClassName="bg-ocean-blue-100"
             imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
+            imageInnerClassName="scale-[1.01]"
             linkClassName="bg-ocean-blue-200 before:bg-ocean-blue-100"
             title="Home Away From Home"
             text="Miss the comfort and routine? You'll have a private ensuite in a villa with a shared full kitchen, a pool overlooking the river and seamless access to our coworking space."
             href="/colive"
+            linkText="Coming soon"
+            linkDisabled
           />
         }
       />
