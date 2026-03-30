@@ -89,28 +89,28 @@ export async function getPrices(id: string) {
 }
 
 function pageToPlant(page: DatabaseObjectResponse): Plant {
-  const layer = (page.properties.Layer as SelectProperty).select;
+  const layer = (page.properties.Layer as unknown as SelectProperty).select!;
 
   return {
     id: page.id,
-    name: (page.properties.Name as TitleProperty).title[0].plain_text,
-    image: (page.properties.Photo as FilesProperty).files[0]?.external.url,
+    name: (page.properties.Name as unknown as TitleProperty).title[0].plain_text,
+    image: (page.properties.Photo as unknown as FilesProperty).files[0]?.external.url,
     layer: {
       ...layer,
       color: COLOR_MAP[layer.color],
     },
-    uses: (page.properties.Uses as MultiSelectProperty).multi_select.map((o) => ({
+    uses: (page.properties.Uses as unknown as MultiSelectProperty).multi_select.map((o) => ({
       ...o,
       color: COLOR_MAP[o.color] || o.color,
     })),
-    scientific: (page.properties['Scientific Name'] as RichTextProperty).rich_text[0]?.plain_text,
-    slug: (page.properties.Slug as FormulaProperty).formula.string,
+    scientific: (page.properties['Scientific Name'] as unknown as RichTextProperty).rich_text[0]?.plain_text,
+    slug: (page.properties.Slug as unknown as FormulaProperty).formula.string,
   };
 }
 
 function pageToPrice(page: DatabaseObjectResponse) {
   return {
-    name: (page.properties.Name as RichTextProperty).rich_text[0].plain_text,
-    price: (page.properties.Price as NumberProperty).number,
+    name: (page.properties.Name as unknown as RichTextProperty).rich_text[0].plain_text,
+    price: (page.properties.Price as unknown as NumberProperty).number,
   };
 }

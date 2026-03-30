@@ -57,14 +57,14 @@ export async function getPost(slug: string) {
 function pageToPost(page: DatabaseObjectResponse) {
   return {
     id: page.id,
-    title: (page.properties.Title as TitleProperty).title[0].plain_text,
-    date: (page.properties['Published Date'] as DateProperty).date.start,
-    summary: (page.properties.Summary as RichTextProperty).rich_text[0].plain_text,
-    slug: (page.properties.Slug as FormulaProperty).formula.string,
-    image: (page.properties['Featured Image'] as FilesProperty).files[0].external.url,
-    reading: (page.properties['Reading Time'] as NumberProperty).number,
-    status: (page.properties['Post Status'] as StatusProperty).status.name,
-    tags: (page.properties.Tags as MultiSelectProperty).multi_select.map((o) => ({
+    title: (page.properties.Title as unknown as TitleProperty).title[0].plain_text,
+    date: (page.properties['Published Date'] as unknown as DateProperty).date.start,
+    summary: (page.properties.Summary as unknown as RichTextProperty).rich_text[0].plain_text,
+    slug: (page.properties.Slug as unknown as FormulaProperty).formula.string,
+    image: (page.properties['Featured Image'] as unknown as FilesProperty).files[0].external.url,
+    reading: (page.properties['Reading Time'] as unknown as NumberProperty).number,
+    status: (page.properties['Post Status'] as unknown as StatusProperty).status.name,
+    tags: (page.properties.Tags as unknown as MultiSelectProperty).multi_select.map((o) => ({
       ...o,
       color: COLOR_MAP[o.color] || o.color,
     })),
