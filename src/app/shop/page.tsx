@@ -6,7 +6,7 @@ import ShopProductsSection from '@/components/ShopProductsSection';
 import { getProducts } from '@/lib/notion';
 
 import HeroImage from '@/assets/images/photo1.png';
-import ProductImage from '@/assets/images/cowork-1.png';
+import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
 import type { ShopItem } from '@/components/ShopCollection';
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default async function Shop() {
     description: p.description,
     price: p.price,
     quantitySpec: p.quantitySpec,
-    image: p.image || ProductImage,
+    image: p.image || ProductPlaceholder,
   }));
 
   return (

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import PlantPlaceholder from '@/assets/images/plant_placeholder.jpg';
+import PlantPlaceholder from '@/assets/images/product_placeholder.webp';
 import type { Plant } from '@/lib/notion';
 import {twMerge} from 'tailwind-merge';
 
