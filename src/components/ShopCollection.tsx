@@ -9,7 +9,7 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import CustomTooltip from '@/components/Tooltip';
 import { useCart } from '@/context/CartContext';
 import { formatProductPriceDisplay } from '@/lib/notion/product-price-format';
-import type { ProductImageSrcSet, ProductQuantitySpec } from '@/lib/notion/types';
+import type { ProductQuantitySpec } from '@/lib/notion/types';
 
 function packLabelFromSpec(spec: ProductQuantitySpec): string {
   const parts: string[] = [];
@@ -25,7 +25,6 @@ export type ShopItem = {
   price: number;
   quantitySpec: ProductQuantitySpec;
   image: string | StaticImageData;
-  imageSrcSet?: ProductImageSrcSet;
 };
 
 export type ShopCollectionProps = {
@@ -53,24 +52,13 @@ export default function ShopCollection({
           )}
         >
           <div className="relative h-52 w-full shrink-0">
-            {item.imageSrcSet ? (
-              <img
-                src={item.imageSrcSet.desktop352w}
-                srcSet={`${item.imageSrcSet.desktop352w} 352w, ${item.imageSrcSet.tablet358w} 358w, ${item.imageSrcSet.mobile654w} 654w`}
-                sizes="(max-width: 768px) 100vw, 352px"
-                loading="lazy"
-                alt={item.name}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : (
-              <Image
-                src={item.image}
-                alt={item.name}
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            )}
+            <Image
+              src={item.image}
+              alt={item.name}
+              fill
+              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+              className="object-cover"
+            />
           </div>
           <div className="flex min-h-0 flex-1 flex-col gap-3 p-4">
             <h3 className="shrink-0 text-xl font-bold text-moss-green-200">{item.name}</h3>

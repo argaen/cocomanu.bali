@@ -8,7 +8,6 @@ import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
 import Gallery from '@/components/Gallery';
 
-import FarmMap from '@/components/svg/FarmMap';
 import { CafeIllustration, LowWasteIllustration } from '@/components/svg';
 import HeroImage from '@/assets/images/garden.jpeg';
 
@@ -113,28 +112,6 @@ export default function Cafe() {
               },
             ]}
           />
-        }
-      />
-
-      <Section
-        header="Explore"
-        headerClassName="text-moss-green-200"
-        content={
-          <div>
-            <div className="flex px-10 md:px-6 lg:px-12 justify-center items-center text-black-sand">
-              <div className="md:w-4/6 lg:w-3/6 space-y-4">
-                <p>
-                  Curious about what&apos;s growing or where to find a shady spot to sit? 
-                </p>
-                <p>
-                  Use our interactive garden map to navigate the space, discover key plant zones, and learn how different areas of the garden connect to our daily life at Cocomanu.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center">
-              <FarmMap className="h-[90vh]" />
-            </div>
-          </div>
         }
       />
 

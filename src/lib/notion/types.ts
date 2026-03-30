@@ -69,13 +69,6 @@ export type ProductQuantitySpec = {
   unit: string;
 };
 
-/** URLs for responsive shop images (Notion: Photo Desktop / Tablet / Mobile files). */
-export type ProductImageSrcSet = {
-  desktop352w: string;
-  tablet358w: string;
-  mobile654w: string;
-};
-
 export type Product = {
   id: string;
   name: string;
@@ -84,5 +77,4 @@ export type Product = {
   quantitySpec: ProductQuantitySpec;
   slug: string;
   image: string;
-  imageSrcSet?: ProductImageSrcSet;
 };

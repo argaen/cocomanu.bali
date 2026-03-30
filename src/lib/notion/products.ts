@@ -133,14 +133,6 @@ function pageToProduct(page: DatabaseObjectResponse): Product {
 
   const image = firstFileUrlFromProperty(page.properties.Photo);
 
-  const desktop352w = firstFileUrlFromProperty(page.properties['Photo Desktop']);
-  const tablet358w = firstFileUrlFromProperty(page.properties['Photo Tablet']);
-  const mobile654w = firstFileUrlFromProperty(page.properties['Photo Mobile']);
-  const imageSrcSet =
-    desktop352w && tablet358w && mobile654w
-      ? { desktop352w, tablet358w, mobile654w }
-      : undefined;
-
   return {
     id: page.id,
     name: ((page.properties.Name as unknown) as TitleProperty).title[0]?.plain_text ?? '',
@@ -149,7 +141,6 @@ function pageToProduct(page: DatabaseObjectResponse): Product {
     quantitySpec: { quantity, unit },
     slug: ((page.properties.Slug as unknown) as FormulaProperty).formula.string ?? '',
     image,
-    imageSrcSet,
   };
 }
 

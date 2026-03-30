@@ -3,4 +3,4 @@ export { getPosts, getPost } from './posts';
 export { getPlants, getPlant, getPrices } from './plants';
 export { getProducts, getProduct, formatProductPriceDisplay, formatPriceNumberAsK } from './products';
 
-export type { Plant, Product, ProductImageSrcSet, ProductQuantitySpec } from './types';
+export type { Plant, Product, ProductQuantitySpec } from './types';

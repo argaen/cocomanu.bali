@@ -28,7 +28,6 @@ export default async function Shop() {
     price: p.price,
     quantitySpec: p.quantitySpec,
     image: p.image || ProductImage,
-    imageSrcSet: p.imageSrcSet,
   }));
 
   return (
