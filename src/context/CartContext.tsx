@@ -151,7 +151,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <CartContext.Provider value={value}>
-      <CustomTooltip id="nav-cart" />
       <CustomTooltip id="cart-line-remove" />
       <CustomTooltip id="cart-send-wa" />
       {children}
@@ -278,8 +277,6 @@ export function CartNavButton() {
   return (
     <button
       type="button"
-      data-tooltip-id="nav-cart"
-      data-tooltip-content="Open cart"
       onClick={openCart}
       className="relative cursor-pointer rounded-md p-2 text-black-sand hover:bg-moss-green-200/30"
       aria-label="Open shopping cart"
