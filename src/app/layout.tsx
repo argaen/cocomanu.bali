@@ -11,7 +11,29 @@ import TopNav from '@/components/TopNav';
 export const metadata: Metadata = {
   title: "Cocomanu",
   description: "Where work & life flow",
+  metadataBase: new URL('https://www.cocomanu.com'),
   keywords: ['Coworking', 'Coliving', 'Sumbul', 'Medewi'],
+  openGraph: {
+    title: 'Cocomanu',
+    description: 'Where work & life flow',
+    type: 'website',
+    url: 'https://www.cocomanu.com',
+    siteName: 'Cocomanu',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'Cocomanu logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cocomanu',
+    description: 'Where work & life flow',
+    images: ['/twitter-image'],
+  },
   robots: {
     index: false,
   },
