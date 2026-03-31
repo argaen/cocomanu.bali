@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 import type { NotionBlock } from '@9gustin/react-notion-render';
 import type { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
@@ -19,70 +20,141 @@ type GetPlantsProps = {
   limit?: number;
 };
 
+function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+function shouldRetryNotionError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false;
+
+  const maybeError = error as {
+    code?: string;
+    status?: number;
+    cause?: { code?: string };
+  };
+
+  const code = maybeError.code ?? maybeError.cause?.code ?? '';
+  const status = maybeError.status ?? 0;
+
+  return (
+    code === 'ECONNRESET' ||
+    code === 'ETIMEDOUT' ||
+    code === 'UND_ERR_CONNECT_TIMEOUT' ||
+    code === 'UND_ERR_HEADERS_TIMEOUT' ||
+    code === 'UND_ERR_SOCKET' ||
+    status === 429 ||
+    status >= 500
+  );
+}
+
+async function withNotionRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
+  let attempt = 0;
+
+  while (true) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (attempt >= maxRetries || !shouldRetryNotionError(error)) {
+        throw error;
+      }
+      const delayMs = 400 * 2 ** attempt;
+      attempt += 1;
+      await sleep(delayMs);
+    }
+  }
+}
+
 export async function getPlants({
   limit,
 }: GetPlantsProps = {}): Promise<Plant[]> {
-  const response = await notion.databases.query({
-    database_id: DATABASES.plants,
-    sorts: [
-      {
-        property: 'Name',
-        direction: 'ascending',
-      },
-    ],
-    filter: {
-      property: 'Available',
-      checkbox: {
-        equals: true,
-      },
-    },
-    page_size: limit,
-  });
-  const results = response.results as DatabaseObjectResponse[];
+  const all: DatabaseObjectResponse[] = [];
+  let startCursor: string | undefined;
 
-  return results.map((page) => pageToPlant(page));
+  while (true) {
+    const pageSize = limit != null ? Math.min(100, Math.max(limit - all.length, 1)) : 100;
+    const response = await withNotionRetry(() =>
+      notion.databases.query({
+        database_id: DATABASES.plants,
+        sorts: [
+          {
+            property: 'Name',
+            direction: 'ascending',
+          },
+        ],
+        filter: {
+          property: 'Available',
+          checkbox: {
+            equals: true,
+          },
+        },
+        page_size: pageSize,
+        start_cursor: startCursor,
+      }),
+    );
+
+    const batch = response.results as DatabaseObjectResponse[];
+    all.push(...batch);
+
+    if (limit != null && all.length >= limit) {
+      return all.slice(0, limit).map((page) => pageToPlant(page));
+    }
+    if (!response.has_more || !response.next_cursor) {
+      break;
+    }
+    startCursor = response.next_cursor;
+  }
+
+  return all.map((page) => pageToPlant(page));
 }
 
-export async function getPlant(slug: string): Promise<{ plant: Plant; blocks: NotionBlock[] }> {
-  const response = await notion.databases.query({
-    database_id: DATABASES.plants,
-    filter: {
-      property: 'Slug',
-      rich_text: {
-        equals: slug,
+export const getPlant = cache(async (slug: string): Promise<{ plant: Plant; blocks: NotionBlock[] }> => {
+  const response = await withNotionRetry(() =>
+    notion.databases.query({
+      database_id: DATABASES.plants,
+      filter: {
+        property: 'Slug',
+        rich_text: {
+          equals: slug,
+        },
       },
-    },
-  });
+    }),
+  );
 
   if (!response.results.length) {
     notFound();
   }
 
   const page = response.results[0];
-  const blocks = await notion.blocks.children.list({ block_id: page.id });
+  const blocks = await withNotionRetry(() =>
+    notion.blocks.children.list({ block_id: page.id }),
+  );
 
   return {
     plant: pageToPlant(page as DatabaseObjectResponse),
     blocks: blocks.results as NotionBlock[],
   };
-}
+});
 
 export async function getPrices(id: string) {
-  const response = await notion.databases.query({
-    database_id: DATABASES.prices,
-    sorts: [
-      {
-        property: 'Price',
-        direction: 'ascending',
+  const response = await withNotionRetry(() =>
+    notion.databases.query({
+      database_id: DATABASES.prices,
+      sorts: [
+        {
+          property: 'Price',
+          direction: 'ascending',
+        },
+      ],
+      filter: {
+        property: 'Id',
+        title: {
+          equals: id,
+        },
       },
-    ],
-    filter: {
-      property: 'Id',
-      title: {
-        equals: id,
-      },
-    },
-  });
+    }),
+  );
   const results = response.results as DatabaseObjectResponse[];
 
   return results.map((page) => pageToPrice(page));
