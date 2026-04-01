@@ -1,11 +1,12 @@
 import { notFound } from 'next/navigation';
-import type { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type { BlockObjectResponse, DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import { notion } from './client';
-import { DATABASES } from './constants';
+import { COLOR_MAP, DATABASES } from './constants';
 import type {
   FilesProperty,
   FormulaProperty,
+  MultiSelectProperty,
   NumberProperty,
   Product,
   RichTextProperty,
@@ -103,6 +104,47 @@ export async function getProduct(slug: string): Promise<Product> {
   return pageToProduct(response.results[0] as DatabaseObjectResponse);
 }
 
+export async function getProductDetail(slug: string): Promise<{ product: Product; blocks: BlockObjectResponse[] }> {
+  if (!DATABASES.products) {
+    notFound();
+  }
+
+  const response = await notion.databases.query({
+    database_id: DATABASES.products,
+    filter: {
+      and: [
+        {
+          property: 'Slug',
+          rich_text: {
+            equals: slug,
+          },
+        },
+        {
+          property: 'Available',
+          checkbox: {
+            equals: true,
+          },
+        },
+      ],
+    },
+  });
+
+  if (!response.results.length) {
+    notFound();
+  }
+
+  const page = response.results[0] as DatabaseObjectResponse;
+  const blocksRes = await notion.blocks.children.list({
+    block_id: page.id,
+    page_size: 100,
+  });
+
+  return {
+    product: pageToProduct(page),
+    blocks: blocksRes.results as BlockObjectResponse[],
+  };
+}
+
 function firstFileUrlFromProperty(property: unknown): string {
   if (!property || typeof property !== 'object') return '';
   const files = (property as FilesProperty).files;
@@ -127,9 +169,49 @@ function selectOrTextToString(property: unknown): string {
   return '';
 }
 
+function categoryFromProperty(property: unknown): string {
+  if (!property || typeof property !== 'object') return '';
+
+  const fromSelectOrText = selectOrTextToString(property);
+  if (fromSelectOrText) return fromSelectOrText;
+
+  const maybeMultiSelect = property as MultiSelectProperty;
+  if (
+    Array.isArray(maybeMultiSelect.multi_select) &&
+    maybeMultiSelect.multi_select.length > 0 &&
+    typeof maybeMultiSelect.multi_select[0]?.name === 'string'
+  ) {
+    return maybeMultiSelect.multi_select[0].name;
+  }
+
+  return '';
+}
+
+function categoryColorFromProperty(property: unknown): string {
+  if (!property || typeof property !== 'object') return '';
+
+  const maybeSelect = property as SelectProperty;
+  if (maybeSelect.select?.color) {
+    return COLOR_MAP[maybeSelect.select.color] || COLOR_MAP.default;
+  }
+
+  const maybeMultiSelect = property as MultiSelectProperty;
+  if (
+    Array.isArray(maybeMultiSelect.multi_select) &&
+    maybeMultiSelect.multi_select.length > 0 &&
+    typeof maybeMultiSelect.multi_select[0]?.color === 'string'
+  ) {
+    return COLOR_MAP[maybeMultiSelect.multi_select[0].color] || COLOR_MAP.default;
+  }
+
+  return COLOR_MAP.default;
+}
+
 function pageToProduct(page: DatabaseObjectResponse): Product {
   const quantity = ((page.properties.Quantity as unknown) as NumberProperty).number ?? 0;
   const unit = selectOrTextToString(page.properties['Quantity unit']);
+  const category = categoryFromProperty(page.properties.Categories);
+  const categoryColor = categoryColorFromProperty(page.properties.Categories);
 
   const image = firstFileUrlFromProperty(page.properties.Photo);
 
@@ -139,6 +221,8 @@ function pageToProduct(page: DatabaseObjectResponse): Product {
     description: ((page.properties.Description as unknown) as RichTextProperty).rich_text[0]?.plain_text ?? '',
     price: ((page.properties.Price as unknown) as NumberProperty).number ?? 0,
     quantitySpec: { quantity, unit },
+    category,
+    categoryColor,
     slug: ((page.properties.Slug as unknown) as FormulaProperty).formula.string ?? '',
     image,
   };

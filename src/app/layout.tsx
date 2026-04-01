@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from 'next';
 
 import '@/app/globals.css';
+import '@/app/notion.css';
 import { CartProvider } from '@/context/CartContext';
 import Footer from '@/components/Footer';
 import TopNav from '@/components/TopNav';

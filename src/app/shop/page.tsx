@@ -27,6 +27,9 @@ export default async function Shop() {
     description: p.description,
     price: p.price,
     quantitySpec: p.quantitySpec,
+    category: p.category,
+    categoryColor: p.categoryColor,
+    slug: p.slug,
     image: p.image || ProductPlaceholder,
   }));
 

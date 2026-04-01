@@ -75,6 +75,8 @@ export type Product = {
   description: string;
   price: number;
   quantitySpec: ProductQuantitySpec;
+  category: string;
+  categoryColor: string;
   slug: string;
   image: string;
 };

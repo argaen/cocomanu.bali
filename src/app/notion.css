@@ -4,8 +4,16 @@
   @apply mt-4 text-moss-green-200;
 }
 
+.rnr-heading_3 {
+  @apply mt-6 mb-2 text-xl md:text-2xl text-moss-green-200 font-semibold;
+}
+
 .rnr-paragraph, .rnr-quote {
   @apply py-2 text-black-sand;
+}
+
+.rnr-divider {
+  @apply my-6 border-moss-green-300/40;
 }
 
 ul.rnr-bulleted_list_item, ol.rnr-numbered_list_item {
@@ -24,6 +32,6 @@ blockquote {
   @apply border-l-4 border-l-black-sand ml-2 pl-2 italic;
 }
 
-a {
+.rnr a {
   @apply text-moss-green-200 hover:text-moss-green-100;
 }

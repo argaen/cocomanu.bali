@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Render, withContentValidation } from '@9gustin/react-notion-render';
 import type { NotionBlock, BlockComponentsMapperType } from '@9gustin/react-notion-render';
