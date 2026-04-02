@@ -9,6 +9,8 @@ import HeroImage from '@/assets/images/photo1.png';
 import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
 import type { ShopItem } from '@/components/ShopCollection';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "Cocomanu - Shop",
   description: "Shop products from Cocomanu",

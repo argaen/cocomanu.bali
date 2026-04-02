@@ -14,6 +14,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'lightroom.adobe.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'www.cocomanu.com',
       },
       {

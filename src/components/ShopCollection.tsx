@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { NotionBlock } from '@9gustin/react-notion-render';
 
@@ -52,6 +52,17 @@ export default function ShopCollection({
   const [modalItem, setModalItem] = useState<ShopItem | null>(null);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [detailError, setDetailError] = useState('');
+
+  useEffect(() => {
+    if (!selectedItem) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedItem]);
 
   function categoryIcon(category: string): ReactNode {
     const normalized = category.trim().toLowerCase();
