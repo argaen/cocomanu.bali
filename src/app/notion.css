@@ -16,12 +16,71 @@
   @apply my-6 border-moss-green-300/40;
 }
 
-ul.rnr-bulleted_list_item, ol.rnr-numbered_list_item {
-  @apply py-2 space-y-1 text-black-sand;
+/* Stable list rendering wrapper used on product details */
+.notion-content ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.notion-content ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+.notion-content li {
+  color: #4c5560;
+  margin: 0.2rem 0 0.2rem 1.25rem;
+}
+
+.notion-content li li {
+  margin-left: 2.25rem;
+}
+
+.notion-content li li li {
+  margin-left: 3rem;
 }
 
 .rnr-bulleted_list_item {
-  @apply list-disc ml-2 md:ml-6 text-black-sand;
+  @apply py-1 text-black-sand;
+  list-style-type: disc;
+  display: list-item;
+  list-style-position: outside;
+  margin-left: 1.25rem;
+}
+
+.rnr-numbered_list_item {
+  @apply py-1 text-black-sand;
+  list-style-type: decimal;
+  display: list-item;
+  list-style-position: outside;
+  margin-left: 1.25rem;
+}
+
+/* Nested list spacing + marker types */
+.rnr .rnr-bulleted_list_item .rnr-bulleted_list_item {
+  list-style-type: circle;
+  margin-left: 1.25rem;
+}
+
+.rnr .rnr-bulleted_list_item .rnr-bulleted_list_item .rnr-bulleted_list_item {
+  list-style-type: square;
+}
+
+.rnr .rnr-numbered_list_item .rnr-numbered_list_item {
+  list-style-type: lower-alpha;
+  margin-left: 1.25rem;
+}
+
+.rnr .rnr-numbered_list_item .rnr-numbered_list_item .rnr-numbered_list_item {
+  list-style-type: lower-roman;
+}
+
+/* Ensure list text inherits readable color in all nested levels */
+.rnr .rnr-bulleted_list_item,
+.rnr .rnr-numbered_list_item,
+.rnr .rnr-bulleted_list_item *,
+.rnr .rnr-numbered_list_item * {
+  color: inherit;
 }
 
 .rnr-image {

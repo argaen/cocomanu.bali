@@ -50,7 +50,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {formatProductPriceDisplay(product)}
           </p>
           {blocks.length > 0 ? (
-            <RenderNotion blocks={blocks as NotionBlock[]} />
+            <div className="notion-content">
+              <RenderNotion blocks={blocks as NotionBlock[]} />
+            </div>
           ) : (
             <p className="text-black-sand/80">{product.description}</p>
           )}

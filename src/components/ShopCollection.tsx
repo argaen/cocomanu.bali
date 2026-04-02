@@ -15,6 +15,7 @@ import RenderNotion from '@/components/notion/RenderNotion';
 import { useCart } from '@/context/CartContext';
 import { formatProductPriceDisplay } from '@/lib/notion/product-price-format';
 import type { ProductQuantitySpec } from '@/lib/notion/types';
+import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
 
 function packLabelFromSpec(spec: ProductQuantitySpec): string {
   const parts: string[] = [];
@@ -52,6 +53,7 @@ export default function ShopCollection({
   const [modalItem, setModalItem] = useState<ShopItem | null>(null);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [detailError, setDetailError] = useState('');
+  const [failedImageIds, setFailedImageIds] = useState<Record<string, true>>({});
 
   useEffect(() => {
     if (!selectedItem) return undefined;
@@ -142,11 +144,17 @@ export default function ShopCollection({
           >
             <div className="relative h-52 w-full shrink-0">
               <Image
-                src={item.image}
+                src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
                 alt={item.name}
                 fill
                 sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
                 className="object-cover"
+                onError={() =>
+                  setFailedImageIds((prev) => ({
+                    ...prev,
+                    [item.id]: true,
+                  }))
+                }
               />
             </div>
             <div className="flex min-h-0 flex-1 flex-col gap-3 p-4">
@@ -207,10 +215,20 @@ export default function ShopCollection({
           >
             <div className="relative h-56 w-full shrink-0">
               <Image
-                src={(modalItem?.image || selectedItem.image) as string | StaticImageData}
+                src={
+                  failedImageIds[(modalItem || selectedItem).id]
+                    ? ProductPlaceholder
+                    : ((modalItem?.image || selectedItem.image) as string | StaticImageData)
+                }
                 alt={modalItem?.name || selectedItem.name}
                 fill
                 className="object-cover"
+                onError={() =>
+                  setFailedImageIds((prev) => ({
+                    ...prev,
+                    [(modalItem || selectedItem).id]: true,
+                  }))
+                }
               />
               <button
                 type="button"
@@ -231,7 +249,9 @@ export default function ShopCollection({
               {isLoadingDetail ? (
                 <p className="text-black-sand/70">Loading description...</p>
               ) : detailBlocks.length > 0 ? (
-                <RenderNotion blocks={detailBlocks} />
+                <div className="notion-content">
+                  <RenderNotion blocks={detailBlocks} />
+                </div>
               ) : (
                 <p className="whitespace-pre-line text-base leading-relaxed text-black-sand">
                   {(modalItem?.description || selectedItem.description)}
