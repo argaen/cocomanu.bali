@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Listbox } from '@headlessui/react';
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
 
@@ -13,9 +14,10 @@ type ShopProductsSectionProps = {
   items: ShopItem[];
 };
 
-export default function ShopProductsSection({
-  items,
-}: ShopProductsSectionProps) {
+function ShopProductsSectionInner({ items }: ShopProductsSectionProps) {
+  const searchParams = useSearchParams();
+  const urlProductSlug = searchParams.get('product');
+
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>('All');
 
@@ -32,6 +34,11 @@ export default function ShopProductsSection({
     }),
     [items, query, activeCategory],
   );
+
+  const deepLinkMatch =
+    Boolean(urlProductSlug) && items.some((i) => i.slug === urlProductSlug);
+
+  const showProductArea = filteredItems.length > 0 || deepLinkMatch;
 
   return (
     <div>
@@ -78,11 +85,25 @@ export default function ShopProductsSection({
         </div>
       </div>
 
-      {filteredItems.length > 0 ? (
-        <ShopCollection items={filteredItems} />
+      {showProductArea ? (
+        <ShopCollection items={filteredItems} catalogItems={items} />
       ) : (
         <p className="text-center pt-10 pb-10">No products found.</p>
       )}
     </div>
+  );
+}
+
+export default function ShopProductsSection(props: ShopProductsSectionProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto mt-6 w-full max-w-5xl rounded-xl border border-moss-green-300/40 bg-white-water/80 p-8 text-center text-black-sand/70 shadow-sm">
+          Loading shop…
+        </div>
+      }
+    >
+      <ShopProductsSectionInner {...props} />
+    </Suspense>
   );
 }

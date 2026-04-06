@@ -7,7 +7,12 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/react';
-import { ShoppingBagIcon, TrashIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  InformationCircleIcon,
+  ShoppingBagIcon,
+  TrashIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 
 import { formatPriceNumberAsK } from '@/lib/notion/product-price-format';
 import {
@@ -207,11 +212,22 @@ function CartDialog({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md p-2 text-black-sand hover:bg-moss-green-200/20"
+              className="cursor-pointer rounded-md p-2 text-black-sand hover:bg-moss-green-200/20"
               aria-label="Close cart"
             >
               <XMarkIcon className="size-6" />
             </button>
+          </div>
+
+          <div
+            className="mx-4 mt-3 flex gap-2 rounded-md border border-dawn-rays-200/60 bg-dawn-rays-300 px-3 py-2.5 text-sm text-black-sand"
+            role="status"
+          >
+            <InformationCircleIcon
+              className="size-5 shrink-0 text-dawn-rays-100"
+              aria-hidden
+            />
+            <p>We only deliver in the Yeh Sumbul/Medewi area.</p>
           </div>
 
           <div className="flex-1 overflow-y-auto px-4 py-3">

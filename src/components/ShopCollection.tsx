@@ -1,8 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { NotionBlock } from '@9gustin/react-notion-render';
 
@@ -16,6 +17,20 @@ import { useCart } from '@/context/CartContext';
 import { formatProductPriceDisplay } from '@/lib/notion/product-price-format';
 import type { ProductQuantitySpec } from '@/lib/notion/types';
 import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
+
+/** Tiny SVG blur for remote `next/image` URLs (theme-neutral warm gray). */
+const REMOTE_IMAGE_BLUR_DATA_URL =
+  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2U4ZTZkZCIvPjwvc3ZnPg==';
+
+function blurPlaceholderProps(src: string | StaticImageData) {
+  if (typeof src === 'string') {
+    return {
+      placeholder: 'blur' as const,
+      blurDataURL: REMOTE_IMAGE_BLUR_DATA_URL,
+    };
+  }
+  return { placeholder: 'blur' as const };
+}
 
 function packLabelFromSpec(spec: ProductQuantitySpec): string {
   const parts: string[] = [];
@@ -38,15 +53,27 @@ export type ShopItem = {
 
 export type ShopCollectionProps = {
   items: ShopItem[];
+  /** Full product list for `?product=` deep links (defaults to `items`). */
+  catalogItems?: ShopItem[];
   containerClassName?: string;
   itemClassName?: string;
 };
 
 export default function ShopCollection({
   items,
+  catalogItems: catalogItemsProp,
   containerClassName = '',
   itemClassName = '',
 }: ShopCollectionProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlProductSlug = searchParams.get('product');
+
+  const catalogItems = catalogItemsProp ?? items;
+  const closedSlugRef = useRef<string | null>(null);
+  /** Avoid treating URL as “missing product” until `router.replace` has applied (Next can lag one frame). */
+  const pendingSlugInUrlRef = useRef<string | null>(null);
   const { addToCart } = useCart();
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
   const [detailBlocks, setDetailBlocks] = useState<NotionBlock[]>([]);
@@ -66,6 +93,131 @@ export default function ShopCollection({
     };
   }, [selectedItem]);
 
+  const syncProductUrl = useCallback(
+    (slug: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (slug) {
+        params.set('p', slug);
+      } else {
+        params.delete('p');
+      }
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams],
+  );
+
+  const closeProductModal = useCallback(() => {
+    if (selectedItem?.slug) {
+      closedSlugRef.current = selectedItem.slug;
+    }
+    pendingSlugInUrlRef.current = null;
+    syncProductUrl(null);
+    setSelectedItem(null);
+    setModalItem(null);
+    setDetailBlocks([]);
+    setDetailError('');
+    setIsLoadingDetail(false);
+  }, [syncProductUrl, selectedItem?.slug]);
+
+  useEffect(() => {
+    if (!selectedItem) return undefined;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeProductModal();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [selectedItem, closeProductModal]);
+
+  const openProductDetail = useCallback(
+    async (item: ShopItem) => {
+      closedSlugRef.current = null;
+      pendingSlugInUrlRef.current = item.slug;
+      syncProductUrl(item.slug);
+      setSelectedItem(item);
+      setDetailError('');
+      setDetailBlocks([]);
+      setModalItem(null);
+      setIsLoadingDetail(true);
+
+      try {
+        const response = await fetch(`/api/products/by-slug/${encodeURIComponent(item.slug)}`);
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+        const data = (await response.json()) as {
+          product?: {
+            id: string;
+            name: string;
+            description: string;
+            price: number;
+            quantitySpec: ProductQuantitySpec;
+            category: string;
+            categoryColor: string;
+            slug: string;
+            image: string;
+          };
+          blocks?: NotionBlock[];
+        };
+        if (data.product) {
+          setModalItem({
+            ...data.product,
+            image: data.product.image || item.image,
+          });
+        } else {
+          setModalItem(item);
+        }
+        setDetailBlocks(Array.isArray(data.blocks) ? data.blocks : []);
+      } catch {
+        setDetailError('Unable to load product details right now.');
+        setModalItem(item);
+      } finally {
+        setIsLoadingDetail(false);
+      }
+    },
+    [syncProductUrl],
+  );
+
+  useEffect(() => {
+    if (urlProductSlug) {
+      pendingSlugInUrlRef.current = null;
+    }
+  }, [urlProductSlug]);
+
+  useEffect(() => {
+    if (!urlProductSlug) {
+      if (pendingSlugInUrlRef.current) {
+        return;
+      }
+      if (selectedItem) {
+        setSelectedItem(null);
+        setModalItem(null);
+        setDetailBlocks([]);
+        setDetailError('');
+        setIsLoadingDetail(false);
+      }
+      closedSlugRef.current = null;
+      return;
+    }
+    if (catalogItems.length === 0) {
+      closedSlugRef.current = null;
+      return;
+    }
+    if (closedSlugRef.current === urlProductSlug) {
+      return;
+    }
+    if (selectedItem?.slug === urlProductSlug) {
+      return;
+    }
+    const match = catalogItems.find((i) => i.slug === urlProductSlug);
+    if (!match) {
+      return;
+    }
+    void openProductDetail(match);
+  }, [urlProductSlug, catalogItems, selectedItem, openProductDetail]);
+
   function categoryIcon(category: string): ReactNode {
     const normalized = category.trim().toLowerCase();
 
@@ -75,49 +227,6 @@ export default function ShopCollection({
     if (normalized === 'gardening') return <Shovel className="size-5" />;
 
     return <Tag className="size-5" />;
-  }
-
-  async function openProductDetail(item: ShopItem) {
-    setSelectedItem(item);
-    setDetailError('');
-    setDetailBlocks([]);
-    setModalItem(null);
-    setIsLoadingDetail(true);
-
-    try {
-      const response = await fetch(`/api/products/by-slug/${encodeURIComponent(item.slug)}`);
-      if (!response.ok) {
-        throw new Error('Request failed');
-      }
-      const data = (await response.json()) as {
-        product?: {
-          id: string;
-          name: string;
-          description: string;
-          price: number;
-          quantitySpec: ProductQuantitySpec;
-          category: string;
-          categoryColor: string;
-          slug: string;
-          image: string;
-        };
-        blocks?: NotionBlock[];
-      };
-      if (data.product) {
-        setModalItem({
-          ...data.product,
-          image: data.product.image || item.image,
-        });
-      } else {
-        setModalItem(item);
-      }
-      setDetailBlocks(Array.isArray(data.blocks) ? data.blocks : []);
-    } catch {
-      setDetailError('Unable to load product details right now.');
-      setModalItem(item);
-    } finally {
-      setIsLoadingDetail(false);
-    }
   }
 
   return (
@@ -130,7 +239,9 @@ export default function ShopCollection({
             key={item.id}
             role="button"
             tabIndex={0}
-            onClick={() => openProductDetail(item)}
+            onClick={() => {
+              void openProductDetail(item);
+            }}
             onKeyDown={(event) => {
               if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
@@ -142,13 +253,14 @@ export default function ShopCollection({
               itemClassName,
             )}
           >
-            <div className="relative h-52 w-full shrink-0">
+            <div className="relative h-52 w-full shrink-0 overflow-hidden bg-moss-green-100/15">
               <Image
                 src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
                 alt={item.name}
                 fill
                 sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
-                className="object-cover"
+                className="object-cover transition-opacity duration-300"
+                {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
                 onError={() =>
                   setFailedImageIds((prev) => ({
                     ...prev,
@@ -207,13 +319,13 @@ export default function ShopCollection({
           role="dialog"
           aria-modal="true"
           aria-label={`${selectedItem.name} details`}
-          onClick={() => setSelectedItem(null)}
+          onClick={closeProductModal}
         >
           <div
             className="flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl bg-white-water shadow-xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="relative h-56 w-full shrink-0">
+            <div className="relative h-56 w-full shrink-0 overflow-hidden bg-moss-green-100/15">
               <Image
                 src={
                   failedImageIds[(modalItem || selectedItem).id]
@@ -222,7 +334,12 @@ export default function ShopCollection({
                 }
                 alt={modalItem?.name || selectedItem.name}
                 fill
-                className="object-cover"
+                className="object-cover transition-opacity duration-300"
+                {...blurPlaceholderProps(
+                  failedImageIds[(modalItem || selectedItem).id]
+                    ? ProductPlaceholder
+                    : ((modalItem?.image || selectedItem.image) as string | StaticImageData),
+                )}
                 onError={() =>
                   setFailedImageIds((prev) => ({
                     ...prev,
@@ -232,7 +349,7 @@ export default function ShopCollection({
               />
               <button
                 type="button"
-                onClick={() => setSelectedItem(null)}
+                onClick={closeProductModal}
                 className="absolute right-3 top-3 cursor-pointer rounded-full bg-white-water/90 p-2 text-moss-green-200 shadow hover:bg-white-water"
                 aria-label="Close"
               >
@@ -264,7 +381,7 @@ export default function ShopCollection({
             <div className="flex items-center justify-end gap-3 border-t border-moss-green-300/30 px-4 pb-4 pt-5">
               <button
                 type="button"
-                onClick={() => setSelectedItem(null)}
+                onClick={closeProductModal}
                 className="cursor-pointer rounded-md border border-moss-green-300 px-3 py-1 text-sm text-moss-green-200 hover:border-moss-green-200"
               >
                 Close
