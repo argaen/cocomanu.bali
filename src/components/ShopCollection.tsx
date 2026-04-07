@@ -9,7 +9,7 @@ import type { NotionBlock } from '@9gustin/react-notion-render';
 
 import type { StaticImageData } from 'next/image';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Carrot, Flower2, Leaf, Shovel, Tag } from 'lucide-react';
+import { Carrot, ChefHat, Flower2, Shovel, Sprout, Tag } from 'lucide-react';
 
 import CustomTooltip from '@/components/Tooltip';
 import RenderNotion from '@/components/notion/RenderNotion';
@@ -222,9 +222,15 @@ export default function ShopCollection({
     const normalized = category.trim().toLowerCase();
 
     if (normalized === 'flowers') return <Flower2 className="size-5" />;
-    if (normalized === 'fresh herbs') return <Leaf className="size-5" />;
     if (normalized === 'vegetables') return <Carrot className="size-5" />;
-    if (normalized === 'gardening') return <Shovel className="size-5" />;
+    if (normalized === 'garden') return <Shovel className="size-5" />;
+    if (
+      normalized === 'herbs & medicinal plants'
+      || normalized === 'herbs and medicinal plants'
+    ) {
+      return <Sprout className="size-5" />;
+    }
+    if (normalized === 'homemade products') return <ChefHat className="size-5" />;
 
     return <Tag className="size-5" />;
   }
