@@ -240,7 +240,7 @@ export default function ShopCollection({
       <div className={twMerge('grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 pb-10', containerClassName)}>
         <CustomTooltip id="shop-add-cart" />
         <CustomTooltip id="shop-category" />
-        {items.map((item) => (
+        {items.map((item, index) => (
           <article
             key={item.id}
             role="button"
@@ -265,6 +265,7 @@ export default function ShopCollection({
                 alt={item.name}
                 fill
                 sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                priority={index < 4}
                 className="object-cover transition-opacity duration-300"
                 {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
                 onError={() =>
@@ -340,6 +341,7 @@ export default function ShopCollection({
                 }
                 alt={modalItem?.name || selectedItem.name}
                 fill
+                sizes="(max-width: 767px) 100vw, 768px"
                 className="object-cover transition-opacity duration-300"
                 {...blurPlaceholderProps(
                   failedImageIds[(modalItem || selectedItem).id]

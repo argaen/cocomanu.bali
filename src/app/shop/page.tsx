@@ -7,7 +7,9 @@ import { getProducts } from '@/lib/notion';
 import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
 import type { ShopItem } from '@/components/ShopCollection';
 
-export const dynamic = 'force-dynamic';
+// Cache the shop payload for a short window so repeated visits reuse the same
+// image URLs and the Next image optimizer/browser cache can actually hit.
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Cocomanu - Shop",
