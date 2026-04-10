@@ -1,15 +1,13 @@
-import { notFound } from 'next/navigation';
 import { cache } from 'react';
-import type { NotionBlock } from '@9gustin/react-notion-render';
-import type { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type { BlockObjectResponse, DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import { notion } from './client';
 import { COLOR_MAP, DATABASES } from './constants';
+import { fetchBlocksRecursively } from './page-blocks';
 import type {
   FilesProperty,
   FormulaProperty,
   MultiSelectProperty,
-  NumberProperty,
   Plant,
   RichTextProperty,
   SelectProperty,
@@ -83,12 +81,6 @@ export async function getPlants({
             direction: 'ascending',
           },
         ],
-        filter: {
-          property: 'Available',
-          checkbox: {
-            equals: true,
-          },
-        },
         page_size: pageSize,
         start_cursor: startCursor,
       }),
@@ -109,7 +101,11 @@ export async function getPlants({
   return all.map((page) => pageToPlant(page));
 }
 
-export const getPlant = cache(async (slug: string): Promise<{ plant: Plant; blocks: NotionBlock[] }> => {
+export const getPlantBySlug = cache(async (slug: string): Promise<Plant | null> => {
+  if (!DATABASES.plants) {
+    return null;
+  }
+
   const response = await withNotionRetry(() =>
     notion.databases.query({
       database_id: DATABASES.plants,
@@ -123,41 +119,50 @@ export const getPlant = cache(async (slug: string): Promise<{ plant: Plant; bloc
   );
 
   if (!response.results.length) {
-    notFound();
+    return null;
   }
 
-  const page = response.results[0];
-  const blocks = await withNotionRetry(() =>
-    notion.blocks.children.list({ block_id: page.id }),
-  );
-
-  return {
-    plant: pageToPlant(page as DatabaseObjectResponse),
-    blocks: blocks.results as NotionBlock[],
-  };
+  return pageToPlant(response.results[0] as DatabaseObjectResponse);
 });
 
-export async function getPrices(id: string) {
+export async function getPlantDetail(
+  slug: string,
+): Promise<{ plant: Plant; blocks: BlockObjectResponse[] } | null> {
+  if (!DATABASES.plants) {
+    return null;
+  }
+
   const response = await withNotionRetry(() =>
     notion.databases.query({
-      database_id: DATABASES.prices,
-      sorts: [
-        {
-          property: 'Price',
-          direction: 'ascending',
-        },
-      ],
+      database_id: DATABASES.plants,
       filter: {
-        property: 'Id',
-        title: {
-          equals: id,
+        property: 'Slug',
+        rich_text: {
+          equals: slug,
         },
       },
     }),
   );
-  const results = response.results as DatabaseObjectResponse[];
 
-  return results.map((page) => pageToPrice(page));
+  if (!response.results.length) {
+    return null;
+  }
+
+  const page = response.results[0] as DatabaseObjectResponse;
+  const blocks = await withNotionRetry(() => fetchBlocksRecursively(page.id));
+
+  return {
+    plant: pageToPlant(page),
+    blocks,
+  };
+}
+
+function firstPlantPhotoUrl(filesProperty: unknown): string {
+  if (!filesProperty || typeof filesProperty !== 'object') return '';
+  const files = (filesProperty as FilesProperty).files;
+  if (!Array.isArray(files) || files.length === 0) return '';
+  const first = files[0] as { external?: { url: string }; file?: { url: string } };
+  return first.external?.url ?? first.file?.url ?? '';
 }
 
 function pageToPlant(page: DatabaseObjectResponse): Plant {
@@ -166,7 +171,7 @@ function pageToPlant(page: DatabaseObjectResponse): Plant {
   return {
     id: page.id,
     name: (page.properties.Name as unknown as TitleProperty).title[0].plain_text,
-    image: (page.properties.Photo as unknown as FilesProperty).files[0]?.external.url,
+    image: firstPlantPhotoUrl(page.properties.Photo),
     layer: {
       ...layer,
       color: COLOR_MAP[layer.color],
@@ -177,12 +182,5 @@ function pageToPlant(page: DatabaseObjectResponse): Plant {
     })),
     scientific: (page.properties['Scientific Name'] as unknown as RichTextProperty).rich_text[0]?.plain_text,
     slug: (page.properties.Slug as unknown as FormulaProperty).formula.string,
-  };
-}
-
-function pageToPrice(page: DatabaseObjectResponse) {
-  return {
-    name: (page.properties.Name as unknown as RichTextProperty).rich_text[0].plain_text,
-    price: (page.properties.Price as unknown as NumberProperty).number,
   };
 }

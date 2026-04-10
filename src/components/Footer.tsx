@@ -1,5 +1,6 @@
 import { EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/outline';
 
+import { whatsappContactHref, whatsappDisplayPhone } from '@/lib/whatsapp';
 import Logo from '@/components/svg/Logo';
 import Whatsapp from '@/components/svg/Whatsapp';
 import Instagram from '@/components/svg/Instagram';
@@ -21,12 +22,12 @@ export default function Footer() {
         <li className="flex">
           <Whatsapp className="size-6 mr-2 fill-moss-green-200" />
           <a
-            href="https://wa.me/6200000000"
+            href={whatsappContactHref()}
             target="_blank"
             rel="noopener noreferrer nofollow"
             aria-label="Chat with us in Whatsapp"
           >
-            +62 0000 0000
+            {whatsappDisplayPhone()}
           </a>
         </li>
         <li className="flex">

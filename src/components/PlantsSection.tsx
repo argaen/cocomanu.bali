@@ -6,39 +6,68 @@ import { Listbox } from '@headlessui/react';
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
 
 import SearchBox from '@/components/SearchBox';
-import ShopCollection from '@/components/ShopCollection';
+import { PlantCollection } from '@/components/PlantCollection';
 
-import type { ShopItem } from '@/components/ShopCollection';
+import type { Plant } from '@/lib/notion';
 
-type ShopProductsSectionProps = {
-  items: ShopItem[];
+/** Must match Notion “Uses” multi-select option names (comparison is normalized). */
+export const PLANT_TAG_FILTERS = [
+  'Spice/herb',
+  'Edible',
+  'Medicinal',
+  'Biomass',
+  'NFT',
+  'Decorative',
+] as const;
+
+function normalizePlantTag(s: string): string {
+  return s
+    .trim()
+    .toLowerCase()
+    .replace(/\s*\/\s*/g, '/')
+    .replace(/\s+/g, ' ');
+}
+
+function plantHasUseTag(plant: Plant, filterLabel: string): boolean {
+  const target = normalizePlantTag(filterLabel);
+  return plant.uses.some((u) => normalizePlantTag(u.name) === target);
+}
+
+type PlantsSectionProps = {
+  plants: Plant[];
 };
 
-function ShopProductsSectionInner({ items }: ShopProductsSectionProps) {
+function PlantsSectionInner({ plants }: PlantsSectionProps) {
   const searchParams = useSearchParams();
-  const urlProductSlug = searchParams.get('p');
+  const urlPlantSlug = searchParams.get('plant');
 
   const [query, setQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [activeTag, setActiveTag] = useState<string>('All');
 
-  const categories = useMemo(
-    () => ['All', ...Array.from(new Set(items.map((item) => item.category).filter(Boolean))).sort()],
-    [items],
+  const tagOptions = useMemo(
+    () => ['All', ...PLANT_TAG_FILTERS] as const,
+    [],
   );
 
-  const filteredItems = useMemo(
-    () => items.filter((item) => {
-      const matchName = item.name.toLowerCase().includes(query.trim().toLowerCase());
-      const matchCategory = activeCategory === 'All' || item.category === activeCategory;
-      return matchName && matchCategory;
-    }),
-    [items, query, activeCategory],
+  const filteredPlants = useMemo(
+    () =>
+      plants.filter((plant) => {
+        const q = query.trim().toLowerCase();
+        const matchName =
+          !q
+          || plant.name.toLowerCase().includes(q)
+          || (plant.scientific && plant.scientific.toLowerCase().includes(q));
+        const matchTag =
+          activeTag === 'All' || plantHasUseTag(plant, activeTag);
+        return matchName && matchTag;
+      }),
+    [plants, query, activeTag],
   );
 
   const deepLinkMatch =
-    Boolean(urlProductSlug) && items.some((i) => i.slug === urlProductSlug);
+    Boolean(urlPlantSlug) && plants.some((p) => p.slug === urlPlantSlug);
 
-  const showProductArea = filteredItems.length > 0 || deepLinkMatch;
+  const showPlantArea = filteredPlants.length > 0 || deepLinkMatch;
 
   return (
     <div>
@@ -48,23 +77,25 @@ function ShopProductsSectionInner({ items }: ShopProductsSectionProps) {
             value={query}
             onChange={setQuery}
             className="w-full md:flex-1"
-            placeholder="Search products by name..."
+            inputId="search-plants"
+            srLabel="Search plants by name or scientific name"
+            placeholder="Search by name or scientific name..."
           />
           <div className="w-full md:w-72">
-            <Listbox value={activeCategory} onChange={setActiveCategory}>
+            <Listbox value={activeTag} onChange={setActiveTag}>
               <div className="relative">
                 <Listbox.Button className="w-full rounded-md border border-moss-green-300 bg-white-water px-4 py-3 pr-10 text-left text-base font-medium text-moss-green-200 outline-none transition-colors hover:border-moss-green-200 focus:border-moss-green-200 focus:ring-2 focus:ring-moss-green-200/25">
-                  {activeCategory}
+                  {activeTag === 'All' ? 'All tags' : activeTag}
                   <ChevronUpDownIcon
                     aria-hidden="true"
                     className="pointer-events-none absolute right-3 top-1/2 size-5 -translate-y-1/2 text-moss-green-200/80"
                   />
                 </Listbox.Button>
                 <Listbox.Options className="absolute z-20 mt-2 max-h-64 w-full overflow-auto rounded-md border border-moss-green-300/60 bg-white-water py-1 shadow-lg focus:outline-none">
-                  {categories.map((category) => (
+                  {tagOptions.map((tag) => (
                     <Listbox.Option
-                      key={category}
-                      value={category}
+                      key={tag}
+                      value={tag}
                       className={({ active, selected }) =>
                         `cursor-pointer px-4 py-2 text-base ${
                           selected
@@ -75,7 +106,7 @@ function ShopProductsSectionInner({ items }: ShopProductsSectionProps) {
                         }`
                       }
                     >
-                      {category}
+                      {tag === 'All' ? 'All tags' : tag}
                     </Listbox.Option>
                   ))}
                 </Listbox.Options>
@@ -85,25 +116,29 @@ function ShopProductsSectionInner({ items }: ShopProductsSectionProps) {
         </div>
       </div>
 
-      {showProductArea ? (
-        <ShopCollection items={filteredItems} catalogItems={items} />
+      {showPlantArea ? (
+        <PlantCollection
+          plants={filteredPlants}
+          catalogPlants={plants}
+          useModal
+        />
       ) : (
-        <p className="text-center pt-10 pb-10">No products found.</p>
+        <p className="pt-10 pb-10 text-center text-black-sand">No plants found.</p>
       )}
     </div>
   );
 }
 
-export default function ShopProductsSection(props: ShopProductsSectionProps) {
+export default function PlantsSection(props: PlantsSectionProps) {
   return (
     <Suspense
       fallback={
         <div className="mx-auto mt-6 w-full max-w-5xl rounded-xl border border-moss-green-300/40 bg-white-water/80 p-8 text-center text-black-sand/70 shadow-sm">
-          Loading shop…
+          Loading plants…
         </div>
       }
     >
-      <ShopProductsSectionInner {...props} />
+      <PlantsSectionInner {...props} />
     </Suspense>
   );
 }

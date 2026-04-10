@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
 
@@ -9,7 +10,7 @@ import Section from '@/components/Section';
 import Gallery from '@/components/Gallery';
 
 import { GardenIllustration } from '@/components/svg';
-import HeroImage from '@/assets/images/garden.jpeg';
+import { GARDEN_IMAGE } from '@/lib/notion/constants';
 import { getPlants } from '@/lib/notion';
 import { PlantCollection } from '@/components/PlantCollection';
 
@@ -33,7 +34,7 @@ export default async function Garden() {
       <div id="hero" className="relative">
         <Image
           alt="Garden"
-          src={HeroImage}
+          src={GARDEN_IMAGE}
           quality={90}
           fill
           className="-z-10 object-cover"
@@ -79,22 +80,22 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
             selectorClassName="bg-moss-green-200"
             images={[
               {
-                src: HeroImage,
+                src: GARDEN_IMAGE,
                 alt: 'Garden1',
                 caption: 'Acerola',
               },
               {
-                src: HeroImage,
+                src: GARDEN_IMAGE,
                 alt: 'Garden2',
                 caption: 'Mango',
               },
               {
-                src: HeroImage,
+                src: GARDEN_IMAGE,
                 alt: 'Garden2',
                 caption: 'Mango',
               },
               {
-                src: HeroImage,
+                src: GARDEN_IMAGE,
                 alt: 'Garden2',
                 caption: 'Mango',
               },
@@ -116,10 +117,13 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
                 </p>
               </div>
               <div className="w-1/2 md:w-4/6 lg:w-1/2">
-                <PlantCollection
-                  plants={plants}
-                  containerClassName="lg:grid-cols-2"
-                />
+                <Suspense fallback={<div className="min-h-48 rounded-md bg-white-water/40" />}>
+                  <PlantCollection
+                    plants={plants}
+                    useModal={false}
+                    containerClassName="lg:grid-cols-2"
+                  />
+                </Suspense>
               </div>
               <Link
                 href="/garden/plants"

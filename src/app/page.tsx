@@ -8,7 +8,7 @@ import { WorkLifeIllustration } from '@/components/svg';
 import HeroImage from '@/assets/images/photo1.png';
 import CoworkImage from '@/assets/images/cowork-1.png';
 import ColiveImage from '@/assets/images/colive.png';
-import GardenImage from '@/assets/images/garden.jpeg';
+import { GARDEN_IMAGE } from '@/lib/notion/constants';
 
 export default function Home() {
   return (
@@ -113,7 +113,7 @@ export default function Home() {
             header="Garden"
             headerClassName="sm:text-moss-green-200"
             header2ClassName="text-moss-green-300"
-            image={GardenImage}
+            image={GARDEN_IMAGE}
             contentClassName="bg-moss-green-100"
             imageClassName="intersect:animate-fade-left intersect-once"
             linkClassName="bg-moss-green-200 before:bg-moss-green-100"

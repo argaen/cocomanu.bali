@@ -9,7 +9,7 @@ import Section from '@/components/Section';
 import Gallery from '@/components/Gallery';
 
 import { CafeIllustration, LowWasteIllustration } from '@/components/svg';
-import HeroImage from '@/assets/images/garden.jpeg';
+import { GARDEN_IMAGE } from '@/lib/notion/constants';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Cafe",
@@ -26,7 +26,7 @@ export default function Cafe() {
       <div id="hero" className="relative">
         <Image
           alt="Cafe"
-          src={HeroImage}
+          src={GARDEN_IMAGE}
           quality={90}
           fill
           className="-z-10 object-cover"
@@ -91,22 +91,22 @@ export default function Cafe() {
             selectorClassName="bg-moss-green-200"
             images={[
               {
-                src: HeroImage,
+                src: GARDEN_IMAGE,
                 alt: 'Garden1',
                 caption: 'Acerola',
               },
               {
-                src: HeroImage,
+                src: GARDEN_IMAGE,
                 alt: 'Garden2',
                 caption: 'Mango',
               },
               {
-                src: HeroImage,
+                src: GARDEN_IMAGE,
                 alt: 'Garden2',
                 caption: 'Mango',
               },
               {
-                src: HeroImage,
+                src: GARDEN_IMAGE,
                 alt: 'Garden2',
                 caption: 'Mango',
               },
@@ -135,7 +135,7 @@ export default function Cafe() {
       <div className="relative w-full h-[550px] lg:h-[700px]">
         <Image
           alt="Try our meals"
-          src={HeroImage}
+          src={GARDEN_IMAGE}
           quality={10}
           loading="lazy"
           placeholder="blur"

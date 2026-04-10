@@ -5,6 +5,10 @@ type SearchBoxProps = {
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
+  /** Defaults to `search-products` (shop). */
+  inputId?: string;
+  /** Screen-reader label for the field. */
+  srLabel?: string;
 };
 
 export default function SearchBox({
@@ -12,14 +16,16 @@ export default function SearchBox({
   onChange,
   placeholder = 'Search by name...',
   className = '',
+  inputId = 'search-products',
+  srLabel = 'Search products by name',
 }: SearchBoxProps) {
   return (
     <div className={className}>
-      <label htmlFor="search-products" className="sr-only">
-        Search products by name
+      <label htmlFor={inputId} className="sr-only">
+        {srLabel}
       </label>
       <input
-        id="search-products"
+        id={inputId}
         type="search"
         value={value}
         onChange={(event) => onChange(event.target.value)}

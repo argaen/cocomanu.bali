@@ -53,7 +53,7 @@ export type ShopItem = {
 
 export type ShopCollectionProps = {
   items: ShopItem[];
-  /** Full product list for `?product=` deep links (defaults to `items`). */
+  /** Full product list for `?p=` deep links (defaults to `items`). */
   catalogItems?: ShopItem[];
   containerClassName?: string;
   itemClassName?: string;
@@ -68,7 +68,7 @@ export default function ShopCollection({
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const urlProductSlug = searchParams.get('product');
+  const urlProductSlug = searchParams.get('p');
 
   const catalogItems = catalogItemsProp ?? items;
   const closedSlugRef = useRef<string | null>(null);

@@ -20,7 +20,7 @@ import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
 
 import HeroImage from '@/assets/images/colive.png';
-import GardenImage from '@/assets/images/garden.jpeg';
+import { GARDEN_IMAGE } from '@/lib/notion/constants';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coliving",
@@ -254,7 +254,7 @@ export default function Colive() {
       <div className="relative w-full h-[550px] lg:h-[700px]">
         <Image
           alt="Check our Garden"
-          src={GardenImage}
+          src={GARDEN_IMAGE}
           quality={10}
           loading="lazy"
           placeholder="blur"

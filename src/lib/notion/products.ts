@@ -3,6 +3,7 @@ import type { BlockObjectResponse, DatabaseObjectResponse } from '@notionhq/clie
 
 import { notion } from './client';
 import { COLOR_MAP, DATABASES } from './constants';
+import { fetchBlocksRecursively } from './page-blocks';
 import type {
   FilesProperty,
   FormulaProperty,
@@ -140,71 +141,6 @@ export async function getProductDetail(slug: string): Promise<{ product: Product
     product: pageToProduct(page),
     blocks: blocksRes,
   };
-}
-
-async function fetchBlocksRecursively(blockId: string, depth = 0): Promise<BlockObjectResponse[]> {
-  const all: BlockObjectResponse[] = [];
-  let startCursor: string | undefined;
-
-  while (true) {
-    const response = await notion.blocks.children.list({
-      block_id: blockId,
-      page_size: 100,
-      start_cursor: startCursor,
-    });
-
-    const batch = response.results as BlockObjectResponse[];
-
-    for (const block of batch) {
-      all.push(depth > 0 ? withVisualIndent(block, depth) : block);
-
-      if (block.has_children) {
-        const children = await fetchBlocksRecursively(block.id, depth + 1);
-        all.push(...children);
-      }
-    }
-
-    if (!response.has_more || !response.next_cursor) {
-      break;
-    }
-    startCursor = response.next_cursor;
-  }
-
-  return all;
-}
-
-function withVisualIndent(block: BlockObjectResponse, depth: number): BlockObjectResponse {
-  if (block.type !== 'bulleted_list_item' && block.type !== 'numbered_list_item') {
-    return block;
-  }
-
-  // Use em-space characters so indentation stays visible in normal paragraph rendering.
-  const indent = '\u2003\u2003'.repeat(Math.min(depth, 3));
-  const node = { ...block } as any;
-  const payload = { ...node[block.type] };
-  const rich = Array.isArray(payload.rich_text) ? [...payload.rich_text] : [];
-
-  if (rich.length > 0) {
-    const first = { ...rich[0] };
-    const childPrefix = block.type === 'bulleted_list_item' ? '• ' : '↳ ';
-    first.plain_text = `${indent}${childPrefix}${first.plain_text ?? ''}`;
-    if (first.text?.content != null) {
-      first.text = { ...first.text, content: `${indent}${childPrefix}${first.text.content}` };
-    }
-    rich[0] = first;
-  }
-
-  // Renderer doesn't support semantic nested list items well.
-  // Convert nested children to paragraph lines so hierarchy is visible and not mistaken for same-level bullets.
-  return {
-    ...node,
-    type: 'paragraph',
-    paragraph: {
-      rich_text: rich,
-      color: 'default',
-    },
-    has_children: false,
-  } as BlockObjectResponse;
 }
 
 function firstFileUrlFromProperty(property: unknown): string {

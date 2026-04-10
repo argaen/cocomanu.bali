@@ -1,8 +1,5 @@
 import { formatPriceNumberAsK } from '@/lib/notion/product-price-format';
-
-/** WhatsApp `wa.me` number (digits only, no +). Default: +62 812-2987-0979 → 6281229870979 */
-export const WHATSAPP_ORDER_PHONE =
-  process.env.NEXT_PUBLIC_WHATSAPP_ORDER_PHONE ?? '6281229870979';
+import { whatsappContactHref } from '@/lib/whatsapp';
 
 export type OrderCartLine = {
   name: string;
@@ -28,5 +25,5 @@ export function buildOrderWhatsappMessage(lines: OrderCartLine[]): string {
 }
 
 export function buildWhatsappOrderUrl(message: string): string {
-  return `https://wa.me/${WHATSAPP_ORDER_PHONE}?text=${encodeURIComponent(message)}`;
+  return whatsappContactHref(message);
 }

@@ -1,3 +1,6 @@
+import gardenWebp from '@/assets/images/garden.webp';
+export const GARDEN_IMAGE = gardenWebp;
+
 export const COLOR_MAP: { [color: string]: string } = {
   brown: '#a52a2acc',
   green: '#928E43',
@@ -13,6 +16,8 @@ export const COLOR_MAP: { [color: string]: string } = {
 export const DATABASES = {
   posts: '139452d3e01380969e3edd1c8b5ca44a',
   plants: '13b452d3e01380ef9d46c2993f288622',
-  prices: '1c5452d3e0138019939cdbfc87d7d581',
   products: '330452d3e01380729ae7e83bf18c7a5f',
 } as const;
+
+/** WhatsApp number for `wa.me` links: digits only, no `+` (+62 812-2987-0979). */
+export const WHATSAPP_PHONE_WA_ME = '6281229870979';
