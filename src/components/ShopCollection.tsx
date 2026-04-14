@@ -309,10 +309,10 @@ export default function ShopCollection({
                       unitPriceIdr: item.price,
                     });
                   }}
-                  className="shrink-0 flex size-10 cursor-pointer items-center justify-center rounded-full bg-moss-green-200 text-white-water shadow-md hover:bg-moss-green-100 transition-colors"
+                  className="cta before:bg-moss-green-100 shrink-0 flex size-10 cursor-pointer items-center justify-center !rounded-full bg-moss-green-200 text-white-water shadow-md"
                   aria-label={`Add ${item.name} to cart`}
                 >
-                  <PlusIcon className="size-6" />
+                  <PlusIcon className="z-10 size-6" />
                 </button>
               </div>
             </div>

@@ -80,3 +80,20 @@ export type Product = {
   slug: string;
   image: string;
 };
+
+export type CoworkingPricing = {
+  id: string;
+  name: string;
+  price: number;
+  dailyPrice: number;
+  includes: string[];
+};
+
+export type ColivePricing = {
+  id: string;
+  name: string;
+  price: number;
+  dailyPrice: number;
+  minimumLength: number;
+  includes: string[];
+};

@@ -275,9 +275,9 @@ function CartDialog({
                 data-tooltip-id="cart-send-wa"
                 data-tooltip-content="Send order via WhatsApp"
                 onClick={onSendOrder}
-                className="w-full cursor-pointer rounded-md bg-moss-green-200 px-4 py-3 font-medium text-white-water hover:bg-moss-green-100 transition-colors"
+                className="cta before:bg-moss-green-100 w-full cursor-pointer justify-center rounded-md bg-moss-green-200 px-4 py-3 font-medium text-white-water"
               >
-                Send order via WhatsApp
+                <span className="z-10">Send order via WhatsApp</span>
               </button>
             </div>
           ) : null}

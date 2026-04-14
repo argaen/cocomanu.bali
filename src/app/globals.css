@@ -2,6 +2,7 @@
 @import "tailwindcss-animated";
 @import "tailwindcss-intersect";
 @import "tw-animate-css";
+@import "react-day-picker/style.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -125,6 +126,24 @@ h2 {
 
 .chair {
   @apply cursor-pointer;
+}
+
+.booking-range-calendar .rdp-day_button {
+  border-radius: 0;
+}
+
+.booking-range-calendar .rdp-range_start .rdp-day_button {
+  border-top-left-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.booking-range-calendar .rdp-range_end .rdp-day_button {
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 @theme inline {

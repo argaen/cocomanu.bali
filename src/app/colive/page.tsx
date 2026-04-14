@@ -18,6 +18,8 @@ import {
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
+import ColiveBookingForm from '@/components/ColiveBookingForm';
+import { formatPriceNumberAsK, getColivePricing } from '@/lib/notion';
 
 import HeroImage from '@/assets/images/colive.png';
 import { GARDEN_IMAGE } from '@/lib/notion/constants';
@@ -31,7 +33,31 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Colive() {
+function formatCompactPrice(value: number): string {
+  const amount = Math.max(0, Math.round(value));
+  if (!Number.isFinite(amount)) return '0';
+  if (amount >= 1_000_000) {
+    const millions = amount / 1_000_000;
+    const body = Number(millions.toFixed(1)).toString().replace(/\.0$/, '');
+    return `${body}M`;
+  }
+  return formatPriceNumberAsK(amount);
+}
+
+function isNightlyEntry(name: string): boolean {
+  const normalized = name.trim().toLowerCase();
+  return (
+    normalized === '1 night'
+    || normalized === 'night'
+    || normalized === 'nightly'
+    || normalized === 'nightly pass'
+    || normalized === 'night pass'
+  );
+}
+
+export default async function Colive() {
+  const pricing = await getColivePricing();
+
   return (
     <div>
       <div id="hero" className="relative">
@@ -190,64 +216,37 @@ export default function Colive() {
         headerClassName="text-moss-green-200"
         className="bg-black-sand"
         content={
-          <div className="flex flex-col md:flex-row md:items-start justify-center px-6 gap-y-12 gap-6 lg:gap-16">
-            <PricingCard
-              title="1 Night"
-              perks={[
-                'Includes a coworking day pass',
-                'All coliving facilities',
-              ]}
-              price={
-                <>
-                  600K/
-                  <span className="text-base">
-                   night
-                  </span>
-                </>
-              }
-            />
-
-            <PricingCard
-              title="7-Nights"
-              perks={[
-                'Includes a 7-day coworking pass',
-                'All coliving facilities',
-              ]}
-              price={
-                <>
-                  3.5M/
-                  <span className="text-base">
-                   week
-                  </span>
-                  <span className="text-base text-gray-400">
-                    {' '}
-                    (500k/night)
-                  </span>
-                </>
-              }
-            />
-
-            <PricingCard
-              title="30 Nights"
-              perks={[
-                'Includes a 7-day coworking pass',
-                'All coliving facilities',
-                'Weekly room cleaning',
-              ]}
-              price={
-                <>
-                  12M/
-                  <span className="text-base">
-                   month
-                  </span>
-                  <span className="text-base text-gray-400">
-                    {' '}
-                    (400k/night)
-                  </span>
-                </>
-              }
-            />
-          </div>
+          <>
+            <div className="mx-auto grid max-w-6xl grid-cols-1 justify-items-center gap-y-12 gap-6 px-6 md:grid-cols-3 md:items-stretch md:gap-10 lg:gap-12">
+              {pricing.length > 0 ? (
+                pricing.map((item) => (
+                  <PricingCard
+                    key={item.id}
+                    title={item.name}
+                    perks={item.includes}
+                    price={(
+                      <>
+                        <span className="text-base font-semibold">IDR</span>
+                        {' '}
+                        {formatCompactPrice(item.price)}
+                        {!isNightlyEntry(item.name) && item.dailyPrice > 0 ? (
+                          <span className="text-base text-gray-400">
+                            {' '}
+                            ({formatPriceNumberAsK(item.dailyPrice)}/night)
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  />
+                ))
+              ) : (
+                <p className="text-center text-white-water/80">Pricing details are coming soon.</p>
+              )}
+            </div>
+            {pricing.length > 0 ? (
+              <ColiveBookingForm pricing={pricing} />
+            ) : null}
+          </>
         }
       />
 
