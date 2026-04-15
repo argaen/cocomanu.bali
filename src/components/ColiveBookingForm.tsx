@@ -42,16 +42,14 @@ function formatDisplayDate(date?: Date): string {
   });
 }
 
-function normalizedMinimumLength(tier: ColivePricing): number {
-  if (tier.minimumLength > 0) return tier.minimumLength;
+function estimateColiveTotalFromNights(nights: number): number {
+  if (nights <= 0) return 0;
+  const rawTotal =
+    nights <= 7
+      ? 700000 + (nights - 1) * ((4200000 - 700000) / 6)
+      : 4200000 + (nights - 7) * ((13500000 - 4200000) / 23);
 
-  const lowerName = tier.name.toLowerCase();
-  const numericMatch = lowerName.match(/\d+/);
-  const amount = numericMatch ? Number(numericMatch[0]) : 1;
-
-  if (lowerName.includes('week')) return amount * 7;
-  if (lowerName.includes('month')) return amount * 30;
-  return amount;
+  return Math.round(rawTotal / 50000) * 50000;
 }
 
 function formatCompactPrice(value: number): string {
@@ -62,7 +60,7 @@ function formatCompactPrice(value: number): string {
   return formatPriceNumberAsK(value);
 }
 
-export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
+export default function ColiveBookingForm({ pricing: _pricing }: ColiveBookingFormProps) {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -70,38 +68,22 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
   const [resetOnNextPick, setResetOnNextPick] = useState(false);
   const popoverRef = useRef<HTMLDivElement | null>(null);
 
-  const sortedTiers = useMemo(
-    () =>
-      [...pricing].sort(
-        (a, b) => normalizedMinimumLength(a) - normalizedMinimumLength(b) || a.dailyPrice - b.dailyPrice,
-      ),
-    [pricing],
-  );
-
   const nights = nightsBetweenDates(startDate, endDate);
-
-  const selectedTier = useMemo(() => {
-    if (nights <= 0 || sortedTiers.length === 0) return null;
-    const eligible = sortedTiers.filter((tier) => nights >= normalizedMinimumLength(tier));
-    return eligible.length > 0 ? eligible[eligible.length - 1] : sortedTiers[0];
-  }, [nights, sortedTiers]);
-
-  const nightlyRate = selectedTier?.dailyPrice ?? 0;
-  const total = nights > 0 ? nightlyRate * nights : 0;
+  const total = nights > 0 ? estimateColiveTotalFromNights(nights) : 0;
+  const nightlyRate = nights > 0 ? Math.round(total / nights) : 0;
 
   const whatsappMessage = useMemo(() => {
-    if (!selectedTier || !startDate || !endDate || nights <= 0) return '';
+    if (!startDate || !endDate || nights <= 0) return '';
     return [
       'Hi Cocomanu! I would like to book coliving.',
       '',
       `Start date: ${formatIsoDate(startDate)}`,
       `End date: ${formatIsoDate(endDate)}`,
       `Nights: ${nights}`,
-      `Pricing tier: ${selectedTier.name}`,
       `Nightly rate: IDR ${formatPriceNumberAsK(nightlyRate)}/night`,
       `Calculated total: IDR ${formatCompactPrice(total)}`,
     ].join('\n');
-  }, [selectedTier, startDate, endDate, nights, nightlyRate, total]);
+  }, [startDate, endDate, nights, nightlyRate, total]);
 
   const canBook = Boolean(whatsappMessage);
 
@@ -177,7 +159,7 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
     <div className="mx-auto mt-10 w-full max-w-3xl rounded-xl border border-moss-green-300/30 bg-white-water p-5 text-black-sand shadow-sm md:p-6">
       <h3 className="text-2xl font-bold text-moss-green-200">Check your stay price</h3>
       <p className="mt-1 text-sm text-black-sand/70">
-        Select your dates and we will calculate the total based on the nightly tier.
+        Select your dates and we will estimate the total for your stay.
       </p>
 
       <div ref={popoverRef} className="relative mt-4 rounded-xl border border-moss-green-300/50 bg-rainy-day/70 p-4">
@@ -275,7 +257,7 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
 
       <div className="mt-4 grid gap-3 rounded-md border border-moss-green-300/40 bg-rainy-day p-4 md:grid-cols-[1fr_auto] md:items-center">
         <ul className="space-y-1 text-sm">
-          {nights > 0 && selectedTier ? (
+          {nights > 0 ? (
             <>
               <li>{`Stay length: ${nights} night${nights > 1 ? 's' : ''}`}</li>
               <li>{`Nightly rate: IDR ${formatPriceNumberAsK(nightlyRate)}/night`}</li>
@@ -285,15 +267,19 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
             <li className="text-black-sand/70">Pick valid start and end dates to calculate your total.</li>
           )}
         </ul>
-        <a
-          href={bookingHref}
-          target={canBook ? '_blank' : undefined}
-          rel={canBook ? 'noopener noreferrer nofollow' : undefined}
-          aria-disabled={!canBook}
-          className="cta before:bg-moss-green-100 inline-flex min-w-56 cursor-pointer justify-center rounded-md bg-moss-green-200 px-5 py-3 font-medium text-white-water"
-        >
-          <span className="z-10">Book via WhatsApp</span>
-        </a>
+        {canBook ? (
+          <a
+            href={bookingHref}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            className="cta before:bg-moss-green-100 inline-flex min-h-14 min-w-56 cursor-pointer items-center justify-center rounded-md bg-moss-green-200 px-5 py-2 font-medium text-white-water"
+          >
+            <span className="z-10 flex flex-col items-center leading-tight">
+              <span>Book via WhatsApp</span>
+              <span className="text-[11px] opacity-90">subject to availability</span>
+            </span>
+          </a>
+        ) : null}
       </div>
     </div>
   );
