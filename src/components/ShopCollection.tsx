@@ -81,6 +81,15 @@ export default function ShopCollection({
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [detailError, setDetailError] = useState('');
   const [failedImageIds, setFailedImageIds] = useState<Record<string, true>>({});
+  const [showTooltips, setShowTooltips] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const updateTooltips = () => setShowTooltips(mediaQuery.matches);
+    updateTooltips();
+    mediaQuery.addEventListener('change', updateTooltips);
+    return () => mediaQuery.removeEventListener('change', updateTooltips);
+  }, []);
 
   useEffect(() => {
     if (!selectedItem) return undefined;
@@ -238,8 +247,8 @@ export default function ShopCollection({
   return (
     <>
       <div className={twMerge('grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 pb-10', containerClassName)}>
-        <CustomTooltip id="shop-add-cart" />
-        <CustomTooltip id="shop-category" />
+        {showTooltips ? <CustomTooltip id="shop-add-cart" /> : null}
+        {showTooltips ? <CustomTooltip id="shop-category" /> : null}
         {items.map((item, index) => (
           <article
             key={item.id}
@@ -281,8 +290,8 @@ export default function ShopCollection({
                 <h3 className="text-xl font-bold text-moss-green-200">{item.name}</h3>
                 {item.category && (
                   <span
-                    data-tooltip-id="shop-category"
-                    data-tooltip-content={item.category}
+                    data-tooltip-id={showTooltips ? 'shop-category' : undefined}
+                    data-tooltip-content={showTooltips ? item.category : undefined}
                     aria-label={item.category}
                     className="inline-flex items-center justify-center"
                     style={{ color: item.categoryColor || '#928E43', opacity: 0.92 }}
@@ -298,8 +307,8 @@ export default function ShopCollection({
                 </p>
                 <button
                   type="button"
-                  data-tooltip-id="shop-add-cart"
-                  data-tooltip-content="Add to cart"
+                  data-tooltip-id={showTooltips ? 'shop-add-cart' : undefined}
+                  data-tooltip-content={showTooltips ? 'Add to cart' : undefined}
                   onClick={(event) => {
                     event.stopPropagation();
                     addToCart({

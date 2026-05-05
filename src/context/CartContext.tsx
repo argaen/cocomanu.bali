@@ -46,6 +46,7 @@ type CartContextValue = {
   openCart: () => void;
   closeCart: () => void;
   addToCart: (item: AddToCartInput) => void;
+  updateLineQuantity: (lineId: string, quantity: number) => void;
   removeLine: (lineId: string) => void;
   clearCart: () => void;
   itemCount: number;
@@ -117,6 +118,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setLines((prev) => prev.filter((l) => l.id !== lineId));
   }, []);
 
+  const updateLineQuantity = useCallback((lineId: string, quantity: number) => {
+    if (quantity <= 0) {
+      setLines((prev) => prev.filter((l) => l.id !== lineId));
+      return;
+    }
+    setLines((prev) =>
+      prev.map((line) => (line.id === lineId ? { ...line, quantity } : line)),
+    );
+  }, []);
+
   const clearCart = useCallback(() => setLines([]), []);
 
   const itemCount = useMemo(
@@ -147,11 +158,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       openCart,
       closeCart,
       addToCart,
+      updateLineQuantity,
       removeLine,
       clearCart,
       itemCount,
     }),
-    [lines, isOpen, openCart, closeCart, addToCart, removeLine, clearCart, itemCount],
+    [lines, isOpen, openCart, closeCart, addToCart, updateLineQuantity, removeLine, clearCart, itemCount],
   );
 
   return (
@@ -164,6 +176,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         onClose={closeCart}
         lines={lines}
         onRemove={removeLine}
+        onUpdateQuantity={updateLineQuantity}
         onSendOrder={sendOrder}
       />
     </CartContext.Provider>
@@ -183,16 +196,39 @@ function CartDialog({
   onClose,
   lines,
   onRemove,
+  onUpdateQuantity,
   onSendOrder,
 }: {
   isOpen: boolean;
   onClose: () => void;
   lines: CartLine[];
   onRemove: (id: string) => void;
+  onUpdateQuantity: (id: string, quantity: number) => void;
   onSendOrder: () => void;
 }) {
+  const [editingLineId, setEditingLineId] = useState<string | null>(null);
+  const [draftQuantity, setDraftQuantity] = useState('');
+
   const totalIdr = lines.reduce((s, l) => s + l.unitPriceIdr * l.quantity, 0);
   const totalStr = totalIdr.toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+  function startEditing(line: CartLine) {
+    setEditingLineId(line.id);
+    setDraftQuantity(String(line.quantity));
+  }
+
+  function stopEditing() {
+    setEditingLineId(null);
+    setDraftQuantity('');
+  }
+
+  function commitQuantity(line: CartLine) {
+    const next = Number.parseInt(draftQuantity, 10);
+    if (Number.isFinite(next) && next > 0) {
+      onUpdateQuantity(line.id, next);
+    }
+    stopEditing();
+  }
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
@@ -245,8 +281,44 @@ function CartDialog({
                       {line.packLabel.trim() ? (
                         <p className="text-sm opacity-80">{line.packLabel.trim()}</p>
                       ) : null}
-                      <p className="text-sm mt-1">
-                        x{line.quantity} · IDR {formatPriceNumberAsK(line.unitPriceIdr * line.quantity)}
+                      <p className="mt-1 text-sm">
+                        {editingLineId === line.id ? (
+                          <span className="inline-flex items-center gap-1">
+                            <span>x</span>
+                            <input
+                              type="number"
+                              min={1}
+                              value={draftQuantity}
+                              onChange={(event) => setDraftQuantity(event.target.value)}
+                              onBlur={() => commitQuantity(line)}
+                              onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                  event.preventDefault();
+                                  commitQuantity(line);
+                                } else if (event.key === 'Escape') {
+                                  event.preventDefault();
+                                  stopEditing();
+                                }
+                              }}
+                              className="w-12 rounded border border-moss-green-300/50 bg-white-water px-1 py-0.5 text-center text-sm font-medium text-black-sand outline-none"
+                              aria-label={`Quantity of ${line.name}`}
+                              autoFocus
+                            />
+                            <span>{`· IDR ${formatPriceNumberAsK(line.unitPriceIdr * line.quantity)}`}</span>
+                          </span>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => startEditing(line)}
+                              className="cursor-pointer font-medium text-black-sand underline decoration-dotted underline-offset-2"
+                              aria-label={`Edit quantity of ${line.name}`}
+                            >
+                              x{line.quantity}
+                            </button>
+                            {` · IDR ${formatPriceNumberAsK(line.unitPriceIdr * line.quantity)}`}
+                          </>
+                        )}
                       </p>
                     </div>
                     <button
