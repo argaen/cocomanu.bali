@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 
-import Section from '@/components/Section';
 import ShopProductsSection from '@/components/ShopProductsSection';
 import { getProducts } from '@/lib/notion';
+import { resolveLocalShopImage } from '@/lib/shop-images';
 
 import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
 import type { ShopItem } from '@/components/ShopCollection';
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Cocomanu - Shop",
@@ -28,7 +30,7 @@ export default async function Shop() {
     category: p.category,
     categoryColor: p.categoryColor,
     slug: p.slug,
-    image: p.image || ProductPlaceholder,
+    image: resolveLocalShopImage(p.slug, p.image || ProductPlaceholder.src),
   }));
 
   return (

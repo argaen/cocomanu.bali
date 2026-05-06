@@ -8,7 +8,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "download:shop-images": "node scripts/download-shop-images.mjs"
   },
   "dependencies": {
     "@9gustin/react-notion-render": "^3.11.3",

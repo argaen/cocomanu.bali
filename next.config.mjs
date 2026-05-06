@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    // Explicitly allow project-served static images in both local and production.
+    localPatterns: [
+      {
+        pathname: '/images/**',
+      },
+    ],
     // Keep optimization enabled, but explicitly allow all remote hosts we use.
     remotePatterns: [
       {
