@@ -156,6 +156,12 @@ function getSlugFromPage(page) {
   return '';
 }
 
+function getNameFromPage(page) {
+  const prop = page.properties?.Name;
+  if (!prop || prop.type !== 'title' || !Array.isArray(prop.title)) return '';
+  return (prop.title[0]?.plain_text || '').trim();
+}
+
 function getPhotoUrlFromPage(page) {
   const prop = page.properties?.Photo;
   if (!prop || prop.type !== 'files' || !Array.isArray(prop.files) || prop.files.length === 0) return '';
@@ -186,15 +192,21 @@ async function main() {
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   const pages = await fetchAllProducts();
   let downloaded = 0;
-  let skipped = 0;
+  const skippedEntries = [];
 
   for (const page of pages) {
     const rawSlug = getSlugFromPage(page);
     const slug = sanitizeSlug(rawSlug);
     const imageUrl = getPhotoUrlFromPage(page);
+    const name = getNameFromPage(page);
+    const label = slug || name || page.id;
 
-    if (!slug || !imageUrl) {
-      skipped += 1;
+    if (!slug) {
+      skippedEntries.push({ label, reason: 'missing slug' });
+      continue;
+    }
+    if (!imageUrl) {
+      skippedEntries.push({ label: slug, reason: 'missing photo' });
       continue;
     }
 
@@ -206,12 +218,19 @@ async function main() {
       downloaded += 1;
       console.log(`Downloaded ${slug} -> ${path.relative(process.cwd(), finalPath)}`);
     } catch (error) {
-      skipped += 1;
-      console.warn(`Skipped ${slug}: ${error instanceof Error ? error.message : String(error)}`);
+      const reason = error instanceof Error ? error.message : String(error);
+      skippedEntries.push({ label: slug, reason });
     }
   }
 
-  console.log(`Done. Downloaded: ${downloaded}, Skipped: ${skipped}`);
+  if (skippedEntries.length > 0) {
+    console.log('\nSkipped items:');
+    for (const entry of skippedEntries) {
+      console.log(`  - ${entry.label} (${entry.reason})`);
+    }
+  }
+
+  console.log(`\nDone. Downloaded: ${downloaded}, Skipped: ${skippedEntries.length}`);
 }
 
 main().catch((error) => {

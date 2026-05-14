@@ -341,7 +341,7 @@ export default function ShopCollection({
             className="flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl bg-white-water shadow-xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="relative h-56 w-full shrink-0 overflow-hidden bg-moss-green-100/15">
+            <div className="relative h-56 w-full shrink-0 overflow-hidden bg-moss-green-100/15 md:h-80 lg:h-96">
               <Image
                 src={
                   failedImageIds[(modalItem || selectedItem).id]
