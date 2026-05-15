@@ -3,12 +3,12 @@
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import type { NotionBlock } from '@9gustin/react-notion-render';
 
 import type { StaticImageData } from 'next/image';
-import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Carrot, ChefHat, Flower2, Shovel, Sprout, Tag } from 'lucide-react';
 
 import CustomTooltip from '@/components/Tooltip';
@@ -42,6 +42,8 @@ function packLabelFromSpec(spec: ProductQuantitySpec): string {
 export type ShopItem = {
   id: string;
   name: string;
+  variant: string;
+  groupKey: string;
   description: string;
   price: number;
   quantitySpec: ProductQuantitySpec;
@@ -49,6 +51,18 @@ export type ShopItem = {
   categoryColor: string;
   slug: string;
   image: string | StaticImageData;
+};
+
+function displayNameForCart(item: Pick<ShopItem, 'name' | 'variant'>): string {
+  if (item.variant?.trim()) return `${item.name} (${item.variant.trim()})`;
+  return item.name;
+}
+
+type ShopGalleryDir = 'next' | 'prev';
+
+type ShopGalleryEntry = {
+  index: number;
+  dir: ShopGalleryDir;
 };
 
 export type ShopCollectionProps = {
@@ -82,6 +96,8 @@ export default function ShopCollection({
   const [detailError, setDetailError] = useState('');
   const [failedImageIds, setFailedImageIds] = useState<Record<string, true>>({});
   const [showTooltips, setShowTooltips] = useState(false);
+  /** Per-group variant index + last navigation direction (for slide animation). */
+  const [groupGallery, setGroupGallery] = useState<Record<string, ShopGalleryEntry>>({});
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -90,6 +106,47 @@ export default function ShopCollection({
     mediaQuery.addEventListener('change', updateTooltips);
     return () => mediaQuery.removeEventListener('change', updateTooltips);
   }, []);
+
+  const itemGroups = useMemo(() => {
+    const map = new Map<string, ShopItem[]>();
+    for (const item of items) {
+      const key = (item.groupKey || item.name).trim() || item.slug;
+      const list = map.get(key);
+      if (list) list.push(item);
+      else map.set(key, [item]);
+    }
+    const entries = Array.from(map.entries()).map(([groupLabel, groupItems]) => ({
+      groupLabel,
+      groupItems: [...groupItems].sort((a, b) => {
+        const va = (a.variant || a.slug).toLowerCase();
+        const vb = (b.variant || b.slug).toLowerCase();
+        return va.localeCompare(vb);
+      }),
+    }));
+    entries.sort((a, b) => a.groupLabel.localeCompare(b.groupLabel));
+    return entries;
+  }, [items]);
+
+  useEffect(() => {
+    setGroupGallery({});
+  }, [items]);
+
+  useEffect(() => {
+    if (!urlProductSlug) return;
+    for (const group of itemGroups) {
+      const idx = group.groupItems.findIndex((i) => i.slug === urlProductSlug);
+      if (idx >= 0) {
+        setGroupGallery((prev) => ({
+          ...prev,
+          [group.groupLabel]: {
+            index: idx,
+            dir: prev[group.groupLabel]?.dir ?? 'next',
+          },
+        }));
+        break;
+      }
+    }
+  }, [urlProductSlug, itemGroups]);
 
   useEffect(() => {
     if (!selectedItem) return undefined;
@@ -160,6 +217,8 @@ export default function ShopCollection({
           product?: {
             id: string;
             name: string;
+            variant?: string;
+            groupKey?: string;
             description: string;
             price: number;
             quantitySpec: ProductQuantitySpec;
@@ -172,7 +231,10 @@ export default function ShopCollection({
         };
         if (data.product) {
           setModalItem({
+            ...item,
             ...data.product,
+            variant: data.product.variant ?? item.variant,
+            groupKey: data.product.groupKey ?? item.groupKey,
             image: data.product.image || item.image,
           });
         } else {
@@ -246,87 +308,164 @@ export default function ShopCollection({
 
   return (
     <>
-      <div className={twMerge('grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 pb-10', containerClassName)}>
+      <div className={twMerge('grid grid-cols-1 gap-6 pt-6 pb-10 md:grid-cols-2 lg:grid-cols-4', containerClassName)}>
         {showTooltips ? <CustomTooltip id="shop-add-cart" /> : null}
         {showTooltips ? <CustomTooltip id="shop-category" /> : null}
-        {items.map((item, index) => (
-          <article
-            key={item.id}
-            role="button"
-            tabIndex={0}
-            onClick={() => {
-              void openProductDetail(item);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
+        {itemGroups.map(({ groupLabel, groupItems }, groupIndex) => {
+          const len = groupItems.length;
+          const entry = groupGallery[groupLabel];
+          const rawSlide = entry?.index ?? 0;
+          const slide = len > 0 ? Math.min(Math.max(0, rawSlide), len - 1) : 0;
+          const slideDir: ShopGalleryDir = entry?.dir ?? 'next';
+          const item = groupItems[slide] ?? groupItems[0];
+          if (!item) return null;
+
+          const showGallery = len > 1;
+          const cardHeading = displayNameForCart(item);
+          const atStart = slide <= 0;
+          const atEnd = slide >= len - 1;
+
+          const imageAnimClass =
+            slideDir === 'prev' ? 'animate-shop-variant-from-left' : 'animate-shop-variant-from-right';
+
+          const bumpSlide = (delta: number) => (event: MouseEvent) => {
+            event.stopPropagation();
+            setGroupGallery((prev) => {
+              const curEntry = prev[groupLabel];
+              const cur = Math.min(Math.max(0, curEntry?.index ?? 0), len - 1);
+              const next = cur + delta;
+              if (next < 0 || next > len - 1) return prev;
+              return {
+                ...prev,
+                [groupLabel]: {
+                  index: next,
+                  dir: delta > 0 ? 'next' : 'prev',
+                },
+              };
+            });
+          };
+
+          return (
+            <article
+              key={groupLabel}
+              role="button"
+              tabIndex={0}
+              onClick={() => {
                 void openProductDetail(item);
-              }
-            }}
-            className={twMerge(
-              'flex h-full cursor-pointer flex-col bg-white-water text-black-sand rounded-md shadow-md overflow-hidden transition-shadow hover:shadow-lg',
-              itemClassName,
-            )}
-          >
-            <div className="relative h-52 w-full shrink-0 overflow-hidden bg-moss-green-100/15">
-              <Image
-                src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
-                alt={item.name}
-                fill
-                sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
-                priority={index < 4}
-                className="object-cover transition-opacity duration-300"
-                {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
-                onError={() =>
-                  setFailedImageIds((prev) => ({
-                    ...prev,
-                    [item.id]: true,
-                  }))
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  void openProductDetail(item);
                 }
-              />
-            </div>
-            <div className="flex min-h-0 flex-1 flex-col gap-3 p-4">
-              <div className="shrink-0 flex items-center gap-2">
-                <h3 className="text-xl font-bold text-moss-green-200">{item.name}</h3>
-                {item.category && (
-                  <span
-                    data-tooltip-id={showTooltips ? 'shop-category' : undefined}
-                    data-tooltip-content={showTooltips ? item.category : undefined}
-                    aria-label={item.category}
-                    className="inline-flex items-center justify-center"
-                    style={{ color: item.categoryColor || '#928E43', opacity: 0.92 }}
-                  >
-                    {categoryIcon(item.category)}
-                  </span>
-                )}
-              </div>
-              <p className="min-h-0 flex-1 text-base leading-relaxed opacity-90">{item.description}</p>
-              <div className="shrink-0 flex items-center justify-between gap-3">
-                <p className="min-w-0 flex-1 text-base font-semibold text-moss-green-200">
-                  {formatProductPriceDisplay(item)}
-                </p>
-                <button
-                  type="button"
-                  data-tooltip-id={showTooltips ? 'shop-add-cart' : undefined}
-                  data-tooltip-content={showTooltips ? 'Add to cart' : undefined}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    addToCart({
-                      productId: item.id,
-                      name: item.name,
-                      packLabel: packLabelFromSpec(item.quantitySpec),
-                      unitPriceIdr: item.price,
-                    });
-                  }}
-                  className="cta before:bg-moss-green-100 shrink-0 flex size-10 cursor-pointer items-center justify-center !rounded-full bg-moss-green-200 text-white-water shadow-md"
-                  aria-label={`Add ${item.name} to cart`}
+              }}
+              className={twMerge(
+                'flex h-full cursor-pointer flex-col overflow-hidden rounded-md bg-white-water text-black-sand shadow-md transition-shadow hover:shadow-lg',
+                itemClassName,
+              )}
+            >
+              <div className="relative h-52 w-full shrink-0 overflow-hidden bg-moss-green-100/15">
+                <div
+                  key={item.id}
+                  className={twMerge('absolute inset-0 will-change-transform', imageAnimClass)}
                 >
-                  <PlusIcon className="z-10 size-6" />
-                </button>
+                  <Image
+                    src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
+                    alt={cardHeading}
+                    fill
+                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                    priority={groupIndex < 4}
+                    className="object-cover"
+                    {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
+                    onError={() =>
+                      setFailedImageIds((prev) => ({
+                        ...prev,
+                        [item.id]: true,
+                      }))
+                    }
+                  />
+                </div>
+                {showGallery ? (
+                  <>
+                    <button
+                      type="button"
+                      disabled={atStart}
+                      onClick={bumpSlide(-1)}
+                      className={twMerge(
+                        'absolute left-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white-water/90 text-moss-green-200 shadow-md transition-all duration-200 ease-out',
+                        atStart
+                          ? 'cursor-not-allowed opacity-35'
+                          : 'cursor-pointer hover:bg-white-water hover:shadow-lg active:scale-95',
+                      )}
+                      aria-label="Previous variant"
+                    >
+                      <ChevronLeftIcon className="size-6" />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={atEnd}
+                      onClick={bumpSlide(1)}
+                      className={twMerge(
+                        'absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white-water/90 text-moss-green-200 shadow-md transition-all duration-200 ease-out',
+                        atEnd
+                          ? 'cursor-not-allowed opacity-35'
+                          : 'cursor-pointer hover:bg-white-water hover:shadow-lg active:scale-95',
+                      )}
+                      aria-label="Next variant"
+                    >
+                      <ChevronRightIcon className="size-6" />
+                    </button>
+                  </>
+                ) : null}
               </div>
-            </div>
-          </article>
-        ))}
+              <div
+                key={item.id}
+                className="flex min-h-0 flex-1 animate-shop-variant-copy flex-col gap-3 p-4"
+              >
+                <div className="flex shrink-0 flex-col gap-0.5">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-moss-green-200">{cardHeading}</h3>
+                    {item.category ? (
+                      <span
+                        data-tooltip-id={showTooltips ? 'shop-category' : undefined}
+                        data-tooltip-content={showTooltips ? item.category : undefined}
+                        aria-label={item.category}
+                        className="inline-flex items-center justify-center"
+                        style={{ color: item.categoryColor || '#928E43', opacity: 0.92 }}
+                      >
+                        {categoryIcon(item.category)}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+                <p className="min-h-0 flex-1 text-base leading-relaxed opacity-90">{item.description}</p>
+                <div className="flex shrink-0 items-center justify-between gap-3">
+                  <p className="min-w-0 flex-1 text-base font-semibold text-moss-green-200">
+                    {formatProductPriceDisplay(item)}
+                  </p>
+                  <button
+                    type="button"
+                    data-tooltip-id={showTooltips ? 'shop-add-cart' : undefined}
+                    data-tooltip-content={showTooltips ? 'Add to cart' : undefined}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      addToCart({
+                        productId: item.id,
+                        name: cardHeading,
+                        packLabel: packLabelFromSpec(item.quantitySpec),
+                        unitPriceIdr: item.price,
+                      });
+                    }}
+                    className="cta before:bg-moss-green-100 shrink-0 flex size-10 cursor-pointer items-center justify-center !rounded-full bg-moss-green-200 text-white-water shadow-md"
+                    aria-label={`Add ${cardHeading} to cart`}
+                  >
+                    <PlusIcon className="z-10 size-6" />
+                  </button>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
 
       {selectedItem && (
@@ -334,66 +473,75 @@ export default function ShopCollection({
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
           role="dialog"
           aria-modal="true"
-          aria-label={`${selectedItem.name} details`}
+          aria-label={`${displayNameForCart(modalItem || selectedItem)} details`}
           onClick={closeProductModal}
         >
           <div
-            className="flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl bg-white-water shadow-xl"
+            className="relative flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl bg-white-water shadow-xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="relative h-56 w-full shrink-0 overflow-hidden bg-moss-green-100/15 md:h-80 lg:h-96">
-              <Image
-                src={
-                  failedImageIds[(modalItem || selectedItem).id]
-                    ? ProductPlaceholder
-                    : ((modalItem?.image || selectedItem.image) as string | StaticImageData)
-                }
-                alt={modalItem?.name || selectedItem.name}
-                fill
-                sizes="(max-width: 767px) 100vw, 768px"
-                className="object-cover transition-opacity duration-300"
-                {...blurPlaceholderProps(
-                  failedImageIds[(modalItem || selectedItem).id]
-                    ? ProductPlaceholder
-                    : ((modalItem?.image || selectedItem.image) as string | StaticImageData),
-                )}
-                onError={() =>
-                  setFailedImageIds((prev) => ({
-                    ...prev,
-                    [(modalItem || selectedItem).id]: true,
-                  }))
-                }
-              />
-              <button
-                type="button"
-                onClick={closeProductModal}
-                className="absolute right-3 top-3 cursor-pointer rounded-full bg-white-water/90 p-2 text-moss-green-200 shadow hover:bg-white-water"
-                aria-label="Close"
-              >
-                <XMarkIcon className="size-5" />
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto p-6 pb-10">
-              <div className="mb-6">
-                <h3 className="text-3xl font-bold text-moss-green-200 md:text-4xl">{modalItem?.name || selectedItem.name}</h3>
-                <p className="mt-1 text-lg font-semibold text-moss-green-200">
-                  {formatProductPriceDisplay(modalItem || selectedItem)}
-                </p>
-              </div>
-              {isLoadingDetail ? (
-                <p className="text-black-sand/70">Loading description...</p>
-              ) : detailBlocks.length > 0 ? (
-                <div className="notion-content">
-                  <RenderNotion blocks={detailBlocks} />
+            <button
+              type="button"
+              onClick={closeProductModal}
+              className="absolute right-3 top-3 z-20 cursor-pointer rounded-full bg-white-water/90 p-2 text-moss-green-200 shadow hover:bg-white-water"
+              aria-label="Close"
+            >
+              <XMarkIcon className="size-5" />
+            </button>
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <div className="relative h-56 w-full overflow-hidden bg-moss-green-100/15 md:h-80 lg:h-96">
+                <div
+                  key={(modalItem || selectedItem).id}
+                  className="absolute inset-0 will-change-transform animate-shop-variant-from-right"
+                >
+                  <Image
+                    src={
+                      failedImageIds[(modalItem || selectedItem).id]
+                        ? ProductPlaceholder
+                        : ((modalItem?.image || selectedItem.image) as string | StaticImageData)
+                    }
+                    alt={displayNameForCart(modalItem || selectedItem)}
+                    fill
+                    sizes="(max-width: 767px) 100vw, 768px"
+                    className="object-cover"
+                    {...blurPlaceholderProps(
+                      failedImageIds[(modalItem || selectedItem).id]
+                        ? ProductPlaceholder
+                        : ((modalItem?.image || selectedItem.image) as string | StaticImageData),
+                    )}
+                    onError={() =>
+                      setFailedImageIds((prev) => ({
+                        ...prev,
+                        [(modalItem || selectedItem).id]: true,
+                      }))
+                    }
+                  />
                 </div>
-              ) : (
-                <p className="whitespace-pre-line text-base leading-relaxed text-black-sand">
-                  {(modalItem?.description || selectedItem.description)}
-                </p>
-              )}
-              {detailError ? (
-                <p className="mt-3 text-sm text-red-700">{detailError}</p>
-              ) : null}
+              </div>
+              <div className="p-6 pb-10">
+                <div className="mb-6">
+                  <h3 className="text-3xl font-bold text-moss-green-200 md:text-4xl">
+                    {displayNameForCart(modalItem || selectedItem)}
+                  </h3>
+                  <p className="mt-1 text-lg font-semibold text-moss-green-200">
+                    {formatProductPriceDisplay(modalItem || selectedItem)}
+                  </p>
+                </div>
+                {isLoadingDetail ? (
+                  <p className="text-black-sand/70">Loading description...</p>
+                ) : detailBlocks.length > 0 ? (
+                  <div className="notion-content">
+                    <RenderNotion blocks={detailBlocks} />
+                  </div>
+                ) : (
+                  <p className="whitespace-pre-line text-base leading-relaxed text-black-sand">
+                    {(modalItem?.description || selectedItem.description)}
+                  </p>
+                )}
+                {detailError ? (
+                  <p className="mt-3 text-sm text-red-700">{detailError}</p>
+                ) : null}
+              </div>
             </div>
             <div className="flex items-center justify-end gap-3 border-t border-moss-green-300/30 px-4 pb-4 pt-5">
               <button
@@ -408,7 +556,7 @@ export default function ShopCollection({
                 onClick={() =>
                   addToCart({
                     productId: (modalItem || selectedItem).id,
-                    name: (modalItem || selectedItem).name,
+                    name: displayNameForCart(modalItem || selectedItem),
                     packLabel: packLabelFromSpec((modalItem || selectedItem).quantitySpec),
                     unitPriceIdr: (modalItem || selectedItem).price,
                   })

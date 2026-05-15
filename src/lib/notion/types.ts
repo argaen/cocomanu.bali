@@ -10,8 +10,13 @@ export type RichTextProperty = {
   rich_text: { plain_text: string }[];
 };
 
+/** Notion formula results vary by `type`; slug formulas are usually `{ type: 'string', string: ... }`. */
 export type FormulaProperty = {
-  formula: { string: string };
+  formula: {
+    type?: string;
+    string?: string | null;
+    number?: number | null;
+  };
 };
 
 export type FilesProperty = {
@@ -72,6 +77,13 @@ export type ProductQuantitySpec = {
 export type Product = {
   id: string;
   name: string;
+  /** Optional variant label from Notion (e.g. flavor, color). */
+  variant: string;
+  /**
+   * Rows with the same group key are shown under one heading in the shop.
+   * Uses Notion `Product line` when set, otherwise the product `Name` (variants should share the same name/line).
+   */
+  groupKey: string;
   description: string;
   price: number;
   quantitySpec: ProductQuantitySpec;

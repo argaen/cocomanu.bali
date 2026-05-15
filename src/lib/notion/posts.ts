@@ -60,7 +60,7 @@ function pageToPost(page: DatabaseObjectResponse) {
     title: (page.properties.Title as unknown as TitleProperty).title[0].plain_text,
     date: (page.properties['Published Date'] as unknown as DateProperty).date.start,
     summary: (page.properties.Summary as unknown as RichTextProperty).rich_text[0].plain_text,
-    slug: (page.properties.Slug as unknown as FormulaProperty).formula.string,
+    slug: (page.properties.Slug as unknown as FormulaProperty).formula.string ?? '',
     image: (page.properties['Featured Image'] as unknown as FilesProperty).files[0].external.url,
     reading: (page.properties['Reading Time'] as unknown as NumberProperty).number,
     status: (page.properties['Post Status'] as unknown as StatusProperty).status.name,

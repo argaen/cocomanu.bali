@@ -185,6 +185,36 @@ function categoryFromProperty(property: unknown): string {
   return '';
 }
 
+function variantFromProperty(property: unknown): string {
+  if (!property || typeof property !== 'object') return '';
+  const prop = property as { type?: string };
+
+  if (prop.type === 'select') {
+    const select = (property as SelectProperty).select;
+    return select?.name?.trim() ?? '';
+  }
+  if (prop.type === 'rich_text') {
+    const rt = (property as RichTextProperty).rich_text;
+    if (Array.isArray(rt) && rt.length > 0) return (rt[0]?.plain_text ?? '').trim();
+    return '';
+  }
+  if (prop.type === 'title') {
+    const t = (property as TitleProperty).title;
+    if (Array.isArray(t) && t.length > 0) return (t[0]?.plain_text ?? '').trim();
+    return '';
+  }
+  if (prop.type === 'formula') {
+    const f = (property as FormulaProperty).formula;
+    if (f?.type === 'string' && typeof f.string === 'string') return f.string.trim();
+    if (f?.type === 'number' && typeof f.number === 'number') return String(f.number);
+  }
+  if (prop.type === 'multi_select') {
+    const ms = (property as MultiSelectProperty).multi_select;
+    if (Array.isArray(ms) && ms.length > 0) return ms.map((m) => m.name).filter(Boolean).join(', ');
+  }
+  return '';
+}
+
 function categoryColorFromProperty(property: unknown): string {
   if (!property || typeof property !== 'object') return '';
 
@@ -212,10 +242,16 @@ function pageToProduct(page: DatabaseObjectResponse): Product {
   const categoryColor = categoryColorFromProperty(page.properties.Categories);
 
   const image = firstFileUrlFromProperty(page.properties.Photo);
+  const name = ((page.properties.Name as unknown) as TitleProperty).title[0]?.plain_text ?? '';
+  const variant = variantFromProperty(page.properties.Variant);
+  const productLine = selectOrTextToString(page.properties['Product line']);
+  const groupKey = (productLine || name).trim();
 
   return {
     id: page.id,
-    name: ((page.properties.Name as unknown) as TitleProperty).title[0]?.plain_text ?? '',
+    name: name.trim(),
+    variant,
+    groupKey,
     description: ((page.properties.Description as unknown) as RichTextProperty).rich_text[0]?.plain_text ?? '',
     price: ((page.properties.Price as unknown) as NumberProperty).number ?? 0,
     quantitySpec: { quantity, unit },

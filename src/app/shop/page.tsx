@@ -24,6 +24,8 @@ export default async function Shop() {
   const items: ShopItem[] = products.map((p) => ({
     id: p.id,
     name: p.name,
+    variant: p.variant,
+    groupKey: p.groupKey,
     description: p.description,
     price: p.price,
     quantitySpec: p.quantitySpec,

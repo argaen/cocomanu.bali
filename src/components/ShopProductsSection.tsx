@@ -28,9 +28,14 @@ function ShopProductsSectionInner({ items }: ShopProductsSectionProps) {
 
   const filteredItems = useMemo(
     () => items.filter((item) => {
-      const matchName = item.name.toLowerCase().includes(query.trim().toLowerCase());
+      const q = query.trim().toLowerCase();
+      const matchText =
+        !q
+        || item.name.toLowerCase().includes(q)
+        || item.variant.toLowerCase().includes(q)
+        || item.groupKey.toLowerCase().includes(q);
       const matchCategory = activeCategory === 'All' || item.category === activeCategory;
-      return matchName && matchCategory;
+      return matchText && matchCategory;
     }),
     [items, query, activeCategory],
   );
@@ -48,7 +53,7 @@ function ShopProductsSectionInner({ items }: ShopProductsSectionProps) {
             value={query}
             onChange={setQuery}
             className="w-full md:flex-1"
-            placeholder="Search products by name..."
+            placeholder="Search by name or product line..."
           />
           <div className="w-full md:w-72">
             <Listbox value={activeCategory} onChange={setActiveCategory}>

@@ -181,6 +181,6 @@ function pageToPlant(page: DatabaseObjectResponse): Plant {
       color: COLOR_MAP[o.color] || o.color,
     })),
     scientific: (page.properties['Scientific Name'] as unknown as RichTextProperty).rich_text[0]?.plain_text,
-    slug: (page.properties.Slug as unknown as FormulaProperty).formula.string,
+    slug: (page.properties.Slug as unknown as FormulaProperty).formula.string ?? '',
   };
 }
