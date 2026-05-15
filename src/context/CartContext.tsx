@@ -263,7 +263,9 @@ function CartDialog({
               className="size-5 shrink-0 text-dawn-rays-100"
               aria-hidden
             />
-            <p>We only deliver in the Yeh Sumbul/Medewi area.</p>
+            <p>
+              We only deliver in the Yeh Sumbul/Medewi area on orders over IDR 100k.
+            </p>
           </div>
 
           <div className="flex-1 overflow-y-auto px-4 py-3">
