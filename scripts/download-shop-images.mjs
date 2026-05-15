@@ -188,11 +188,55 @@ async function fetchAllProducts() {
   return pages;
 }
 
+function slugFromFilename(filename) {
+  return path.basename(filename, path.extname(filename));
+}
+
+async function removeOrphanShopImages(validSlugs) {
+  let removed = 0;
+  let entries;
+  try {
+    entries = await fs.readdir(OUTPUT_DIR);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      return 0;
+    }
+    throw error;
+  }
+
+  for (const entry of entries) {
+    const fullPath = path.join(OUTPUT_DIR, entry);
+    const stat = await fs.stat(fullPath);
+    if (!stat.isFile()) continue;
+
+    const slug = slugFromFilename(entry);
+    if (!validSlugs.has(slug)) {
+      await fs.unlink(fullPath);
+      removed += 1;
+      console.log(`Removed orphan ${path.relative(process.cwd(), fullPath)}`);
+    }
+  }
+
+  return removed;
+}
+
 async function main() {
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   const pages = await fetchAllProducts();
+  const validSlugs = new Set();
   let downloaded = 0;
   const skippedEntries = [];
+
+  for (const page of pages) {
+    const rawSlug = getSlugFromPage(page);
+    const slug = sanitizeSlug(rawSlug);
+    if (slug) validSlugs.add(slug);
+  }
+
+  const removed = await removeOrphanShopImages(validSlugs);
+  if (removed > 0) {
+    console.log(`Removed ${removed} image(s) with no matching Notion slug.\n`);
+  }
 
   for (const page of pages) {
     const rawSlug = getSlugFromPage(page);
@@ -230,7 +274,7 @@ async function main() {
     }
   }
 
-  console.log(`\nDone. Downloaded: ${downloaded}, Skipped: ${skippedEntries.length}`);
+  console.log(`\nDone. Downloaded: ${downloaded}, Removed orphans: ${removed}, Skipped: ${skippedEntries.length}`);
 }
 
 main().catch((error) => {
