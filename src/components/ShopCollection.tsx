@@ -325,9 +325,6 @@ export default function ShopCollection({
           const atStart = slide <= 0;
           const atEnd = slide >= len - 1;
 
-          const imageAnimClass =
-            slideDir === 'prev' ? 'animate-shop-variant-from-left' : 'animate-shop-variant-from-right';
-
           const bumpSlide = (delta: number) => (event: MouseEvent) => {
             event.stopPropagation();
             setGroupGallery((prev) => {
@@ -350,6 +347,7 @@ export default function ShopCollection({
               key={groupLabel}
               role="button"
               tabIndex={0}
+              data-gallery-dir={showGallery ? slideDir : undefined}
               onClick={() => {
                 void openProductDetail(item);
               }}
@@ -365,26 +363,57 @@ export default function ShopCollection({
               )}
             >
               <div className="relative h-52 w-full shrink-0 overflow-hidden bg-moss-green-100/15">
-                <div
-                  key={item.id}
-                  className={twMerge('absolute inset-0 will-change-transform', imageAnimClass)}
-                >
-                  <Image
-                    src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
-                    alt={cardHeading}
-                    fill
-                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
-                    priority={groupIndex < 4}
-                    className="object-cover"
-                    {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
-                    onError={() =>
-                      setFailedImageIds((prev) => ({
-                        ...prev,
-                        [item.id]: true,
-                      }))
-                    }
-                  />
-                </div>
+                {showGallery ? (
+                  groupItems.map((v) => {
+                    const isActive = v.id === item.id;
+                    const src = failedImageIds[v.id] ? ProductPlaceholder : v.image;
+                    return (
+                      <div
+                        key={v.id}
+                        className={twMerge(
+                          'absolute inset-0 transition-opacity duration-200 ease-out',
+                          isActive ? 'z-[1] opacity-100' : 'z-0 opacity-0 pointer-events-none',
+                        )}
+                        aria-hidden={!isActive}
+                      >
+                        <Image
+                          src={src}
+                          alt={isActive ? displayNameForCart(v) : ''}
+                          fill
+                          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                          priority={groupIndex < 4 && v.id === groupItems[0]?.id}
+                          loading="eager"
+                          className="object-cover"
+                          {...blurPlaceholderProps(src)}
+                          onError={() =>
+                            setFailedImageIds((prev) => ({
+                              ...prev,
+                              [v.id]: true,
+                            }))
+                          }
+                        />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="absolute inset-0">
+                    <Image
+                      src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
+                      alt={cardHeading}
+                      fill
+                      sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                      priority={groupIndex < 4}
+                      className="object-cover"
+                      {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
+                      onError={() =>
+                        setFailedImageIds((prev) => ({
+                          ...prev,
+                          [item.id]: true,
+                        }))
+                      }
+                    />
+                  </div>
+                )}
                 {showGallery ? (
                   <>
                     <button
@@ -392,7 +421,7 @@ export default function ShopCollection({
                       disabled={atStart}
                       onClick={bumpSlide(-1)}
                       className={twMerge(
-                        'absolute left-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white-water/90 text-moss-green-200 shadow-md transition-all duration-200 ease-out',
+                        'absolute left-2 top-1/2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white-water/90 text-moss-green-200 shadow-md transition-all duration-200 ease-out',
                         atStart
                           ? 'cursor-not-allowed opacity-35'
                           : 'cursor-pointer hover:bg-white-water hover:shadow-lg active:scale-95',
@@ -406,7 +435,7 @@ export default function ShopCollection({
                       disabled={atEnd}
                       onClick={bumpSlide(1)}
                       className={twMerge(
-                        'absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white-water/90 text-moss-green-200 shadow-md transition-all duration-200 ease-out',
+                        'absolute right-2 top-1/2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white-water/90 text-moss-green-200 shadow-md transition-all duration-200 ease-out',
                         atEnd
                           ? 'cursor-not-allowed opacity-35'
                           : 'cursor-pointer hover:bg-white-water hover:shadow-lg active:scale-95',
