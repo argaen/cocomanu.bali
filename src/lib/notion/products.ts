@@ -19,6 +19,10 @@ type GetProductsProps = {
   limit?: number;
 };
 
+const PRODUCT_SORTS = [
+  { property: 'Order', direction: 'ascending' as const },
+];
+
 export async function getProducts({
   limit,
 }: GetProductsProps = {}): Promise<Product[]> {
@@ -46,6 +50,7 @@ export async function getProducts({
     const response = await notion.databases.query({
       database_id: DATABASES.products,
       filter,
+      sorts: PRODUCT_SORTS,
       page_size: pageSize,
       start_cursor: startCursor,
     });
@@ -227,6 +232,13 @@ function categoryColorFromProperty(property: unknown): string {
   return COLOR_MAP.default;
 }
 
+function orderFromProperty(property: unknown): number {
+  if (!property || typeof property !== 'object') return Number.MAX_SAFE_INTEGER;
+  const prop = property as { type?: string; number?: number | null };
+  if (prop.type !== 'number' || prop.number == null) return Number.MAX_SAFE_INTEGER;
+  return prop.number;
+}
+
 function pageToProduct(page: DatabaseObjectResponse): Product {
   const quantity = ((page.properties.Quantity as unknown) as NumberProperty).number ?? 0;
   const unit = selectOrTextToString(page.properties['Quantity unit']);
@@ -251,6 +263,7 @@ function pageToProduct(page: DatabaseObjectResponse): Product {
     categoryColor,
     slug: ((page.properties.Slug as unknown) as FormulaProperty).formula.string ?? '',
     image,
+    order: orderFromProperty(page.properties.Order),
   };
 }
 

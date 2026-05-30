@@ -51,6 +51,10 @@ export type ShopItem = {
   categoryColor: string;
   slug: string;
   image: string | StaticImageData;
+  /** Position in the Notion product list (used to order variants within a group). */
+  listPosition: number;
+  /** Notion `Order` column (lower = earlier). */
+  order: number;
 };
 
 function displayNameForCart(item: Pick<ShopItem, 'name' | 'variant'>): string {
@@ -108,24 +112,29 @@ export default function ShopCollection({
   }, []);
 
   const itemGroups = useMemo(() => {
-    const groupOrder: string[] = [];
-    const map = new Map<string, ShopItem[]>();
+    type GroupAcc = { groupItems: ShopItem[]; minOrder: number };
+    const map = new Map<string, GroupAcc>();
 
     for (const item of items) {
       const key = (item.groupKey || item.name).trim() || item.slug;
-      const list = map.get(key);
-      if (list) {
-        list.push(item);
+      const existing = map.get(key);
+      if (existing) {
+        existing.groupItems.push(item);
+        existing.minOrder = Math.min(existing.minOrder, item.order);
       } else {
-        groupOrder.push(key);
-        map.set(key, [item]);
+        map.set(key, {
+          groupItems: [item],
+          minOrder: item.order,
+        });
       }
     }
 
-    return groupOrder.map((groupLabel) => ({
-      groupLabel,
-      groupItems: map.get(groupLabel) ?? [],
-    }));
+    return Array.from(map.entries())
+      .sort(([, a], [, b]) => a.minOrder - b.minOrder)
+      .map(([groupLabel, { groupItems }]) => ({
+        groupLabel,
+        groupItems: [...groupItems].sort((a, b) => a.order - b.order),
+      }));
   }, [items]);
 
   useEffect(() => {
@@ -365,37 +374,50 @@ export default function ShopCollection({
             >
               <div className="relative h-52 w-full shrink-0 overflow-hidden bg-moss-green-100/15">
                 {showGallery ? (
-                  groupItems.map((v) => {
-                    const isActive = v.id === item.id;
-                    const src = failedImageIds[v.id] ? ProductPlaceholder : v.image;
-                    return (
-                      <div
-                        key={v.id}
-                        className={twMerge(
-                          'absolute inset-0 transition-opacity duration-200 ease-out',
-                          isActive ? 'z-[1] opacity-100' : 'z-0 opacity-0 pointer-events-none',
-                        )}
-                        aria-hidden={!isActive}
-                      >
-                        <Image
-                          src={src}
-                          alt={isActive ? displayNameForCart(v) : ''}
-                          fill
-                          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
-                          priority={groupIndex < 4 && v.id === groupItems[0]?.id}
-                          loading="eager"
-                          className="object-cover"
-                          {...blurPlaceholderProps(src)}
-                          onError={() =>
-                            setFailedImageIds((prev) => ({
-                              ...prev,
-                              [v.id]: true,
-                            }))
-                          }
-                        />
-                      </div>
-                    );
-                  })
+                  <>
+                    <div className="absolute inset-0">
+                      <Image
+                        key={item.id}
+                        src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
+                        alt={cardHeading}
+                        fill
+                        sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                        priority={groupIndex < 4}
+                        className="object-cover"
+                        {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
+                        onError={() =>
+                          setFailedImageIds((prev) => ({
+                            ...prev,
+                            [item.id]: true,
+                          }))
+                        }
+                      />
+                    </div>
+                    {groupItems
+                      .filter((v) => v.id !== item.id)
+                      .map((v) => {
+                        const src = failedImageIds[v.id] ? ProductPlaceholder : v.image;
+                        return (
+                          <div key={v.id} className="pointer-events-none absolute inset-0 opacity-0" aria-hidden>
+                            <Image
+                              src={src}
+                              alt=""
+                              fill
+                              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                              loading="eager"
+                              className="object-cover"
+                              {...blurPlaceholderProps(src)}
+                              onError={() =>
+                                setFailedImageIds((prev) => ({
+                                  ...prev,
+                                  [v.id]: true,
+                                }))
+                              }
+                            />
+                          </div>
+                        );
+                      })}
+                  </>
                 ) : (
                   <div className="absolute inset-0">
                     <Image

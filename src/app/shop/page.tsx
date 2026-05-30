@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default async function Shop() {
   const products = await getProducts();
 
-  const items: ShopItem[] = products.map((p) => ({
+  const items: ShopItem[] = products.map((p, listPosition) => ({
     id: p.id,
     name: p.name,
     variant: p.variant,
@@ -33,6 +33,8 @@ export default async function Shop() {
     categoryColor: p.categoryColor,
     slug: p.slug,
     image: resolveLocalShopImage(p.slug, p.image || ProductPlaceholder.src),
+    listPosition,
+    order: p.order,
   }));
 
   return (

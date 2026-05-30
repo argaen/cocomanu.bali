@@ -91,6 +91,8 @@ export type Product = {
   categoryColor: string;
   slug: string;
   image: string;
+  /** Notion `Order` column (lower = earlier in shop). */
+  order: number;
 };
 
 export type CoworkingPricing = {
