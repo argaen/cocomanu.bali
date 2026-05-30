@@ -108,23 +108,24 @@ export default function ShopCollection({
   }, []);
 
   const itemGroups = useMemo(() => {
+    const groupOrder: string[] = [];
     const map = new Map<string, ShopItem[]>();
+
     for (const item of items) {
       const key = (item.groupKey || item.name).trim() || item.slug;
       const list = map.get(key);
-      if (list) list.push(item);
-      else map.set(key, [item]);
+      if (list) {
+        list.push(item);
+      } else {
+        groupOrder.push(key);
+        map.set(key, [item]);
+      }
     }
-    const entries = Array.from(map.entries()).map(([groupLabel, groupItems]) => ({
+
+    return groupOrder.map((groupLabel) => ({
       groupLabel,
-      groupItems: [...groupItems].sort((a, b) => {
-        const va = (a.variant || a.slug).toLowerCase();
-        const vb = (b.variant || b.slug).toLowerCase();
-        return va.localeCompare(vb);
-      }),
+      groupItems: map.get(groupLabel) ?? [],
     }));
-    entries.sort((a, b) => a.groupLabel.localeCompare(b.groupLabel));
-    return entries;
   }, [items]);
 
   useEffect(() => {

@@ -35,13 +35,6 @@ export async function getProducts({
     },
   } as const;
 
-  const sorts = [
-    {
-      property: 'Name',
-      direction: 'ascending' as const,
-    },
-  ];
-
   while (true) {
     if (limit != null && all.length >= limit) {
       return all.slice(0, limit).map((page) => pageToProduct(page));
@@ -53,7 +46,6 @@ export async function getProducts({
     const response = await notion.databases.query({
       database_id: DATABASES.products,
       filter,
-      sorts,
       page_size: pageSize,
       start_cursor: startCursor,
     });
