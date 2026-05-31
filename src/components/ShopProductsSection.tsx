@@ -53,7 +53,7 @@ function ShopProductsSectionInner({ items }: ShopProductsSectionProps) {
             value={query}
             onChange={setQuery}
             className="w-full md:flex-1"
-            placeholder="Search by name or product line..."
+            placeholder="Search by name..."
           />
           <div className="w-full md:w-72">
             <Listbox value={activeCategory} onChange={setActiveCategory}>
