@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { DayPicker, type DateRange } from 'react-day-picker';
 
-import { formatPriceNumberAsK } from '@/lib/notion';
+import { estimateColiveTotalFromNights, formatPriceNumberAsK } from '@/lib/notion';
 import { whatsappContactHref } from '@/lib/whatsapp';
 import type { ColivePricing } from '@/lib/notion';
 
@@ -42,25 +42,15 @@ function formatDisplayDate(date?: Date): string {
   });
 }
 
-function estimateColiveTotalFromNights(nights: number): number {
-  if (nights <= 0) return 0;
-  const rawTotal =
-    nights <= 7
-      ? 700000 + (nights - 1) * ((4200000 - 700000) / 6)
-      : 4200000 + (nights - 7) * ((13500000 - 4200000) / 23);
-
-  return Math.round(rawTotal / 50000) * 50000;
-}
-
-function formatCompactPrice(value: number): string {
+function formatTotalPrice(value: number): string {
   if (value >= 1_000_000) {
     const millions = value / 1_000_000;
-    return `${millions % 1 === 0 ? millions.toFixed(0) : millions.toFixed(1).replace(/\.0$/, '')}M`;
+    return `${millions % 1 === 0 ? millions.toFixed(0) : millions.toFixed(2).replace(/\.?0+$/, '')}M`;
   }
   return formatPriceNumberAsK(value);
 }
 
-export default function ColiveBookingForm({ pricing: _pricing }: ColiveBookingFormProps) {
+export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -69,7 +59,7 @@ export default function ColiveBookingForm({ pricing: _pricing }: ColiveBookingFo
   const popoverRef = useRef<HTMLDivElement | null>(null);
 
   const nights = nightsBetweenDates(startDate, endDate);
-  const total = nights > 0 ? estimateColiveTotalFromNights(nights) : 0;
+  const total = nights > 0 ? estimateColiveTotalFromNights(nights, pricing) : 0;
   const nightlyRate = nights > 0 ? Math.round(total / nights) : 0;
 
   const whatsappMessage = useMemo(() => {
@@ -81,7 +71,7 @@ export default function ColiveBookingForm({ pricing: _pricing }: ColiveBookingFo
       `End date: ${formatIsoDate(endDate)}`,
       `Nights: ${nights}`,
       `Nightly rate: IDR ${formatPriceNumberAsK(nightlyRate)}/night`,
-      `Calculated total: IDR ${formatCompactPrice(total)}`,
+      `Calculated total: IDR ${formatTotalPrice(total)}`,
     ].join('\n');
   }, [startDate, endDate, nights, nightlyRate, total]);
 
@@ -261,7 +251,7 @@ export default function ColiveBookingForm({ pricing: _pricing }: ColiveBookingFo
             <>
               <li>{`Stay length: ${nights} night${nights > 1 ? 's' : ''}`}</li>
               <li>{`Nightly rate: IDR ${formatPriceNumberAsK(nightlyRate)}/night`}</li>
-              <li className="font-semibold">{`Total: IDR ${formatCompactPrice(total)}`}</li>
+              <li className="font-semibold">{`Total: IDR ${formatTotalPrice(total)}`}</li>
             </>
           ) : (
             <li className="text-black-sand/70">Pick valid start and end dates to calculate your total.</li>
