@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { DayPicker, type DateRange } from 'react-day-picker';
 
-import { estimateColiveTotalFromNights, formatPriceNumberAsK } from '@/lib/notion';
+import { estimateColiveTotalFromNights, formatCompactPrice, formatPriceNumberAsK } from '@/lib/notion';
 import { whatsappContactHref } from '@/lib/whatsapp';
 import type { ColivePricing } from '@/lib/notion';
 
@@ -42,14 +42,6 @@ function formatDisplayDate(date?: Date): string {
   });
 }
 
-function formatTotalPrice(value: number): string {
-  if (value >= 1_000_000) {
-    const millions = value / 1_000_000;
-    return `${millions % 1 === 0 ? millions.toFixed(0) : millions.toFixed(2).replace(/\.?0+$/, '')}M`;
-  }
-  return formatPriceNumberAsK(value);
-}
-
 export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
@@ -71,7 +63,7 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
       `End date: ${formatIsoDate(endDate)}`,
       `Nights: ${nights}`,
       `Nightly rate: IDR ${formatPriceNumberAsK(nightlyRate)}/night`,
-      `Calculated total: IDR ${formatTotalPrice(total)}`,
+      `Calculated total: IDR ${formatCompactPrice(total)}`,
     ].join('\n');
   }, [startDate, endDate, nights, nightlyRate, total]);
 
@@ -251,7 +243,7 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
             <>
               <li>{`Stay length: ${nights} night${nights > 1 ? 's' : ''}`}</li>
               <li>{`Nightly rate: IDR ${formatPriceNumberAsK(nightlyRate)}/night`}</li>
-              <li className="font-semibold">{`Total: IDR ${formatTotalPrice(total)}`}</li>
+              <li className="font-semibold">{`Total: IDR ${formatCompactPrice(total)}`}</li>
             </>
           ) : (
             <li className="text-black-sand/70">Pick valid start and end dates to calculate your total.</li>

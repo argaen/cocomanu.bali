@@ -22,7 +22,7 @@ import {
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
-import { formatPriceNumberAsK, getCoworkingPricing } from '@/lib/notion';
+import { formatCompactPrice, formatPriceNumberAsK, getCoworkingPricing } from '@/lib/notion';
 
 import HeroImage from '@/assets/images/cowork-1.png';
 import ColiveImage from '@/assets/images/colive.png';
@@ -35,17 +35,6 @@ export const metadata: Metadata = {
     index: false,
   },
 };
-
-function formatCompactPrice(value: number): string {
-  const amount = Math.max(0, Math.round(value));
-  if (!Number.isFinite(amount)) return '0';
-  if (amount >= 1_000_000) {
-    const millions = amount / 1_000_000;
-    const body = Number(millions.toFixed(1)).toString().replace(/\.0$/, '');
-    return `${body}M`;
-  }
-  return formatPriceNumberAsK(amount);
-}
 
 function isDailyEntry(name: string): boolean {
   const normalized = name.trim().toLowerCase();

@@ -19,7 +19,7 @@ import {
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
 import ColiveBookingForm from '@/components/ColiveBookingForm';
-import { formatPriceNumberAsK, getColivePricing } from '@/lib/notion';
+import { formatCompactPrice, formatPriceNumberAsK, getColivePricing } from '@/lib/notion';
 
 import HeroImage from '@/assets/images/colive.png';
 import { GARDEN_IMAGE } from '@/lib/notion/constants';
@@ -32,17 +32,6 @@ export const metadata: Metadata = {
     index: false,
   },
 };
-
-function formatCompactPrice(value: number): string {
-  const amount = Math.max(0, Math.round(value));
-  if (!Number.isFinite(amount)) return '0';
-  if (amount >= 1_000_000) {
-    const millions = amount / 1_000_000;
-    const body = Number(millions.toFixed(1)).toString().replace(/\.0$/, '');
-    return `${body}M`;
-  }
-  return formatPriceNumberAsK(amount);
-}
 
 function isNightlyEntry(name: string): boolean {
   const normalized = name.trim().toLowerCase();

@@ -267,4 +267,4 @@ function pageToProduct(page: DatabaseObjectResponse): Product {
   };
 }
 
-export { formatProductPriceDisplay, formatPriceNumberAsK } from './product-price-format';
+export { formatCompactPrice, formatProductPriceDisplay, formatPriceNumberAsK } from './product-price-format';
