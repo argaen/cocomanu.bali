@@ -18,6 +18,7 @@ import { formatPriceNumberAsK } from '@/lib/notion/product-price-format';
 import {
   buildOrderWhatsappMessage,
   buildWhatsappOrderUrl,
+  createOrderId,
 } from '@/lib/order-whatsapp';
 import CustomTooltip from '@/components/Tooltip';
 
@@ -137,6 +138,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const sendOrder = useCallback(() => {
     if (lines.length === 0) return;
+    const orderId = createOrderId();
     const message = buildOrderWhatsappMessage(
       lines.map((l) => ({
         name: l.name,
@@ -144,6 +146,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         quantity: l.quantity,
         unitPriceIdr: l.unitPriceIdr,
       })),
+      orderId,
     );
     const url = buildWhatsappOrderUrl(message);
     clearCart();

@@ -19,7 +19,22 @@ export type OrderCartLine = {
   unitPriceIdr: number;
 };
 
-export function buildOrderWhatsappMessage(lines: OrderCartLine[]): string {
+/** Short client-side order ref, e.g. CM-A7K2X9 */
+export function createOrderId(): string {
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let suffix = '';
+  const bytes = new Uint8Array(6);
+  crypto.getRandomValues(bytes);
+  for (const byte of bytes) {
+    suffix += alphabet[byte % alphabet.length];
+  }
+  return `CM-${suffix}`;
+}
+
+export function buildOrderWhatsappMessage(
+  lines: OrderCartLine[],
+  orderId: string = createOrderId(),
+): string {
   const orderBody = lines
     .map((line) => {
       const pack = line.packLabel.trim();
@@ -33,7 +48,7 @@ export function buildOrderWhatsappMessage(lines: OrderCartLine[]): string {
   const totalStr = totalIdr.toLocaleString('en-US', { maximumFractionDigits: 0 });
 
   return [
-    `${WA.package} ORDER DETAILS`,
+    `${WA.package} ORDER *${orderId}* DETAILS`,
     '',
     `${WA.person} Name: [Your Name]`,
     `${WA.pin} Location: [Your Address / Area]`,
