@@ -14,6 +14,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
+import { sendGAEvent } from '@next/third-parties/google';
 import { formatPriceNumberAsK } from '@/lib/notion/product-price-format';
 import {
   buildOrderWhatsappMessage,
@@ -148,7 +149,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       })),
       orderId,
     );
+    const totalIdr = lines.reduce(
+      (sum, line) => sum + line.unitPriceIdr * line.quantity,
+      0,
+    );
     const url = buildWhatsappOrderUrl(message);
+    sendGAEvent('event', 'shop_order_sent', {
+      order_id: orderId,
+      value: totalIdr,
+      currency: 'IDR',
+    });
     clearCart();
     setIsOpen(false);
     window.open(url, '_blank', 'noopener,noreferrer');

@@ -120,6 +120,8 @@ export default function Home() {
             title="Nature At Home"
             text="Our plants are for you, enjoy exploring our food forest, discover new tropical forests and learn how we transformed a rice padi back into a jungle."
             href="/garden"
+            linkText="Coming soon"
+            linkDisabled
           />
         }
       />

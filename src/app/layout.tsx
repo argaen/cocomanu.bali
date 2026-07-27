@@ -1,6 +1,6 @@
 import Script from 'next/script';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from 'next';
 
 import '@/app/globals.css';
@@ -8,6 +8,8 @@ import '@/app/notion.css';
 import { CartProvider } from '@/context/CartContext';
 import Footer from '@/components/Footer';
 import TopNav from '@/components/TopNav';
+
+const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
   title: "Cocomanu",
@@ -64,7 +66,7 @@ export default function RootLayout({
           </div>
         </CartProvider>
         <SpeedInsights />
-        <Analytics />
+        {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
     </html>
   );
