@@ -154,10 +154,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       0,
     );
     const url = buildWhatsappOrderUrl(message);
-    sendGAEvent('event', 'shop_order_sent', {
-      order_id: orderId,
+    sendGAEvent('event', 'purchase', {
+      transaction_id: orderId,
       value: totalIdr,
       currency: 'IDR',
+      items: lines.map((line, index) => ({
+        item_id: line.productId,
+        item_name: line.name,
+        item_variant: line.packLabel,
+        price: line.unitPriceIdr,
+        quantity: line.quantity,
+        index,
+      })),
     });
     clearCart();
     setIsOpen(false);

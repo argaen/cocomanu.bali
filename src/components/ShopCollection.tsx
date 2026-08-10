@@ -332,6 +332,7 @@ export default function ShopCollection({
 
           const showGallery = len > 1;
           const cardHeading = displayNameForCart(item);
+          const cardTitle = showGallery ? item.name : cardHeading;
           const atStart = slide <= 0;
           const atEnd = slide >= len - 1;
 
@@ -437,38 +438,6 @@ export default function ShopCollection({
                     />
                   </div>
                 )}
-                {showGallery ? (
-                  <>
-                    <button
-                      type="button"
-                      disabled={atStart}
-                      onClick={bumpSlide(-1)}
-                      className={twMerge(
-                        'absolute left-2 top-1/2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white-water/90 text-moss-green-200 shadow-md transition-all duration-200 ease-out',
-                        atStart
-                          ? 'cursor-not-allowed opacity-35'
-                          : 'cursor-pointer hover:bg-white-water hover:shadow-lg active:scale-95',
-                      )}
-                      aria-label="Previous variant"
-                    >
-                      <ChevronLeftIcon className="size-6" />
-                    </button>
-                    <button
-                      type="button"
-                      disabled={atEnd}
-                      onClick={bumpSlide(1)}
-                      className={twMerge(
-                        'absolute right-2 top-1/2 z-20 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white-water/90 text-moss-green-200 shadow-md transition-all duration-200 ease-out',
-                        atEnd
-                          ? 'cursor-not-allowed opacity-35'
-                          : 'cursor-pointer hover:bg-white-water hover:shadow-lg active:scale-95',
-                      )}
-                      aria-label="Next variant"
-                    >
-                      <ChevronRightIcon className="size-6" />
-                    </button>
-                  </>
-                ) : null}
               </div>
               <div
                 key={item.id}
@@ -476,7 +445,7 @@ export default function ShopCollection({
               >
                 <div className="flex shrink-0 flex-col gap-0.5">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-xl font-bold text-moss-green-200">{cardHeading}</h3>
+                    <h3 className="text-xl font-bold text-moss-green-200">{cardTitle}</h3>
                     {item.category ? (
                       <span
                         data-tooltip-id={showTooltips ? 'shop-category' : undefined}
@@ -490,6 +459,50 @@ export default function ShopCollection({
                     ) : null}
                   </div>
                 </div>
+                {showGallery ? (
+                  <div
+                    className="flex shrink-0 items-center gap-1 rounded-md border border-moss-green-300/55 bg-moss-green-100/15 p-1"
+                    onClick={(event) => event.stopPropagation()}
+                    onKeyDown={(event) => event.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      disabled={atStart}
+                      onClick={bumpSlide(-1)}
+                      className={twMerge(
+                        'flex size-9 shrink-0 items-center justify-center rounded-md bg-moss-green-200 text-white-water transition-all duration-200 ease-out',
+                        atStart
+                          ? 'cursor-not-allowed opacity-35'
+                          : 'cursor-pointer hover:bg-moss-green-100 active:scale-95',
+                      )}
+                      aria-label="Previous option"
+                    >
+                      <ChevronLeftIcon className="size-5" />
+                    </button>
+                    <div className="min-w-0 flex-1 px-1 text-center">
+                      <p className="truncate text-sm font-semibold text-moss-green-200">
+                        {item.variant?.trim() || packLabelFromSpec(item.quantitySpec)}
+                      </p>
+                      <p className="text-xs text-black-sand/65">
+                        {slide + 1} of {len} options
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={atEnd}
+                      onClick={bumpSlide(1)}
+                      className={twMerge(
+                        'flex size-9 shrink-0 items-center justify-center rounded-md bg-moss-green-200 text-white-water transition-all duration-200 ease-out',
+                        atEnd
+                          ? 'cursor-not-allowed opacity-35'
+                          : 'cursor-pointer hover:bg-moss-green-100 active:scale-95',
+                      )}
+                      aria-label="Next option"
+                    >
+                      <ChevronRightIcon className="size-5" />
+                    </button>
+                  </div>
+                ) : null}
                 <p className="min-h-0 flex-1 text-base leading-relaxed opacity-90">{item.description}</p>
                 <div className="flex shrink-0 items-center justify-between gap-3">
                   <p className="min-w-0 flex-1 text-base font-semibold text-moss-green-200">

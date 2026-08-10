@@ -19,7 +19,7 @@ import {
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
 import ColiveBookingForm from '@/components/ColiveBookingForm';
-import { formatCompactPrice, formatPriceNumberAsK, getColivePricing } from '@/lib/notion';
+import { formatCompactPrice, formatPriceNumberAsK, getColivePricing, getUnavailableColiveNights } from '@/lib/notion';
 
 import HeroImage from '@/assets/images/colive.png';
 import { GARDEN_IMAGE } from '@/lib/notion/constants';
@@ -45,7 +45,10 @@ function isNightlyEntry(name: string): boolean {
 }
 
 export default async function Colive() {
-  const pricing = await getColivePricing();
+  const [pricing, unavailableNights] = await Promise.all([
+    getColivePricing(),
+    getUnavailableColiveNights(),
+  ]);
 
   return (
     <div>
@@ -233,7 +236,7 @@ export default async function Colive() {
               )}
             </div>
             {pricing.length > 0 ? (
-              <ColiveBookingForm pricing={pricing} />
+              <ColiveBookingForm pricing={pricing} unavailableNights={unavailableNights} />
             ) : null}
           </>
         }

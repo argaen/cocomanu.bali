@@ -19,6 +19,7 @@ export const DATABASES = {
   products: '330452d3e01380729ae7e83bf18c7a5f',
   'cowork-pricing': '342452d3e01380969092eb4339cd6e9d',
   'colive-pricing': '342452d3e01380a1a1f9f707c4292770',
+  'colive-bookings': '342452d3e01380269ea2ee2d05116f68',
 } as const;
 
 /** WhatsApp number for `wa.me` links: digits only, no `+` (+62 812-2987-0979). */

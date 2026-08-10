@@ -165,21 +165,14 @@ h2 {
 }
 
 .booking-range-calendar .rdp-day_button {
-  border-radius: 0;
+  border-radius: 9999px;
 }
 
-.booking-range-calendar .rdp-range_start .rdp-day_button {
-  border-top-left-radius: 9999px;
-  border-bottom-left-radius: 9999px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.booking-range-calendar .rdp-range_end .rdp-day_button {
-  border-top-right-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+.booking-range-calendar .rdp-range_start .rdp-day_button,
+.booking-range-calendar .rdp-range_end .rdp-day_button,
+.booking-range-calendar .rdp-range_middle .rdp-day_button,
+.booking-range-calendar .rdp-selected .rdp-day_button {
+  border-radius: 9999px;
 }
 
 @theme inline {

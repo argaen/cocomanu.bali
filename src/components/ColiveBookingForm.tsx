@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
-import { DayPicker, type DateRange } from 'react-day-picker';
+import { DayPicker, type DateRange, type Matcher } from 'react-day-picker';
 
 import { estimateColiveTotalFromNights, formatCompactPrice, formatPriceNumberAsK } from '@/lib/notion';
 import { whatsappContactHref } from '@/lib/whatsapp';
@@ -10,10 +10,20 @@ import type { ColivePricing } from '@/lib/notion';
 
 type ColiveBookingFormProps = {
   pricing: ColivePricing[];
+  /** ISO YYYY-MM-DD nights when all rooms are occupied */
+  unavailableNights?: string[];
 };
 
 function startOfDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function toIsoDate(date: Date): string {
+  const d = startOfDay(date);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
 function nightsBetweenDates(from?: Date, to?: Date): number {
@@ -26,11 +36,7 @@ function nightsBetweenDates(from?: Date, to?: Date): number {
 
 function formatIsoDate(date?: Date): string {
   if (!date) return '';
-  const d = startOfDay(date);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
+  return toIsoDate(date);
 }
 
 function formatDisplayDate(date?: Date): string {
@@ -42,13 +48,35 @@ function formatDisplayDate(date?: Date): string {
   });
 }
 
-export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
+function rangeIncludesUnavailableNight(
+  from: Date,
+  to: Date,
+  unavailable: Set<string>,
+): boolean {
+  if (unavailable.size === 0) return false;
+  const start = startOfDay(from);
+  const end = startOfDay(to);
+  for (let t = start.getTime(); t < end.getTime(); t += 86_400_000) {
+    if (unavailable.has(toIsoDate(new Date(t)))) return true;
+  }
+  return false;
+}
+
+export default function ColiveBookingForm({
+  pricing,
+  unavailableNights = [],
+}: ColiveBookingFormProps) {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [draftRange, setDraftRange] = useState<DateRange | undefined>(undefined);
   const [resetOnNextPick, setResetOnNextPick] = useState(false);
   const popoverRef = useRef<HTMLDivElement | null>(null);
+
+  const unavailableSet = useMemo(
+    () => new Set(unavailableNights),
+    [unavailableNights],
+  );
 
   const nights = nightsBetweenDates(startDate, endDate);
   const total = nights > 0 ? estimateColiveTotalFromNights(nights, pricing) : 0;
@@ -75,16 +103,66 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
     '--rdp-accent-background-color': 'var(--color-moss-green-300)',
     '--rdp-font-family': 'var(--font-josefin)',
   } as CSSProperties;
-  const tomorrow = startOfDay(new Date(Date.now() + 86_400_000));
+  const tomorrowIso = useMemo(() => {
+    const d = startOfDay(new Date(Date.now() + 86_400_000));
+    return toIsoDate(d);
+  }, []);
+  const tomorrow = useMemo(() => {
+    const [y, m, d] = tomorrowIso.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }, [tomorrowIso]);
+
   const selectedRange: DateRange | undefined = isCalendarOpen
     ? draftRange
     : (startDate ? { from: startDate, to: endDate } : undefined);
+
+  const selectingEnd = Boolean(
+    (isCalendarOpen ? draftRange?.from : startDate)
+    && !(isCalendarOpen ? draftRange?.to : endDate)
+    && !resetOnNextPick,
+  );
+  const rangeStart = selectingEnd
+    ? startOfDay((isCalendarOpen ? draftRange?.from : startDate) as Date)
+    : undefined;
+
+  const disabledMatchers = useMemo((): Matcher | Matcher[] => {
+    const matchers: Matcher[] = [{ before: tomorrow }];
+
+    if (selectingEnd && rangeStart) {
+      matchers.push((date) => {
+        const day = startOfDay(date);
+        if (day.getTime() <= rangeStart.getTime()) return true;
+        return rangeIncludesUnavailableNight(rangeStart, day, unavailableSet);
+      });
+    } else {
+      matchers.push((date) => unavailableSet.has(toIsoDate(date)));
+    }
+
+    return matchers;
+  }, [tomorrow, selectingEnd, rangeStart, unavailableSet]);
+
+  const bookedMatcher = useMemo(
+    (): Matcher => (date) => unavailableSet.has(toIsoDate(date)),
+    [unavailableSet],
+  );
 
   function handleRangeSelect(range?: DateRange) {
     if (resetOnNextPick) return;
 
     const nextStart = range?.from ? startOfDay(range.from) : undefined;
     const nextEnd = range?.to ? startOfDay(range.to) : undefined;
+
+    if (
+      nextStart
+      && nextEnd
+      && rangeIncludesUnavailableNight(nextStart, nextEnd, unavailableSet)
+    ) {
+      return;
+    }
+
+    if (nextStart && unavailableSet.has(toIsoDate(nextStart)) && !nextEnd) {
+      return;
+    }
 
     setDraftRange(range);
     setStartDate(nextStart);
@@ -106,6 +184,8 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
     if (!resetOnNextPick || modifiers.disabled) return;
 
     const nextStart = startOfDay(day);
+    if (unavailableSet.has(toIsoDate(nextStart))) return;
+
     setDraftRange({ from: nextStart, to: undefined });
     setStartDate(nextStart);
     setEndDate(undefined);
@@ -193,37 +273,60 @@ export default function ColiveBookingForm({ pricing }: ColiveBookingFormProps) {
               onSelect={handleRangeSelect}
               onDayClick={handleCalendarDayClick}
               defaultMonth={startDate ?? tomorrow}
-              disabled={{ before: tomorrow }}
+              disabled={disabledMatchers}
+              modifiers={{ booked: bookedMatcher }}
               className="booking-range-calendar mx-auto font-josefin text-black-sand"
               style={calendarTheme}
               classNames={{
                 day: 'text-sm',
               }}
               modifiersStyles={{
+                booked: {
+                  backgroundColor: 'var(--color-dusk-glow-200)',
+                  color: 'var(--color-white-water)',
+                  opacity: 1,
+                  borderRadius: '9999px',
+                },
                 selected: {
                   backgroundColor: 'var(--color-moss-green-200)',
                   color: 'var(--color-white-water)',
-                  borderRadius: '0px',
+                  borderRadius: '9999px',
                 },
                 range_start: {
                   backgroundColor: 'var(--color-moss-green-200)',
                   color: 'var(--color-white-water)',
-                  borderTopLeftRadius: '9999px',
-                  borderBottomLeftRadius: '9999px',
-                  borderTopRightRadius: '0px',
-                  borderBottomRightRadius: '0px',
+                  borderRadius: '9999px',
                 },
                 range_end: {
                   backgroundColor: 'var(--color-moss-green-200)',
                   color: 'var(--color-white-water)',
-                  borderTopRightRadius: '9999px',
-                  borderBottomRightRadius: '9999px',
-                  borderTopLeftRadius: '0px',
-                  borderBottomLeftRadius: '0px',
+                  borderRadius: '9999px',
                 },
-                range_middle: { backgroundColor: 'var(--color-moss-green-200)', color: 'var(--color-white-water)' },
+                range_middle: {
+                  backgroundColor: 'var(--color-moss-green-200)',
+                  color: 'var(--color-white-water)',
+                  borderRadius: '9999px',
+                },
               }}
             />
+            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-black-sand/70">
+              <span className="inline-flex items-center gap-2">
+                <span
+                  className="inline-block size-3 rounded-full bg-moss-green-200"
+                  aria-hidden
+                />
+                Your booking
+              </span>
+              {unavailableNights.length > 0 ? (
+                <span className="inline-flex items-center gap-2">
+                  <span
+                    className="inline-block size-3 rounded-full bg-dusk-glow-200"
+                    aria-hidden
+                  />
+                  Fully booked
+                </span>
+              ) : null}
+            </div>
             <div className="mt-2 flex justify-end">
               <button
                 type="button"
