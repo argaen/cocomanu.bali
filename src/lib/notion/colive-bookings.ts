@@ -116,8 +116,9 @@ export async function getUnavailableColiveNights(): Promise<string[]> {
     }
   }
 
+  const today = todayIsoLocal();
   return [...roomsByNight.entries()]
-    .filter(([, rooms]) => rooms.size >= TOTAL_ROOMS)
+    .filter(([night, rooms]) => night >= today && rooms.size >= TOTAL_ROOMS)
     .map(([night]) => night)
     .sort();
 }

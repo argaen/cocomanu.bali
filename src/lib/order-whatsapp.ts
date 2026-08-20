@@ -19,7 +19,7 @@ export type OrderCartLine = {
   unitPriceIdr: number;
 };
 
-/** Short client-side order ref, e.g. CM-A7K2X9 */
+/** Short client-side order ref, e.g. CM-S-A7K2X9 */
 export function createOrderId(): string {
   const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let suffix = '';
@@ -28,7 +28,7 @@ export function createOrderId(): string {
   for (const byte of bytes) {
     suffix += alphabet[byte % alphabet.length];
   }
-  return `CM-${suffix}`;
+  return `CM-S-${suffix}`;
 }
 
 export function buildOrderWhatsappMessage(

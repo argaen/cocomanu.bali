@@ -5,7 +5,11 @@ import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { DayPicker, type DateRange, type Matcher } from 'react-day-picker';
 
 import { estimateColiveTotalFromNights, formatCompactPrice, formatPriceNumberAsK } from '@/lib/notion';
-import { whatsappContactHref } from '@/lib/whatsapp';
+import {
+  buildColiveBookingWhatsappMessage,
+  buildWhatsappBookingUrl,
+  createBookingId,
+} from '@/lib/booking-whatsapp';
 import type { ColivePricing } from '@/lib/notion';
 
 type ColiveBookingFormProps = {
@@ -32,11 +36,6 @@ function nightsBetweenDates(from?: Date, to?: Date): number {
   const end = startOfDay(to);
   const ms = end.getTime() - start.getTime();
   return Math.max(0, Math.round(ms / 86_400_000));
-}
-
-function formatIsoDate(date?: Date): string {
-  if (!date) return '';
-  return toIsoDate(date);
 }
 
 function formatDisplayDate(date?: Date): string {
@@ -82,22 +81,26 @@ export default function ColiveBookingForm({
   const total = nights > 0 ? estimateColiveTotalFromNights(nights, pricing) : 0;
   const nightlyRate = nights > 0 ? Math.round(total / nights) : 0;
 
-  const whatsappMessage = useMemo(() => {
+  const bookingId = useMemo(() => {
     if (!startDate || !endDate || nights <= 0) return '';
-    return [
-      'Hi Cocomanu! I would like to book coliving.',
-      '',
-      `Start date: ${formatIsoDate(startDate)}`,
-      `End date: ${formatIsoDate(endDate)}`,
-      `Nights: ${nights}`,
-      `Nightly rate: IDR ${formatPriceNumberAsK(nightlyRate)}/night`,
-      `Calculated total: IDR ${formatCompactPrice(total)}`,
-    ].join('\n');
-  }, [startDate, endDate, nights, nightlyRate, total]);
+    return createBookingId();
+  }, [startDate, endDate, nights]);
+
+  const whatsappMessage = useMemo(() => {
+    if (!startDate || !endDate || nights <= 0 || !bookingId) return '';
+    return buildColiveBookingWhatsappMessage({
+      checkIn: startDate,
+      checkOut: endDate,
+      nights,
+      nightlyRateIdr: nightlyRate,
+      totalIdr: total,
+      bookingId,
+    });
+  }, [startDate, endDate, nights, nightlyRate, total, bookingId]);
 
   const canBook = Boolean(whatsappMessage);
 
-  const bookingHref = canBook ? whatsappContactHref(whatsappMessage) : '#';
+  const bookingHref = canBook ? buildWhatsappBookingUrl(whatsappMessage) : '#';
   const calendarTheme = {
     '--rdp-accent-color': 'var(--color-moss-green-200)',
     '--rdp-accent-background-color': 'var(--color-moss-green-300)',
