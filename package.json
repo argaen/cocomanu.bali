@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "download:shop-images": "node scripts/download-shop-images.mjs"
+    "download:shop-images": "node scripts/download-shop-images.mjs",
+    "download:site-images": "node scripts/download-site-images.mjs"
   },
   "dependencies": {
     "@9gustin/react-notion-render": "^3.11.3",

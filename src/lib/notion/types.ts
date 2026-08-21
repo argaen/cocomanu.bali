@@ -108,6 +108,8 @@ export type ColivePricing = {
   name: string;
   price: number;
   dailyPrice: number;
+  /** Fraction off from Notion `Discount` (0–1). `0.2` = 20% off; `0` = full price. */
+  discount: number;
   minimumLength: number;
   includes: string[];
 };

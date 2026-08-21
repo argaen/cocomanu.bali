@@ -17,7 +17,7 @@ export type GalleryProps = {
   arrowClassName: string;
   selectorClassName: string;
   images: {
-    src: StaticImageData;
+    src: StaticImageData | string;
     alt: string;
     caption: string;
   }[];

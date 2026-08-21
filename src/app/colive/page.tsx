@@ -19,9 +19,13 @@ import {
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
 import ColiveBookingForm from '@/components/ColiveBookingForm';
-import { formatCompactPrice, formatPriceNumberAsK, getColivePricing, getUnavailableColiveNights } from '@/lib/notion';
-
-import HeroImage from '@/assets/images/colive.png';
+import {
+  formatCompactPrice,
+  formatPriceNumberAsK,
+  getColivePricing,
+  getUnavailableColiveNights,
+} from '@/lib/notion';
+import { listLocalSiteImages, resolveLocalSiteImage } from '@/lib/site-images';
 import { GARDEN_IMAGE } from '@/lib/notion/constants';
 
 export const metadata: Metadata = {
@@ -50,20 +54,29 @@ export default async function Colive() {
     getUnavailableColiveNights(),
   ]);
 
+  const heroSrc = resolveLocalSiteImage('colive_1');
+  const roomGalleryImages = listLocalSiteImages('colive_')
+    .filter((img) => img.slug !== 'colive_1')
+    .map((img) => ({
+      src: img.src,
+      alt: img.slug.replace(/_/g, ' '),
+      caption: '',
+    }));
+
   return (
     <div>
       <div id="hero" className="relative">
-        <Image
-          alt="Our Coliving space"
-          src={HeroImage}
-          quality={90}
-          fill
-          className="-z-10 object-cover"
-          placeholder="blur"
-          priority
-          unoptimized
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
-        />
+        {heroSrc ? (
+          <Image
+            alt="Our Coliving space"
+            src={heroSrc}
+            quality={90}
+            fill
+            className="-z-10 object-cover"
+            priority
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
+          />
+        ) : null}
         <main className="flex h-screen items-center justify-center">
           <h1 className="text-ocean-blue-200 animate-fade-up animate-duration-500 animate-delay-1000">Colive</h1>
         </main>
@@ -96,28 +109,7 @@ export default async function Colive() {
           <Gallery
             arrowClassName="text-ocean-blue-200"
             selectorClassName="bg-ocean-blue-200"
-            images={[
-              {
-                src: HeroImage,
-                alt: 'Office',
-                caption: 'Amazing office',
-              },
-              {
-                src: HeroImage,
-                alt: 'Home',
-                caption: 'lololol',
-              },
-              {
-                src: HeroImage,
-                alt: 'Office1',
-                caption: 'Lorem ipsum lololol',
-              },
-              {
-                src: HeroImage,
-                alt: 'Home1',
-                caption: 'Lorem ipsum lalala',
-              },
-            ]}
+            images={[]}
           />
         }
       />
@@ -136,28 +128,7 @@ export default async function Colive() {
           <Gallery
             arrowClassName="text-ocean-blue-200"
             selectorClassName="bg-ocean-blue-200"
-            images={[
-              {
-                src: HeroImage,
-                alt: 'Office2',
-                caption: 'Amazing office',
-              },
-              {
-                src: HeroImage,
-                alt: 'Home2',
-                caption: 'lololol',
-              },
-              {
-                src: HeroImage,
-                alt: 'Office3',
-                caption: 'Lorem ipsum lololol',
-              },
-              {
-                src: HeroImage,
-                alt: 'Home3',
-                caption: 'Lorem ipsum lalala',
-              },
-            ]}
+            images={roomGalleryImages}
           />
         }
       />
@@ -220,11 +191,11 @@ export default async function Colive() {
                       <>
                         <span className="text-base font-semibold">IDR</span>
                         {' '}
-                        {formatCompactPrice(item.price)}
+                        {formatCompactPrice(item.price * (1 - item.discount))}
                         {!isNightlyEntry(item.name) && item.dailyPrice > 0 ? (
                           <span className="text-base text-gray-400">
                             {' '}
-                            ({formatPriceNumberAsK(item.dailyPrice)}/night)
+                            ({formatPriceNumberAsK(item.dailyPrice * (1 - item.discount))}/night)
                           </span>
                         ) : null}
                       </>

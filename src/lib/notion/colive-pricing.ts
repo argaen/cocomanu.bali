@@ -52,6 +52,7 @@ function pageToColivePricing(page: DatabaseObjectResponse): ColivePricing {
     dailyPrice:
       ((page.properties['Nightly Rate'] as unknown) as { formula?: { number?: number | null } })
         .formula?.number ?? 0,
+    discount: discountFromProperty(page.properties.Discount),
     minimumLength: numberFromProperty(page.properties['Minimum length'])
       || numberFromProperty(page.properties['Minimum Length'])
       || inferMinimumLengthFromName(
@@ -59,6 +60,24 @@ function pageToColivePricing(page: DatabaseObjectResponse): ColivePricing {
       ),
     includes,
   };
+}
+
+function discountFromProperty(property: unknown): number {
+  if (!property || typeof property !== 'object') return 0;
+
+  const maybeNumber = (property as NumberProperty).number;
+  if (typeof maybeNumber === 'number' && Number.isFinite(maybeNumber)) {
+    return Math.min(1, Math.max(0, maybeNumber));
+  }
+  // Empty number property → no discount.
+  if (maybeNumber === null) return 0;
+
+  const maybeFormula = (property as { formula?: { number?: number | null } }).formula?.number;
+  if (typeof maybeFormula === 'number' && Number.isFinite(maybeFormula)) {
+    return Math.min(1, Math.max(0, maybeFormula));
+  }
+
+  return 0;
 }
 
 function inferMinimumLengthFromName(name: string): number {
@@ -97,7 +116,22 @@ function numberFromProperty(property: unknown): number {
 }
 
 function roundColiveTotal(value: number): number {
-  return Math.round(value / 50_000) * 50_000;
+  return Math.round(value);
+}
+
+/** Apply Notion Discount rate (0–1) as percent off, e.g. 0.2 → pay 80%. */
+function withDiscount(amount: number, discount: number): number {
+  return amount * (1 - discount);
+}
+
+function tierPackagePrice(tier: ColivePricing): number {
+  return withDiscount(tier.price, tier.discount);
+}
+
+function tierNightlyRate(tier: ColivePricing): number {
+  const nightly =
+    tier.dailyPrice > 0 ? tier.dailyPrice : tier.price / tier.minimumLength;
+  return withDiscount(nightly, tier.discount);
 }
 
 function interpolateBetweenTiers(
@@ -105,12 +139,15 @@ function interpolateBetweenTiers(
   lower: ColivePricing,
   upper: ColivePricing,
 ): number {
-  if (nights <= lower.minimumLength) return lower.price;
-  if (nights >= upper.minimumLength) return upper.price;
+  const lowerPrice = tierPackagePrice(lower);
+  const upperPrice = tierPackagePrice(upper);
+
+  if (nights <= lower.minimumLength) return lowerPrice;
+  if (nights >= upper.minimumLength) return upperPrice;
 
   const slope =
-    (upper.price - lower.price) / (upper.minimumLength - lower.minimumLength);
-  return lower.price + (nights - lower.minimumLength) * slope;
+    (upperPrice - lowerPrice) / (upper.minimumLength - lower.minimumLength);
+  return lowerPrice + (nights - lower.minimumLength) * slope;
 }
 
 export function estimateColiveTotalFromNights(
@@ -127,9 +164,7 @@ export function estimateColiveTotalFromNights(
 
   if (tiers.length === 1) {
     const tier = tiers[0];
-    const nightly =
-      tier.dailyPrice > 0 ? tier.dailyPrice : tier.price / tier.minimumLength;
-    return roundColiveTotal(nightly * nights);
+    return roundColiveTotal(tierNightlyRate(tier) * nights);
   }
 
   const first = tiers[0];
@@ -138,14 +173,14 @@ export function estimateColiveTotalFromNights(
   let rawTotal: number;
 
   if (nights <= first.minimumLength) {
-    rawTotal = (first.price / first.minimumLength) * nights;
+    rawTotal = (tierPackagePrice(first) / first.minimumLength) * nights;
   } else if (nights >= last.minimumLength) {
-    const cappedNightly =
-      last.dailyPrice > 0 ? last.dailyPrice : last.price / last.minimumLength;
-    rawTotal = last.price + (nights - last.minimumLength) * cappedNightly;
+    rawTotal =
+      tierPackagePrice(last)
+      + (nights - last.minimumLength) * tierNightlyRate(last);
   } else {
     let matched = false;
-    rawTotal = last.price;
+    rawTotal = tierPackagePrice(last);
 
     for (let i = 0; i < tiers.length - 1; i++) {
       const lower = tiers[i];
@@ -158,9 +193,7 @@ export function estimateColiveTotalFromNights(
     }
 
     if (!matched) {
-      const nightly =
-        last.dailyPrice > 0 ? last.dailyPrice : last.price / last.minimumLength;
-      rawTotal = nightly * nights;
+      rawTotal = tierNightlyRate(last) * nights;
     }
   }
 

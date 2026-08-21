@@ -25,7 +25,7 @@ import PricingCard from '@/components/PricingCard';
 import { formatCompactPrice, formatPriceNumberAsK, getCoworkingPricing } from '@/lib/notion';
 
 import HeroImage from '@/assets/images/cowork-1.png';
-import ColiveImage from '@/assets/images/colive.png';
+import { resolveLocalSiteImage } from '@/lib/site-images';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coworking",
@@ -43,6 +43,7 @@ function isDailyEntry(name: string): boolean {
 
 export default async function Cowork() {
   const pricing = await getCoworkingPricing();
+  const coliveImage = resolveLocalSiteImage('colive_1');
 
   return (
     <div>
@@ -202,31 +203,32 @@ export default async function Cowork() {
         }
       />
 
-      <div className="relative w-full h-[550px] lg:h-[700px]">
-        <Image
-          alt="Check our Coliving space"
-          src={ColiveImage}
-          quality={10}
-          loading="lazy"
-          placeholder="blur"
-          fill
-          className="-z-10 object-cover contrast-[.25]"
-        />
-        <div className="flex flex-col h-full items-center justify-center gap-6">
-          <h2>Want to stay with us too?</h2>
-          <div className="flex justify-center">
-            <Link
-              href="/colive"
-              className="cta bg-ocean-blue-200 before:bg-ocean-blue-100"
-            >
-              <span className="flex items-center py-1 px-2 z-10">
-                Coliving
-                <ArrowRightIcon className="size-4 ml-1 font-bold"/>
-              </span>
-            </Link>
+      {coliveImage ? (
+        <div className="relative w-full h-[550px] lg:h-[700px]">
+          <Image
+            alt="Check our Coliving space"
+            src={coliveImage}
+            quality={10}
+            loading="lazy"
+            fill
+            className="-z-10 object-cover contrast-[.25]"
+          />
+          <div className="flex flex-col h-full items-center justify-center gap-6">
+            <h2>Want to stay with us too?</h2>
+            <div className="flex justify-center">
+              <Link
+                href="/colive"
+                className="cta bg-ocean-blue-200 before:bg-ocean-blue-100"
+              >
+                <span className="flex items-center py-1 px-2 z-10">
+                  Coliving
+                  <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }

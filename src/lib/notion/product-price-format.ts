@@ -16,16 +16,21 @@ export function formatPriceNumberAsK(value: number): string {
   return `${body}k`;
 }
 
-/** Compact total price for display, e.g. 1.55M, 3.5M, 12M */
+/** Compact total price for display, e.g. 1.55M, 3.50M, 12M */
 export function formatCompactPrice(value: number): string {
   const amount = Math.max(0, Math.round(value));
   if (!Number.isFinite(amount)) return '0';
   if (amount >= 1_000_000) {
     const millions = amount / 1_000_000;
     if (millions % 1 === 0) return `${millions.toFixed(0)}M`;
-    return `${millions.toFixed(2).replace(/\.?0+$/, '')}M`;
+    return `${millions.toFixed(2)}M`;
   }
-  return formatPriceNumberAsK(amount);
+  if (amount < 1000) {
+    return String(amount);
+  }
+  const k = amount / 1000;
+  if (k % 1 === 0) return `${Math.round(k)}k`;
+  return `${k.toFixed(2)}k`;
 }
 
 /** e.g. IDR 10k (16 buds) */

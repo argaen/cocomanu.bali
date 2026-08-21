@@ -6,7 +6,7 @@ import {ArrowRightIcon} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 export type HeroImageContentProps = {
-  image: StaticImageData;
+  image: StaticImageData | string;
   header: string;
   headerClassName: string;
   header2ClassName: string;
@@ -36,6 +36,8 @@ export default function HeroImageContent({
   linkText = 'Explore',
   linkDisabled = false,
 }: HeroImageContentProps) {
+  const isStatic = typeof image !== 'string';
+
   return (
     <div className="grid sm:grid-cols-2">
       <div className={twMerge('relative w-full h-[550px] lg:h-[700px] overflow-hidden', imageClassName)}>
@@ -45,8 +47,7 @@ export default function HeroImageContent({
           quality={90}
           fill
           loading="lazy"
-          placeholder="blur"
-          unoptimized
+          {...(isStatic ? { placeholder: 'blur' as const, unoptimized: true } : {})}
           className={twMerge('object-cover transition-all duration-300', imageInnerClassName)}
         />
       </div>

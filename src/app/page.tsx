@@ -7,10 +7,12 @@ import { WorkLifeIllustration } from '@/components/svg';
 
 import HeroImage from '@/assets/images/photo1.png';
 import CoworkImage from '@/assets/images/cowork-1.png';
-import ColiveImage from '@/assets/images/colive.png';
 import { GARDEN_IMAGE } from '@/lib/notion/constants';
+import { resolveLocalSiteImage } from '@/lib/site-images';
 
 export default function Home() {
+  const coliveImage = resolveLocalSiteImage('colive_1');
+
   return (
     <main role="main">
       <div id="hero" className="relative">
@@ -82,28 +84,30 @@ export default function Home() {
           />
         }
       />
-      <Section
-        className="!py-0"
-        header="Colive"
-        headerClassName="text-ocean-blue-200 sm:hidden mt-12 -mb-7 pb-0"
-        content={
-          <HeroImageContent
-            header="Colive"
-            headerClassName="sm:text-ocean-blue-200"
-            header2ClassName="text-ocean-blue-300"
-            image={ColiveImage}
-            contentClassName="bg-ocean-blue-100"
-            imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
-            imageInnerClassName="scale-[1.01]"
-            linkClassName="bg-ocean-blue-200 before:bg-ocean-blue-100"
-            title="Home Away From Home"
-            text="Miss the comfort and routine? You'll have a private ensuite in a villa with a shared full kitchen, a pool overlooking the river and seamless access to our coworking space."
-            href="/colive"
-            linkText="Coming soon"
-            linkDisabled
-          />
-        }
-      />
+      {coliveImage ? (
+        <Section
+          className="!py-0"
+          header="Colive"
+          headerClassName="text-ocean-blue-200 sm:hidden mt-12 -mb-7 pb-0"
+          content={
+            <HeroImageContent
+              header="Colive"
+              headerClassName="sm:text-ocean-blue-200"
+              header2ClassName="text-ocean-blue-300"
+              image={coliveImage}
+              contentClassName="bg-ocean-blue-100"
+              imageClassName="sm:order-2 intersect:animate-fade-left intersect-once"
+              imageInnerClassName="scale-[1.01]"
+              linkClassName="bg-ocean-blue-200 before:bg-ocean-blue-100"
+              title="Home Away From Home"
+              text="Miss the comfort and routine? You'll have a private ensuite in a villa with a shared full kitchen, a pool overlooking the river and seamless access to our coworking space."
+              href="/colive"
+              linkText="Coming soon"
+              linkDisabled
+            />
+          }
+        />
+      ) : null}
       <Section
         className="!py-0"
         header="Garden"
