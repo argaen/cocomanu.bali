@@ -101,19 +101,6 @@ export default async function Colive() {
         )}
       />
 
-      <Section
-        header="The House"
-        headerClassName="text-ocean-blue-200"
-        className="bg-black-sand"
-        content={
-          <Gallery
-            arrowClassName="text-ocean-blue-200"
-            selectorClassName="bg-ocean-blue-200"
-            images={[]}
-          />
-        }
-      />
-
       <div className="flex items-center justify-center text-black-sand p-20 md:px-[100px] lg:px-[300px] xl:px-[500px]">
         <p>
           Each private room features a queen-sized bed, ensuite bathrooms and a desk so you have the option to work in peace whenever you need your own space.
