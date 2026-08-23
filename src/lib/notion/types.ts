@@ -100,7 +100,25 @@ export type CoworkingPricing = {
   name: string;
   price: number;
   dailyPrice: number;
+  /** Fraction off from Notion `Discount` (0–1). `0.2` = 20% off; `0` = full price. */
+  discount: number;
+  /** Pass length in days (1 = daily, 7 = weekly, 30 = monthly, …). */
+  durationDays: number;
   includes: string[];
+};
+
+export type CoworkingPriceLine = {
+  tierName: string;
+  quantity: number;
+  unitPriceIdr: number;
+  totalIdr: number;
+};
+
+export type CoworkingPriceEstimate = {
+  days: number;
+  lines: CoworkingPriceLine[];
+  totalIdr: number;
+  dailyRateIdr: number;
 };
 
 export type ColivePricing = {

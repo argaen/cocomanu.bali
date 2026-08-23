@@ -102,8 +102,8 @@ export default function ColiveBookingForm({
 
   const bookingHref = canBook ? buildWhatsappBookingUrl(whatsappMessage) : '#';
   const calendarTheme = {
-    '--rdp-accent-color': 'var(--color-moss-green-200)',
-    '--rdp-accent-background-color': 'var(--color-moss-green-300)',
+    '--rdp-accent-color': 'var(--color-ocean-blue-200)',
+    '--rdp-accent-background-color': 'var(--color-ocean-blue-300)',
     '--rdp-font-family': 'var(--font-josefin)',
   } as CSSProperties;
   const tomorrowIso = useMemo(() => {
@@ -221,13 +221,13 @@ export default function ColiveBookingForm({
   }, [isCalendarOpen]);
 
   return (
-    <div className="mx-auto mt-10 w-full max-w-3xl rounded-xl border border-moss-green-300/30 bg-white-water p-5 text-black-sand shadow-sm md:p-6">
-      <h3 className="text-2xl font-bold text-moss-green-200">Check your stay price</h3>
+    <div className="mx-auto mt-10 w-full max-w-3xl rounded-xl border border-ocean-blue-300/30 bg-white-water p-5 text-black-sand shadow-sm md:p-6">
+      <h3 className="text-2xl font-bold text-ocean-blue-200">Check your stay price</h3>
       <p className="mt-1 text-sm text-black-sand/70">
-        Select your dates and we will estimate the total for your stay.
+        Pick your check in and check out dates to calculate your total.
       </p>
 
-      <div ref={popoverRef} className="relative mt-4 rounded-xl border border-moss-green-300/50 bg-rainy-day/70 p-4">
+      <div ref={popoverRef} className="relative mt-4 rounded-xl border border-ocean-blue-300/50 bg-rainy-day/70 p-4">
         <div className="grid gap-3 md:grid-cols-2">
           <div className="relative">
             <button
@@ -235,15 +235,15 @@ export default function ColiveBookingForm({
               onClick={openCalendar}
               className={`flex w-full items-center justify-between rounded-lg border bg-white-water px-3 py-3 text-left shadow-sm transition-colors ${
                 isCalendarOpen
-                  ? 'border-moss-green-200 ring-2 ring-moss-green-200/25'
-                  : 'border-moss-green-300 hover:border-moss-green-200'
+                  ? 'border-ocean-blue-200 ring-2 ring-ocean-blue-200/25'
+                  : 'border-ocean-blue-300 hover:border-ocean-blue-200'
               }`}
             >
               <span>
                 <span className="block text-xs uppercase tracking-wide text-black-sand/60">Start date</span>
                 <span className="block text-sm font-medium text-black-sand">{formatDisplayDate(startDate)}</span>
               </span>
-              <CalendarDaysIcon className="size-5 text-moss-green-200" />
+              <CalendarDaysIcon className="size-5 text-ocean-blue-200" />
             </button>
           </div>
           <div className="relative">
@@ -252,20 +252,20 @@ export default function ColiveBookingForm({
               onClick={openCalendar}
               className={`flex w-full items-center justify-between rounded-lg border bg-white-water px-3 py-3 text-left shadow-sm transition-colors ${
                 isCalendarOpen
-                  ? 'border-moss-green-200 ring-2 ring-moss-green-200/25'
-                  : 'border-moss-green-300 hover:border-moss-green-200'
+                  ? 'border-ocean-blue-200 ring-2 ring-ocean-blue-200/25'
+                  : 'border-ocean-blue-300 hover:border-ocean-blue-200'
               }`}
             >
               <span>
                 <span className="block text-xs uppercase tracking-wide text-black-sand/60">End date</span>
                 <span className="block text-sm font-medium text-black-sand">{formatDisplayDate(endDate)}</span>
               </span>
-              <CalendarDaysIcon className="size-5 text-moss-green-200" />
+              <CalendarDaysIcon className="size-5 text-ocean-blue-200" />
             </button>
           </div>
         </div>
         {isCalendarOpen ? (
-          <div className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-30 rounded-xl border border-moss-green-300/60 bg-white-water p-3 shadow-xl md:left-auto md:right-4 md:w-[44rem]">
+          <div className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-30 rounded-xl border border-ocean-blue-300/60 bg-white-water p-3 shadow-xl md:left-auto md:right-4 md:w-[44rem]">
             <p className="mb-2 text-sm font-medium text-black-sand/80">Choose your stay dates</p>
             <DayPicker
               mode="range"
@@ -291,22 +291,22 @@ export default function ColiveBookingForm({
                   borderRadius: '9999px',
                 },
                 selected: {
-                  backgroundColor: 'var(--color-moss-green-200)',
+                  backgroundColor: 'var(--color-ocean-blue-200)',
                   color: 'var(--color-white-water)',
                   borderRadius: '9999px',
                 },
                 range_start: {
-                  backgroundColor: 'var(--color-moss-green-200)',
+                  backgroundColor: 'var(--color-ocean-blue-200)',
                   color: 'var(--color-white-water)',
                   borderRadius: '9999px',
                 },
                 range_end: {
-                  backgroundColor: 'var(--color-moss-green-200)',
+                  backgroundColor: 'var(--color-ocean-blue-200)',
                   color: 'var(--color-white-water)',
                   borderRadius: '9999px',
                 },
                 range_middle: {
-                  backgroundColor: 'var(--color-moss-green-200)',
+                  backgroundColor: 'var(--color-ocean-blue-200)',
                   color: 'var(--color-white-water)',
                   borderRadius: '9999px',
                 },
@@ -315,7 +315,7 @@ export default function ColiveBookingForm({
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-black-sand/70">
               <span className="inline-flex items-center gap-2">
                 <span
-                  className="inline-block size-3 rounded-full bg-moss-green-200"
+                  className="inline-block size-3 rounded-full bg-ocean-blue-200"
                   aria-hidden
                 />
                 Your booking
@@ -343,7 +343,7 @@ export default function ColiveBookingForm({
         ) : null}
       </div>
 
-      <div className="mt-4 grid gap-3 rounded-md border border-moss-green-300/40 bg-rainy-day p-4 md:grid-cols-[1fr_auto] md:items-center">
+      <div className="mt-4 grid gap-3 rounded-md border border-ocean-blue-300/40 bg-rainy-day p-4 md:grid-cols-[1fr_auto] md:items-center">
         <ul className="space-y-1 text-sm">
           {nights > 0 ? (
             <>
@@ -360,7 +360,7 @@ export default function ColiveBookingForm({
             href={bookingHref}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="cta before:bg-moss-green-100 inline-flex min-h-14 min-w-56 cursor-pointer items-center justify-center rounded-md bg-moss-green-200 px-5 py-2 font-medium text-white-water"
+            className="cta before:bg-ocean-blue-100 inline-flex min-h-14 min-w-56 cursor-pointer items-center justify-center rounded-md bg-ocean-blue-200 px-5 py-2 font-medium text-white-water"
           >
             <span className="z-10 flex flex-col items-center leading-tight">
               <span>Book via WhatsApp</span>

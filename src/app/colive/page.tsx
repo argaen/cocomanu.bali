@@ -18,10 +18,9 @@ import {
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
+import PricingTierPrice from '@/components/PricingTierPrice';
 import ColiveBookingForm from '@/components/ColiveBookingForm';
 import {
-  formatCompactPrice,
-  formatPriceNumberAsK,
   getColivePricing,
   getUnavailableColiveNights,
 } from '@/lib/notion';
@@ -175,17 +174,12 @@ export default async function Colive() {
                     title={item.name}
                     perks={item.includes}
                     price={(
-                      <>
-                        <span className="text-base font-semibold">IDR</span>
-                        {' '}
-                        {formatCompactPrice(item.price * (1 - item.discount))}
-                        {!isNightlyEntry(item.name) && item.dailyPrice > 0 ? (
-                          <span className="text-base text-gray-400">
-                            {' '}
-                            ({formatPriceNumberAsK(item.dailyPrice * (1 - item.discount))}/night)
-                          </span>
-                        ) : null}
-                      </>
+                      <PricingTierPrice
+                        price={item.price}
+                        discount={item.discount}
+                        periodRate={!isNightlyEntry(item.name) && item.dailyPrice > 0 ? item.dailyPrice : undefined}
+                        periodLabel="/night"
+                      />
                     )}
                   />
                 ))

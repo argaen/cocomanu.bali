@@ -8,7 +8,6 @@ import type { Metadata } from 'next';
 import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
 import {
-  Starlink,
   Chairs,
   AC,
   PhoneBooth,
@@ -17,15 +16,14 @@ import {
   Coffee,
   Community,
   CoworkIllustration,
-  SolarPower,
   Rooftop,
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
-import { formatCompactPrice, formatPriceNumberAsK, getCoworkingPricing } from '@/lib/notion';
-
-import HeroImage from '@/assets/images/cowork-1.png';
-import { resolveLocalSiteImage } from '@/lib/site-images';
+import PricingTierPrice from '@/components/PricingTierPrice';
+import CoworkBookingForm from '@/components/CoworkBookingForm';
+import { getCoworkingPricing } from '@/lib/notion';
+import { listLocalSiteImages, resolveLocalSiteImage } from '@/lib/site-images';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coworking",
@@ -43,22 +41,30 @@ function isDailyEntry(name: string): boolean {
 
 export default async function Cowork() {
   const pricing = await getCoworkingPricing();
+  const heroSrc = resolveLocalSiteImage('cowork_1');
   const coliveImage = resolveLocalSiteImage('colive_1');
+  const officeGalleryImages = listLocalSiteImages('cowork_')
+    .filter((img) => img.slug !== 'cowork_1')
+    .map((img) => ({
+      src: img.src,
+      alt: img.slug.replace(/_/g, ' '),
+      caption: '',
+    }));
 
   return (
     <div>
       <div id="hero" className="relative">
-        <Image
-          alt="Our Coworking space"
-          src={HeroImage}
-          quality={90}
-          fill
-          className="-z-10 object-cover"
-          placeholder="blur"
-          priority
-          unoptimized
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
-        />
+        {heroSrc ? (
+          <Image
+            alt="Our Coworking space"
+            src={heroSrc}
+            quality={90}
+            fill
+            className="-z-10 object-cover"
+            priority
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
+          />
+        ) : null}
         <main className="flex h-screen items-center justify-center">
           <h1 className="text-dusk-glow-200 animate-fade-up animate-duration-500 animate-delay-1000">Cowork</h1>
         </main>
@@ -94,28 +100,7 @@ export default async function Cowork() {
           <Gallery
             arrowClassName="text-dusk-glow-200"
             selectorClassName="bg-dusk-glow-200"
-            images={[
-              {
-                src: HeroImage,
-                alt: 'Office',
-                caption: 'Amazing office',
-              },
-              {
-                src: HeroImage,
-                alt: 'Office1',
-                caption: 'Lorem ipsum lololol',
-              },
-              {
-                src: HeroImage,
-                alt: 'Office2',
-                caption: 'Lorem ipsum lalala',
-              },
-              {
-                src: HeroImage,
-                alt: 'Office3',
-                caption: 'Lorem ipsum lalala',
-              },
-            ]}
+            images={officeGalleryImages}
           />
         }
       />
@@ -124,44 +109,36 @@ export default async function Cowork() {
         header="Facilities"
         headerClassName="text-dusk-glow-200"
         content={(
-          <div className="grid grid-cols-2 md:grid-cols-5 px-10 md:px-20 lg:px-40 gap-12 text-dusk-glow-100">
+          <div className="grid grid-cols-2 md:grid-cols-4 px-10 md:px-20 lg:px-40 gap-12 text-dusk-glow-100">
             <div className="facility intersect:animate-fade-up intersect-once">
-              <Starlink className="size-24 lg:size-32 fill-black-sand" />
-              Starlink Wifi
-            </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-100">
-              <SolarPower className="size-24 lg:size-32 fill-black-sand" />
-              Solar Power
-            </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-200">
               <Chairs className="size-24 lg:size-32 fill-black-sand" />
               Chairs
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-300">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-100">
               <AC className="size-24 lg:size-32 fill-black-sand" />
               Indoor AC
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-400">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-200">
               <PhoneBooth className="size-24 lg:size-32 fill-black-sand" />
               Phone Booths
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-500">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-300">
               <MeetingRoom className="size-24 lg:size-32 fill-black-sand" />
               Meeting Room
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-600">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-400">
               <Chillout className="size-24 lg:size-32 fill-black-sand" />
               Chillout Area
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-700">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-500">
               <Rooftop className="size-24 lg:size-32 fill-black-sand" />
               Rooftop
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-800">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-600">
               <Coffee className="size-24 lg:size-32 fill-black-sand" />
               Outdoor Cafe
             </div>
-            <div className="facility intersect:animate-fade-up intersect-once animate-delay-900">
+            <div className="facility intersect:animate-fade-up intersect-once animate-delay-700">
               <Community className="size-24 lg:size-32 fill-black-sand" />
               Community Events
             </div>
@@ -174,32 +151,32 @@ export default async function Cowork() {
         className="bg-black-sand"
         headerClassName="text-moss-green-200"
         content={
-          <div className="mx-auto grid max-w-6xl grid-cols-1 justify-items-center gap-y-12 gap-6 px-6 md:grid-cols-3 md:items-stretch md:gap-10 lg:gap-12">
+          <>
+            <div className="mx-auto grid max-w-6xl grid-cols-1 justify-items-center gap-y-12 gap-6 px-6 md:grid-cols-3 md:items-stretch md:gap-10 lg:gap-12">
+              {pricing.length > 0 ? (
+                pricing.map((item) => (
+                  <PricingCard
+                    key={item.id}
+                    title={item.name}
+                    perks={item.includes}
+                    price={(
+                      <PricingTierPrice
+                        price={item.price}
+                        discount={item.discount}
+                        periodRate={!isDailyEntry(item.name) && item.dailyPrice > 0 ? item.dailyPrice : undefined}
+                        periodLabel="/day"
+                      />
+                    )}
+                  />
+                ))
+              ) : (
+                <p className="text-center text-white-water/80">Pricing details are coming soon.</p>
+              )}
+            </div>
             {pricing.length > 0 ? (
-              pricing.map((item) => (
-                <PricingCard
-                  key={item.id}
-                  title={item.name}
-                  perks={item.includes}
-                  price={(
-                    <>
-                      <span className="text-base font-semibold">IDR</span>
-                      {' '}
-                      {formatCompactPrice(item.price)}
-                      {!isDailyEntry(item.name) && item.dailyPrice > 0 ? (
-                        <span className="text-base text-gray-400">
-                          {' '}
-                          ({formatPriceNumberAsK(item.dailyPrice)}/day)
-                        </span>
-                      ) : null}
-                    </>
-                  )}
-                />
-              ))
-            ) : (
-              <p className="text-center text-white-water/80">Pricing details are coming soon.</p>
-            )}
-          </div>
+              <CoworkBookingForm pricing={pricing} />
+            ) : null}
+          </>
         }
       />
 

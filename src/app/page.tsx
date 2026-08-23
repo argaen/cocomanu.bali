@@ -6,11 +6,11 @@ import HeroImageContent from '@/components/HeroImageContent';
 import { WorkLifeIllustration } from '@/components/svg';
 
 import HeroImage from '@/assets/images/photo1.png';
-import CoworkImage from '@/assets/images/cowork-1.png';
 import { GARDEN_IMAGE } from '@/lib/notion/constants';
 import { resolveLocalSiteImage } from '@/lib/site-images';
 
 export default function Home() {
+  const coworkImage = resolveLocalSiteImage('cowork_1');
   const coliveImage = resolveLocalSiteImage('colive_1');
 
   return (
@@ -62,28 +62,30 @@ export default function Home() {
           </div>
         )}
       />
-      <Section
-        className="!py-0"
-        header="Cowork"
-        headerClassName="text-dusk-glow-200 sm:hidden mt-12 -mb-7 pb-0"
-        content={
-          <HeroImageContent
-            header="Cowork"
-            headerClassName="sm:text-dusk-glow-200"
-            header2ClassName="text-dusk-glow-300"
-            image={CoworkImage}
-            contentClassName="bg-dusk-glow-100"
-            imageClassName="intersect:animate-fade-right intersect-once"
-            imageInnerClassName="scale-[1.01]"
-            linkClassName="bg-dusk-glow-200 before:bg-dusk-glow-100"
-            title="The Perfect Tropical Office"
-            text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
-            href="/cowork"
-            linkText="Coming soon"
-            linkDisabled
-          />
-        }
-      />
+      {coworkImage ? (
+        <Section
+          className="!py-0"
+          header="Cowork"
+          headerClassName="text-dusk-glow-200 sm:hidden mt-12 -mb-7 pb-0"
+          content={
+            <HeroImageContent
+              header="Cowork"
+              headerClassName="sm:text-dusk-glow-200"
+              header2ClassName="text-dusk-glow-300"
+              image={coworkImage}
+              contentClassName="bg-dusk-glow-100"
+              imageClassName="intersect:animate-fade-right intersect-once"
+              imageInnerClassName="scale-[1.01]"
+              linkClassName="bg-dusk-glow-200 before:bg-dusk-glow-100"
+              title="The Perfect Tropical Office"
+              text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
+              href="/cowork"
+              linkText="Coming soon"
+              linkDisabled
+            />
+          }
+        />
+      ) : null}
       {coliveImage ? (
         <Section
           className="!py-0"

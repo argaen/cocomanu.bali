@@ -5,6 +5,7 @@ import { encodeWhatsAppText } from '@/lib/whatsapp';
 /** Emoji via code points so source file encoding cannot corrupt prefilled messages. */
 const WA = {
   house: '\u{1F3E0}',
+  briefcase: '\u{1F4BC}',
   person: '\u{1F464}',
   email: '\u{1F4E7}',
   calendar: '\u{1F4C5}',
@@ -25,6 +26,18 @@ export function createBookingId(): string {
     suffix += alphabet[byte % alphabet.length];
   }
   return `CM-CL-${suffix}`;
+}
+
+/** Short client-side cowork pass ref, e.g. CM-CW-A7K2X9. */
+export function createCoworkBookingId(): string {
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let suffix = '';
+  const bytes = new Uint8Array(6);
+  crypto.getRandomValues(bytes);
+  for (const byte of bytes) {
+    suffix += alphabet[byte % alphabet.length];
+  }
+  return `CM-CW-${suffix}`;
 }
 
 function formatStayDate(date: Date): string {
@@ -74,4 +87,46 @@ export function buildColiveBookingWhatsappMessage({
 export function buildWhatsappBookingUrl(message: string): string {
   const text = encodeWhatsAppText(message);
   return `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE_WA_ME}&text=${text}`;
+}
+
+export type CoworkBookingWhatsappInput = {
+  startDate: Date;
+  endDate: Date;
+  days: number;
+  lines: { tierName: string; quantity: number; totalIdr: number }[];
+  totalIdr: number;
+  bookingId?: string;
+};
+
+export function buildCoworkBookingWhatsappMessage({
+  startDate,
+  endDate,
+  days,
+  lines,
+  totalIdr,
+  bookingId = createCoworkBookingId(),
+}: CoworkBookingWhatsappInput): string {
+  const totalStr = totalIdr.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  const passLines = lines.map(
+    (line) =>
+      `- ${line.quantity}× ${line.tierName} — IDR ${formatPriceNumberAsK(line.totalIdr)}`,
+  );
+
+  return [
+    `${WA.briefcase} COWORK BOOKING *${bookingId}* DETAILS`,
+    '',
+    `${WA.person} Name: [Your Name]`,
+    `${WA.email} Email: [Your Email]`,
+    '',
+    `${WA.calendar} Pass period (inclusive):`,
+    `First day: ${formatStayDate(startDate)}`,
+    `Last day: ${formatStayDate(endDate)}`,
+    `Days: ${days}`,
+    '',
+    'Passes:',
+    ...passLines,
+    '',
+    `${WA.money} Total:`,
+    `*Rp ${totalStr}*`,
+  ].join('\n');
 }
