@@ -22,18 +22,18 @@ export const metadata: Metadata = {
 export default function Community() {
   return (
     <div>
-      <div id="hero" className="relative">
+      <div id="hero" className="relative isolate">
         <Image
           alt="Our Community"
           src={HeroImage}
           quality={IMAGE_QUALITY_HERO}
           fill
-          className="-z-10 object-cover"
+          className="z-0 object-cover"
           placeholder="blur"
           priority
           sizes={IMAGE_SIZES_FULL_VIEWPORT}
         />
-        <main className="flex h-screen items-center justify-center">
+        <main className="relative z-10 flex h-screen items-center justify-center">
           <h1 className="text-dawn-rays-200 animate-fade-up animate-duration-500 animate-delay-1000">Community</h1>
         </main>
       </div>

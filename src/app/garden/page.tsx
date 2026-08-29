@@ -13,6 +13,7 @@ import { GardenIllustration } from '@/components/svg';
 import { getPlants } from '@/lib/notion';
 import { resolveLocalSiteImage } from '@/lib/site-images';
 import {
+  IMAGE_QUALITY_HERO,
   IMAGE_SIZES_FULL_VIEWPORT,
 } from '@/lib/next-image';
 import { PlantCollection } from '@/components/PlantCollection';
@@ -35,21 +36,22 @@ export default async function Garden() {
 
   return (
     <div>
-      <div id="hero" className="relative">
+      <div id="hero" className="relative isolate">
         {gardenImage ? (
           <Image
             alt="Garden"
             src={gardenImage}
+            quality={IMAGE_QUALITY_HERO}
             fill
-            className="-z-10 object-cover"
+            className="z-0 object-cover"
             priority
             sizes={IMAGE_SIZES_FULL_VIEWPORT}
           />
         ) : null}
-        <div className="absolute w-screen top-0">
+        <div className="absolute z-10 w-screen top-0">
           <TopNav />
         </div>
-        <main className="flex h-screen items-center justify-center">
+        <main className="relative z-10 flex h-screen items-center justify-center">
           <h1 className="text-moss-green-200 animate-fade-up animate-duration-500 animate-delay-1000">Garden</h1>
         </main>
       </div>

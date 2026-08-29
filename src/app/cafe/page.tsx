@@ -12,6 +12,7 @@ import { CafeIllustration, LowWasteIllustration } from '@/components/svg';
 import { resolveLocalSiteImage } from '@/lib/site-images';
 import {
   IMAGE_QUALITY_DECORATIVE,
+  IMAGE_QUALITY_HERO,
   IMAGE_SIZES_FULL_VIEWPORT,
 } from '@/lib/next-image';
 
@@ -29,21 +30,22 @@ export default function Cafe() {
 
   return (
     <div>
-      <div id="hero" className="relative">
+      <div id="hero" className="relative isolate">
         {gardenImage ? (
           <Image
             alt="Cafe"
             src={gardenImage}
+            quality={IMAGE_QUALITY_HERO}
             fill
-            className="-z-10 object-cover"
+            className="z-0 object-cover"
             priority
             sizes={IMAGE_SIZES_FULL_VIEWPORT}
           />
         ) : null}
-        <div className="absolute w-screen top-0">
+        <div className="absolute z-10 w-screen top-0">
           <TopNav />
         </div>
-        <main className="flex h-screen items-center justify-center">
+        <main className="relative z-10 flex h-screen items-center justify-center">
           <h1 className="text-dawn-rays-200 animate-fade-up animate-duration-500 animate-delay-1000">Garden</h1>
         </main>
       </div>
@@ -142,7 +144,7 @@ export default function Cafe() {
       />
 
       {gardenImage ? (
-        <div className="relative w-full h-[550px] lg:h-[700px]">
+        <div className="relative isolate w-full h-[550px] lg:h-[700px]">
           <Image
             alt="Try our meals"
             src={gardenImage}
@@ -150,9 +152,9 @@ export default function Cafe() {
             loading="lazy"
             fill
             sizes={IMAGE_SIZES_FULL_VIEWPORT}
-            className="-z-10 object-cover contrast-[.25]"
+            className="z-0 object-cover contrast-[.25]"
           />
-          <div className="flex flex-col h-full items-center justify-center gap-6">
+          <div className="relative z-10 flex flex-col h-full items-center justify-center gap-6">
             <h2>Try our meals</h2>
             <div className="flex justify-center">
               <Link

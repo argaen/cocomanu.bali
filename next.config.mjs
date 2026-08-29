@@ -2,6 +2,8 @@
 const nextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Finer steps between 1200–1920 so laptop viewports (e.g. 1410px) don't overshoot to 1920w.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1400, 1536, 1920, 2048, 3840],
     // Explicitly allow project-served static images in both local and production.
     localPatterns: [
       {

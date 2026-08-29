@@ -7,7 +7,7 @@ import { WorkLifeIllustration } from '@/components/svg';
 
 import { resolveLocalSiteImage } from '@/lib/site-images';
 import {
-  IMAGE_QUALITY_LCP,
+  IMAGE_QUALITY_HERO,
   IMAGE_SIZES_FULL_VIEWPORT,
 } from '@/lib/next-image';
 
@@ -18,24 +18,24 @@ export default function Home() {
 
   return (
     <main role="main">
-      <div id="hero" className="relative">
+      <div id="hero" className="relative isolate">
         {gardenImage ? (
           <Image
             alt="Welcome to Cocomanu"
             src={gardenImage}
-            quality={IMAGE_QUALITY_LCP}
+            quality={IMAGE_QUALITY_HERO}
             fill
-            className="-z-10 object-cover"
+            className="z-0 object-cover"
             priority
             sizes={IMAGE_SIZES_FULL_VIEWPORT}
           />
         ) : null}
-        <header role="banner" className="flex h-screen justify-center">
+        <header role="banner" className="relative z-10 flex h-screen justify-center">
           <div className="relative top-1/3">
             <Logo className="h-32 sm:h-48 fill-white-water animate-fade-up animate-delay-1000" />
           </div>
         </header>
-        <div className="absolute bottom-0 left-0 flex w-full text-center font-light items-end justify-center pb-8 animate-fade-up animate-delay-1000">
+        <div className="absolute bottom-0 left-0 z-10 flex w-full text-center font-light items-end justify-center pb-8 animate-fade-up animate-delay-1000">
           Medewi | Yeh Sumbul
           <br />
           Bali, Indonesia

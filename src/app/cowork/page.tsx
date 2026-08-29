@@ -58,19 +58,19 @@ export default async function Cowork() {
 
   return (
     <div>
-      <div id="hero" className="relative">
+      <div id="hero" className="relative isolate">
         {heroSrc ? (
           <Image
             alt="Our Coworking space"
             src={heroSrc}
             quality={IMAGE_QUALITY_HERO}
             fill
-            className="-z-10 object-cover"
+            className="z-0 object-cover"
             priority
             sizes={IMAGE_SIZES_FULL_VIEWPORT}
           />
         ) : null}
-        <main className="flex h-screen items-center justify-center">
+        <main className="relative z-10 flex h-screen items-center justify-center">
           <h1 className="text-dusk-glow-200 animate-fade-up animate-duration-500 animate-delay-1000">Cowork</h1>
         </main>
       </div>
@@ -186,7 +186,7 @@ export default async function Cowork() {
       />
 
       {coliveImage ? (
-        <div className="relative w-full h-[550px] lg:h-[700px]">
+        <div className="relative isolate w-full h-[550px] lg:h-[700px]">
           <Image
             alt="Check our Coliving space"
             src={coliveImage}
@@ -194,9 +194,9 @@ export default async function Cowork() {
             loading="lazy"
             fill
             sizes={IMAGE_SIZES_FULL_VIEWPORT}
-            className="-z-10 object-cover contrast-[.25]"
+            className="z-0 object-cover contrast-[.25]"
           />
-          <div className="flex flex-col h-full items-center justify-center gap-6">
+          <div className="relative z-10 flex flex-col h-full items-center justify-center gap-6">
             <h2>Want to stay with us too?</h2>
             <div className="flex justify-center">
               <Link
