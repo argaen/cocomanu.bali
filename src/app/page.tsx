@@ -7,6 +7,7 @@ import { WorkLifeIllustration } from '@/components/svg';
 
 import { resolveLocalSiteImage } from '@/lib/site-images';
 import {
+  IMAGE_QUALITY_LCP,
   IMAGE_SIZES_FULL_VIEWPORT,
 } from '@/lib/next-image';
 
@@ -22,6 +23,7 @@ export default function Home() {
           <Image
             alt="Welcome to Cocomanu"
             src={gardenImage}
+            quality={IMAGE_QUALITY_LCP}
             fill
             className="-z-10 object-cover"
             priority

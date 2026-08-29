@@ -3,6 +3,9 @@ import type { StaticImageData } from 'next/image';
 /** LCP hero backgrounds — sharp on retina without overserving desktop. */
 export const IMAGE_QUALITY_HERO = 80;
 
+/** Home page LCP — slightly more compression; full-bleed photos stay sharp at mobile widths. */
+export const IMAGE_QUALITY_LCP = 60;
+
 /** In-page section photos (half-width on sm+, galleries). */
 export const IMAGE_QUALITY_SECTION = 75;
 
