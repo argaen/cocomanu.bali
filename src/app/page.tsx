@@ -5,31 +5,32 @@ import Image from 'next/image';
 import HeroImageContent from '@/components/HeroImageContent';
 import { WorkLifeIllustration } from '@/components/svg';
 
-import HeroImage from '@/assets/images/photo1.png';
-import { GARDEN_IMAGE } from '@/lib/notion/constants';
 import { resolveLocalSiteImage } from '@/lib/site-images';
+import {
+  IMAGE_SIZES_FULL_VIEWPORT,
+} from '@/lib/next-image';
 
 export default function Home() {
+  const gardenImage = resolveLocalSiteImage('garden_1');
   const coworkImage = resolveLocalSiteImage('cowork_1');
   const coliveImage = resolveLocalSiteImage('colive_1');
 
   return (
     <main role="main">
       <div id="hero" className="relative">
-        <Image
-          alt="Welcome to Cocomanu"
-          src={HeroImage}
-          quality={90}
-          fill
-          className="-z-10 object-cover"
-          placeholder="blur"
-          priority
-          unoptimized
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
-        />
+        {gardenImage ? (
+          <Image
+            alt="Welcome to Cocomanu"
+            src={gardenImage}
+            fill
+            className="-z-10 object-cover"
+            priority
+            sizes={IMAGE_SIZES_FULL_VIEWPORT}
+          />
+        ) : null}
         <header role="banner" className="flex h-screen justify-center">
           <div className="relative top-1/3">
-            <Logo className="h-32 sm:h-48 fill-moss-green-100 animate-fade-up animate-delay-1000" />
+            <Logo className="h-32 sm:h-48 fill-white-water animate-fade-up animate-delay-1000" />
           </div>
         </header>
         <div className="absolute bottom-0 left-0 flex w-full text-center font-light items-end justify-center pb-8 animate-fade-up animate-delay-1000">
@@ -110,27 +111,29 @@ export default function Home() {
           }
         />
       ) : null}
-      <Section
-        className="!py-0"
-        header="Garden"
-        headerClassName="text-moss-green-200 sm:hidden mt-12 -mb-7 pb-0"
-        content={
-          <HeroImageContent
-            header="Garden"
-            headerClassName="sm:text-moss-green-200"
-            header2ClassName="text-moss-green-300"
-            image={GARDEN_IMAGE}
-            contentClassName="bg-moss-green-100"
-            imageClassName="intersect:animate-fade-left intersect-once"
-            linkClassName="bg-moss-green-200 before:bg-moss-green-100"
-            title="Nature At Home"
-            text="Our plants are for you, enjoy exploring our food forest, discover new tropical forests and learn how we transformed a rice padi back into a jungle."
-            href="/garden"
-            linkText="Coming soon"
-            linkDisabled
-          />
-        }
-      />
+      {gardenImage ? (
+        <Section
+          className="!py-0"
+          header="Garden"
+          headerClassName="text-moss-green-200 sm:hidden mt-12 -mb-7 pb-0"
+          content={
+            <HeroImageContent
+              header="Garden"
+              headerClassName="sm:text-moss-green-200"
+              header2ClassName="text-moss-green-300"
+              image={gardenImage}
+              contentClassName="bg-moss-green-100"
+              imageClassName="intersect:animate-fade-left intersect-once"
+              linkClassName="bg-moss-green-200 before:bg-moss-green-100"
+              title="Nature At Home"
+              text="Our plants are for you, enjoy exploring our food forest, discover new tropical forests and learn how we transformed a rice padi back into a jungle."
+              href="/garden"
+              linkText="Coming soon"
+              linkDisabled
+            />
+          }
+        />
+      ) : null}
     </main>
   );
 }

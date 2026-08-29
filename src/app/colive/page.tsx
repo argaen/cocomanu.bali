@@ -25,7 +25,11 @@ import {
   getUnavailableColiveNights,
 } from '@/lib/notion';
 import { listLocalSiteImages, resolveLocalSiteImage } from '@/lib/site-images';
-import { GARDEN_IMAGE } from '@/lib/notion/constants';
+import {
+  IMAGE_QUALITY_DECORATIVE,
+  IMAGE_QUALITY_HERO,
+  IMAGE_SIZES_FULL_VIEWPORT,
+} from '@/lib/next-image';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coliving",
@@ -54,6 +58,7 @@ export default async function Colive() {
   ]);
 
   const heroSrc = resolveLocalSiteImage('colive_1');
+  const gardenImage = resolveLocalSiteImage('garden_1');
   const roomGalleryImages = listLocalSiteImages('colive_')
     .filter((img) => img.slug !== 'colive_1')
     .map((img) => ({
@@ -69,11 +74,11 @@ export default async function Colive() {
           <Image
             alt="Our Coliving space"
             src={heroSrc}
-            quality={90}
+            quality={IMAGE_QUALITY_HERO}
             fill
             className="-z-10 object-cover"
             priority
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
+            sizes={IMAGE_SIZES_FULL_VIEWPORT}
           />
         ) : null}
         <main className="flex h-screen items-center justify-center">
@@ -194,31 +199,33 @@ export default async function Colive() {
         }
       />
 
-      <div className="relative w-full h-[550px] lg:h-[700px]">
-        <Image
-          alt="Check our Garden"
-          src={GARDEN_IMAGE}
-          quality={10}
-          loading="lazy"
-          placeholder="blur"
-          fill
-          className="-z-10 object-cover contrast-[.25]"
-        />
-        <div className="flex flex-col h-full items-center justify-center gap-6">
-          <h2>A place to relax and disconnect</h2>
-          <div className="flex justify-center">
-            <Link
-              href="/garden"
-              className="cta bg-moss-green-200 before:bg-moss-green-100"
-            >
-              <span className="flex items-center py-1 px-2 z-10">
-                Garden
-                <ArrowRightIcon className="size-4 ml-1 font-bold"/>
-              </span>
-            </Link>
+      {gardenImage ? (
+        <div className="relative w-full h-[550px] lg:h-[700px]">
+          <Image
+            alt="Check our Garden"
+            src={gardenImage}
+            quality={IMAGE_QUALITY_DECORATIVE}
+            loading="lazy"
+            fill
+            sizes={IMAGE_SIZES_FULL_VIEWPORT}
+            className="-z-10 object-cover contrast-[.25]"
+          />
+          <div className="flex flex-col h-full items-center justify-center gap-6">
+            <h2>A place to relax and disconnect</h2>
+            <div className="flex justify-center">
+              <Link
+                href="/garden"
+                className="cta bg-moss-green-200 before:bg-moss-green-100"
+              >
+                <span className="flex items-center py-1 px-2 z-10">
+                  Garden
+                  <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
 
     </div>
   );

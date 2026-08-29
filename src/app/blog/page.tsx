@@ -4,6 +4,10 @@ import { DateTime } from 'luxon';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import { getPosts } from '@/lib/notion';
+import {
+  IMAGE_QUALITY_CARD,
+  IMAGE_SIZES_BLOG_THUMB,
+} from '@/lib/next-image';
 
 export default async function PostsPage() {
   const posts = await getPosts();
@@ -16,9 +20,11 @@ export default async function PostsPage() {
             <div className="flex items-stretch gap-4">
               <Image
                 src={post.image}
-                alt="test"
+                alt={post.title}
                 width={250}
                 height={250}
+                quality={IMAGE_QUALITY_CARD}
+                sizes={IMAGE_SIZES_BLOG_THUMB}
                 loading="lazy"
                 className="object-cover rounded-md aspect-square"
               />

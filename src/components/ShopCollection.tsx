@@ -17,20 +17,12 @@ import { useCart } from '@/context/CartContext';
 import { formatProductPriceDisplay } from '@/lib/notion/product-price-format';
 import type { ProductQuantitySpec } from '@/lib/notion/types';
 import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
-
-/** Tiny SVG blur for remote `next/image` URLs (theme-neutral warm gray). */
-const REMOTE_IMAGE_BLUR_DATA_URL =
-  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2U4ZTZkZCIvPjwvc3ZnPg==';
-
-function blurPlaceholderProps(src: string | StaticImageData) {
-  if (typeof src === 'string') {
-    return {
-      placeholder: 'blur' as const,
-      blurDataURL: REMOTE_IMAGE_BLUR_DATA_URL,
-    };
-  }
-  return { placeholder: 'blur' as const };
-}
+import {
+  blurPlaceholderProps,
+  IMAGE_QUALITY_CARD,
+  IMAGE_SIZES_GRID_CARD,
+  IMAGE_SIZES_MODAL_HERO,
+} from '@/lib/next-image';
 
 function packLabelFromSpec(spec: ProductQuantitySpec): string {
   const parts: string[] = [];
@@ -382,7 +374,8 @@ export default function ShopCollection({
                         src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
                         alt={cardHeading}
                         fill
-                        sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                        quality={IMAGE_QUALITY_CARD}
+                        sizes={IMAGE_SIZES_GRID_CARD}
                         priority={groupIndex < 4}
                         className="object-cover"
                         {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
@@ -404,7 +397,8 @@ export default function ShopCollection({
                               src={src}
                               alt=""
                               fill
-                              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                              quality={IMAGE_QUALITY_CARD}
+                              sizes={IMAGE_SIZES_GRID_CARD}
                               loading="eager"
                               className="object-cover"
                               {...blurPlaceholderProps(src)}
@@ -425,7 +419,8 @@ export default function ShopCollection({
                       src={failedImageIds[item.id] ? ProductPlaceholder : item.image}
                       alt={cardHeading}
                       fill
-                      sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                      quality={IMAGE_QUALITY_CARD}
+                      sizes={IMAGE_SIZES_GRID_CARD}
                       priority={groupIndex < 4}
                       className="object-cover"
                       {...blurPlaceholderProps(failedImageIds[item.id] ? ProductPlaceholder : item.image)}
@@ -567,7 +562,8 @@ export default function ShopCollection({
                     }
                     alt={displayNameForCart(modalItem || selectedItem)}
                     fill
-                    sizes="(max-width: 767px) 100vw, 768px"
+                    quality={IMAGE_QUALITY_CARD}
+                    sizes={IMAGE_SIZES_MODAL_HERO}
                     className="object-cover"
                     {...blurPlaceholderProps(
                       failedImageIds[(modalItem || selectedItem).id]

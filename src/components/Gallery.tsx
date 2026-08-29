@@ -6,6 +6,10 @@ import Image from 'next/image';
 import type { StaticImageData } from 'next/image';
 
 import {
+  IMAGE_QUALITY_SECTION,
+  IMAGE_SIZES_GALLERY,
+} from '@/lib/next-image';
+import {
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -39,6 +43,9 @@ export default function Gallery({
                 alt={img.alt}
                 width={1200}
                 height={800}
+                quality={IMAGE_QUALITY_SECTION}
+                sizes={IMAGE_SIZES_GALLERY}
+                loading="lazy"
                 className="block w-full h-auto rounded-md object-cover"
               />
             </CarouselItem>

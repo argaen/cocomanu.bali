@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    formats: ['image/avif', 'image/webp'],
     // Explicitly allow project-served static images in both local and production.
     localPatterns: [
       {

@@ -5,6 +5,10 @@ import Introduction from '@/components/Introduction';
 import { CommunityIllustration } from '@/components/svg';
 
 import HeroImage from '@/assets/images/community.jpeg';
+import {
+  IMAGE_QUALITY_HERO,
+  IMAGE_SIZES_FULL_VIEWPORT,
+} from '@/lib/next-image';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Community",
@@ -22,12 +26,12 @@ export default function Community() {
         <Image
           alt="Our Community"
           src={HeroImage}
-          quality={90}
+          quality={IMAGE_QUALITY_HERO}
           fill
           className="-z-10 object-cover"
           placeholder="blur"
           priority
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
+          sizes={IMAGE_SIZES_FULL_VIEWPORT}
         />
         <main className="flex h-screen items-center justify-center">
           <h1 className="text-dawn-rays-200 animate-fade-up animate-duration-500 animate-delay-1000">Community</h1>

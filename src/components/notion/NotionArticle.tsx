@@ -5,6 +5,10 @@ import { indexGenerator, NotionBlock, rnrSlugify } from '@9gustin/react-notion-r
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 import RenderNotion from '@/components/notion/RenderNotion';
+import {
+  IMAGE_QUALITY_SECTION,
+  IMAGE_SIZES_ARTICLE_HERO,
+} from '@/lib/next-image';
 
 export type NotionArticleProps = {
   title: string;
@@ -34,8 +38,11 @@ export default function NotionArticle({
           <div className="relative h-[400px] w-full mr-4 mb-4">
             <Image
               src={image}
-              alt="Hero"
+              alt={title}
               fill
+              quality={IMAGE_QUALITY_SECTION}
+              sizes={IMAGE_SIZES_ARTICLE_HERO}
+              priority
               className="object-cover rounded-md"
             />
           </div>

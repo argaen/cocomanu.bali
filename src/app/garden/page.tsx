@@ -10,8 +10,11 @@ import Section from '@/components/Section';
 import Gallery from '@/components/Gallery';
 
 import { GardenIllustration } from '@/components/svg';
-import { GARDEN_IMAGE } from '@/lib/notion/constants';
 import { getPlants } from '@/lib/notion';
+import { resolveLocalSiteImage } from '@/lib/site-images';
+import {
+  IMAGE_SIZES_FULL_VIEWPORT,
+} from '@/lib/next-image';
 import { PlantCollection } from '@/components/PlantCollection';
 
 export const metadata: Metadata = {
@@ -28,21 +31,21 @@ export default async function Garden() {
     getPlants({ limit: 6 }),
     getPlants(),
   ]);
+  const gardenImage = resolveLocalSiteImage('garden_1');
 
   return (
     <div>
       <div id="hero" className="relative">
-        <Image
-          alt="Garden"
-          src={GARDEN_IMAGE}
-          quality={90}
-          fill
-          className="-z-10 object-cover"
-          placeholder="blur"
-          priority
-          unoptimized
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
-        />
+        {gardenImage ? (
+          <Image
+            alt="Garden"
+            src={gardenImage}
+            fill
+            className="-z-10 object-cover"
+            priority
+            sizes={IMAGE_SIZES_FULL_VIEWPORT}
+          />
+        ) : null}
         <div className="absolute w-screen top-0">
           <TopNav />
         </div>
@@ -78,28 +81,32 @@ Designed using permaculture principles, the garden is a self-sustaining ecosyste
           <Gallery
             arrowClassName="fill-moss-green-200 disabled:fill-moss-green-300"
             selectorClassName="bg-moss-green-200"
-            images={[
-              {
-                src: GARDEN_IMAGE,
-                alt: 'Garden1',
-                caption: 'Acerola',
-              },
-              {
-                src: GARDEN_IMAGE,
-                alt: 'Garden2',
-                caption: 'Mango',
-              },
-              {
-                src: GARDEN_IMAGE,
-                alt: 'Garden2',
-                caption: 'Mango',
-              },
-              {
-                src: GARDEN_IMAGE,
-                alt: 'Garden2',
-                caption: 'Mango',
-              },
-            ]}
+            images={
+              gardenImage
+                ? [
+                    {
+                      src: gardenImage,
+                      alt: 'Garden1',
+                      caption: 'Acerola',
+                    },
+                    {
+                      src: gardenImage,
+                      alt: 'Garden2',
+                      caption: 'Mango',
+                    },
+                    {
+                      src: gardenImage,
+                      alt: 'Garden2',
+                      caption: 'Mango',
+                    },
+                    {
+                      src: gardenImage,
+                      alt: 'Garden2',
+                      caption: 'Mango',
+                    },
+                  ]
+                : []
+            }
           />
         }
       />

@@ -4,6 +4,11 @@ import { twMerge } from 'tailwind-merge';
 import type { StaticImageData } from 'next/image';
 import {ArrowRightIcon} from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import {
+  blurPlaceholderProps,
+  IMAGE_QUALITY_SECTION,
+  IMAGE_SIZES_HALF_VIEWPORT,
+} from '@/lib/next-image';
 
 export type HeroImageContentProps = {
   image: StaticImageData | string;
@@ -36,18 +41,17 @@ export default function HeroImageContent({
   linkText = 'Explore',
   linkDisabled = false,
 }: HeroImageContentProps) {
-  const isStatic = typeof image !== 'string';
-
   return (
     <div className="grid sm:grid-cols-2">
       <div className={twMerge('relative w-full h-[550px] lg:h-[700px] overflow-hidden', imageClassName)}>
         <Image
           src={image}
           alt={title}
-          quality={90}
+          quality={IMAGE_QUALITY_SECTION}
           fill
           loading="lazy"
-          {...(isStatic ? { placeholder: 'blur' as const, unoptimized: true } : {})}
+          sizes={IMAGE_SIZES_HALF_VIEWPORT}
+          {...blurPlaceholderProps(image)}
           className={twMerge('object-cover transition-all duration-300', imageInnerClassName)}
         />
       </div>

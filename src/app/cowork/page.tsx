@@ -24,6 +24,11 @@ import PricingTierPrice from '@/components/PricingTierPrice';
 import CoworkBookingForm from '@/components/CoworkBookingForm';
 import { getCoworkingPricing } from '@/lib/notion';
 import { listLocalSiteImages, resolveLocalSiteImage } from '@/lib/site-images';
+import {
+  IMAGE_QUALITY_DECORATIVE,
+  IMAGE_QUALITY_HERO,
+  IMAGE_SIZES_FULL_VIEWPORT,
+} from '@/lib/next-image';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Coworking",
@@ -58,11 +63,11 @@ export default async function Cowork() {
           <Image
             alt="Our Coworking space"
             src={heroSrc}
-            quality={90}
+            quality={IMAGE_QUALITY_HERO}
             fill
             className="-z-10 object-cover"
             priority
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
+            sizes={IMAGE_SIZES_FULL_VIEWPORT}
           />
         ) : null}
         <main className="flex h-screen items-center justify-center">
@@ -185,9 +190,10 @@ export default async function Cowork() {
           <Image
             alt="Check our Coliving space"
             src={coliveImage}
-            quality={10}
+            quality={IMAGE_QUALITY_DECORATIVE}
             loading="lazy"
             fill
+            sizes={IMAGE_SIZES_FULL_VIEWPORT}
             className="-z-10 object-cover contrast-[.25]"
           />
           <div className="flex flex-col h-full items-center justify-center gap-6">

@@ -12,20 +12,12 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import RenderNotion from '@/components/notion/RenderNotion';
 import PlantPlaceholder from '@/assets/images/product_placeholder.webp';
 import type { Plant } from '@/lib/notion';
-
-/** Tiny SVG blur for remote `next/image` URLs (theme-neutral warm gray). */
-const REMOTE_IMAGE_BLUR_DATA_URL =
-  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2U4ZTZkZCIvPjwvc3ZnPg==';
-
-function blurPlaceholderProps(src: string | StaticImageData) {
-  if (typeof src === 'string') {
-    return {
-      placeholder: 'blur' as const,
-      blurDataURL: REMOTE_IMAGE_BLUR_DATA_URL,
-    };
-  }
-  return { placeholder: 'blur' as const };
-}
+import {
+  blurPlaceholderProps,
+  IMAGE_QUALITY_CARD,
+  IMAGE_SIZES_GRID_CARD,
+  IMAGE_SIZES_MODAL_HERO,
+} from '@/lib/next-image';
 
 export type PlantCollectionProps = {
   plants: Plant[];
@@ -225,7 +217,8 @@ export function PlantCollection({
                       alt={plant.name}
                       src={imageSrc}
                       fill
-                      sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                      sizes={IMAGE_SIZES_GRID_CARD}
+                      quality={IMAGE_QUALITY_CARD}
                       priority={index < 4}
                       className="object-cover transition-opacity duration-300 group-hover:opacity-95"
                       {...blurPlaceholderProps(imageSrc)}
@@ -289,7 +282,8 @@ export function PlantCollection({
                   alt={plant.name}
                   src={imageSrc}
                   fill
-                  sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                  quality={IMAGE_QUALITY_CARD}
+                  sizes={IMAGE_SIZES_GRID_CARD}
                   priority={index < 4}
                   className="object-cover transition-opacity duration-300 group-hover:opacity-95"
                   {...blurPlaceholderProps(imageSrc)}
@@ -350,7 +344,8 @@ export function PlantCollection({
                 }
                 alt={displayPlant.name}
                 fill
-                sizes="(max-width: 767px) 100vw, 768px"
+                sizes={IMAGE_SIZES_MODAL_HERO}
+                quality={IMAGE_QUALITY_CARD}
                 className="object-cover transition-opacity duration-300"
                 {...blurPlaceholderProps(
                   failedImageIds[displayPlant.id]

@@ -1,6 +1,3 @@
-import gardenWebp from '@/assets/images/garden.webp';
-export const GARDEN_IMAGE = gardenWebp;
-
 export const COLOR_MAP: { [color: string]: string } = {
   brown: '#a52a2acc',
   green: '#928E43',

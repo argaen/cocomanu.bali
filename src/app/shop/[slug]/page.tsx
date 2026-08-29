@@ -6,6 +6,11 @@ import type { NotionBlock } from '@9gustin/react-notion-render';
 import { getProductDetail, getProducts, formatProductPriceDisplay } from '@/lib/notion';
 import RenderNotion from '@/components/notion/RenderNotion';
 import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
+import {
+  blurPlaceholderProps,
+  IMAGE_QUALITY_SECTION,
+  IMAGE_SIZES_ARTICLE_HERO,
+} from '@/lib/next-image';
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -41,7 +46,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
             src={product.image || ProductPlaceholder}
             alt={product.name}
             fill
+            quality={IMAGE_QUALITY_SECTION}
+            sizes={IMAGE_SIZES_ARTICLE_HERO}
             className="object-cover"
+            {...blurPlaceholderProps(product.image || ProductPlaceholder)}
           />
         </div>
         <div className="space-y-4 p-6">

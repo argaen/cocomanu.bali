@@ -9,7 +9,11 @@ import Section from '@/components/Section';
 import Gallery from '@/components/Gallery';
 
 import { CafeIllustration, LowWasteIllustration } from '@/components/svg';
-import { GARDEN_IMAGE } from '@/lib/notion/constants';
+import { resolveLocalSiteImage } from '@/lib/site-images';
+import {
+  IMAGE_QUALITY_DECORATIVE,
+  IMAGE_SIZES_FULL_VIEWPORT,
+} from '@/lib/next-image';
 
 export const metadata: Metadata = {
   title: "Cocomanu - Cafe",
@@ -21,20 +25,21 @@ export const metadata: Metadata = {
 };
 
 export default function Cafe() {
+  const gardenImage = resolveLocalSiteImage('garden_1');
+
   return (
     <div>
       <div id="hero" className="relative">
-        <Image
-          alt="Cafe"
-          src={GARDEN_IMAGE}
-          quality={90}
-          fill
-          className="-z-10 object-cover"
-          placeholder="blur"
-          priority
-          unoptimized
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 75vw, (max-width: 1280px) 90vw, 100vw"
-        />
+        {gardenImage ? (
+          <Image
+            alt="Cafe"
+            src={gardenImage}
+            fill
+            className="-z-10 object-cover"
+            priority
+            sizes={IMAGE_SIZES_FULL_VIEWPORT}
+          />
+        ) : null}
         <div className="absolute w-screen top-0">
           <TopNav />
         </div>
@@ -89,28 +94,32 @@ export default function Cafe() {
           <Gallery
             arrowClassName="fill-moss-green-200 disabled:fill-moss-green-300"
             selectorClassName="bg-moss-green-200"
-            images={[
-              {
-                src: GARDEN_IMAGE,
-                alt: 'Garden1',
-                caption: 'Acerola',
-              },
-              {
-                src: GARDEN_IMAGE,
-                alt: 'Garden2',
-                caption: 'Mango',
-              },
-              {
-                src: GARDEN_IMAGE,
-                alt: 'Garden2',
-                caption: 'Mango',
-              },
-              {
-                src: GARDEN_IMAGE,
-                alt: 'Garden2',
-                caption: 'Mango',
-              },
-            ]}
+            images={
+              gardenImage
+                ? [
+                    {
+                      src: gardenImage,
+                      alt: 'Garden1',
+                      caption: 'Acerola',
+                    },
+                    {
+                      src: gardenImage,
+                      alt: 'Garden2',
+                      caption: 'Mango',
+                    },
+                    {
+                      src: gardenImage,
+                      alt: 'Garden2',
+                      caption: 'Mango',
+                    },
+                    {
+                      src: gardenImage,
+                      alt: 'Garden2',
+                      caption: 'Mango',
+                    },
+                  ]
+                : []
+            }
           />
         }
       />
@@ -132,31 +141,33 @@ export default function Cafe() {
         }
       />
 
-      <div className="relative w-full h-[550px] lg:h-[700px]">
-        <Image
-          alt="Try our meals"
-          src={GARDEN_IMAGE}
-          quality={10}
-          loading="lazy"
-          placeholder="blur"
-          fill
-          className="-z-10 object-cover contrast-[.25]"
-        />
-        <div className="flex flex-col h-full items-center justify-center gap-6">
-          <h2>Try our meals</h2>
-          <div className="flex justify-center">
-            <Link
-              href="/cafe"
-              className="cta bg-dawn-rays-200 before:bg-dawn-rays-100"
-            >
-              <span className="flex items-center py-1 px-2 z-10">
-                Garden
-                <ArrowRightIcon className="size-4 ml-1 font-bold"/>
-              </span>
-            </Link>
+      {gardenImage ? (
+        <div className="relative w-full h-[550px] lg:h-[700px]">
+          <Image
+            alt="Try our meals"
+            src={gardenImage}
+            quality={IMAGE_QUALITY_DECORATIVE}
+            loading="lazy"
+            fill
+            sizes={IMAGE_SIZES_FULL_VIEWPORT}
+            className="-z-10 object-cover contrast-[.25]"
+          />
+          <div className="flex flex-col h-full items-center justify-center gap-6">
+            <h2>Try our meals</h2>
+            <div className="flex justify-center">
+              <Link
+                href="/cafe"
+                className="cta bg-dawn-rays-200 before:bg-dawn-rays-100"
+              >
+                <span className="flex items-center py-1 px-2 z-10">
+                  Garden
+                  <ArrowRightIcon className="size-4 ml-1 font-bold"/>
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }
