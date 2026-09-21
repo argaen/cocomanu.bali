@@ -99,7 +99,6 @@ export default async function Colive() {
             </p>
             <p>
               That&apos;s why we created our coliving space with long-term stay in mind. With a full kitchen and living room, a refreshing pool and a lush edible garden, it&apos;s easy to find balance and community - all just steps away from our coworking space.
-              the most.
             </p>
           </div>
         )}
