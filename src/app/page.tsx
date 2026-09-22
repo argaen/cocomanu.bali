@@ -83,8 +83,6 @@ export default function Home() {
               title="The Perfect Tropical Office"
               text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
               href="/cowork"
-              linkText="Coming soon"
-              linkDisabled
             />
           }
         />
@@ -107,8 +105,6 @@ export default function Home() {
               title="Home Away From Home"
               text="Miss the comfort and routine? You'll have a private ensuite in a villa with a shared full kitchen, a pool overlooking the river and seamless access to our coworking space."
               href="/colive"
-              linkText="Coming soon"
-              linkDisabled
             />
           }
         />
