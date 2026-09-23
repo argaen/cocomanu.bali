@@ -31,6 +31,9 @@ import {
   IMAGE_SIZES_FULL_VIEWPORT,
 } from '@/lib/next-image';
 
+/** Refresh Notion bookings/pricing periodically (ISR). */
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Cocomanu - Coliving",
   description: "Our Coliving space",
