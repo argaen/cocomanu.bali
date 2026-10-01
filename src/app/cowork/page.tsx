@@ -30,6 +30,9 @@ import {
   IMAGE_SIZES_FULL_VIEWPORT,
 } from '@/lib/next-image';
 
+/** Refresh Notion pricing periodically (ISR). */
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Cocomanu - Coworking",
   description: "Our Coworking space",
