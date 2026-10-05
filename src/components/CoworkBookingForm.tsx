@@ -78,7 +78,7 @@ export default function CoworkBookingForm({ pricing }: CoworkBookingFormProps) {
     '--rdp-font-family': 'var(--font-josefin)',
   } as CSSProperties;
 
-  const tomorrow = useMemo(() => startOfDay(new Date(Date.now() + 86_400_000)), []);
+  const today = useMemo(() => startOfDay(new Date()), []);
 
   const selectedRange: DateRange | undefined = isCalendarOpen
     ? draftRange
@@ -194,8 +194,8 @@ export default function CoworkBookingForm({ pricing }: CoworkBookingFormProps) {
               selected={selectedRange}
               onSelect={handleRangeSelect}
               onDayClick={handleCalendarDayClick}
-              defaultMonth={startDate ?? tomorrow}
-              disabled={{ before: tomorrow }}
+              defaultMonth={startDate ?? today}
+              disabled={{ before: today }}
               className="booking-range-calendar mx-auto font-josefin text-black-sand"
               style={calendarTheme}
               classNames={{
