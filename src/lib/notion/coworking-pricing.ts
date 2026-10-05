@@ -23,7 +23,7 @@ export async function getCoworkingPricing(): Promise<CoworkingPricing[]> {
       database_id: databaseId,
       sorts: [
         {
-          property: 'Price',
+          property: 'Minimum length',
           direction: 'ascending',
         },
       ],
@@ -58,10 +58,8 @@ function pageToCoworkingPricing(page: DatabaseObjectResponse): CoworkingPricing 
   return {
     id: page.id,
     name,
-    price: ((page.properties.Price as unknown) as NumberProperty).number ?? 0,
-    dailyPrice:
-      ((page.properties['Daily Price'] as unknown) as { formula?: { number?: number | null } })
-        .formula?.number ?? 0,
+    price: numberFromProperty(page.properties.Price),
+    dailyPrice: numberFromProperty(page.properties['Daily Price']),
     discount: discountFromProperty(page.properties.Discount),
     durationDays:
       numberFromProperty(page.properties['Minimum length'])
