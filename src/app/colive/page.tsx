@@ -119,7 +119,7 @@ export default async function Colive() {
               images={roomGalleryImages}
             />
             <p className="mx-auto mt-10 w-8/12 max-w-3xl text-left md:w-3/5">
-              Each private room features a queen-sized bed, ensuite bathrooms and a desk so you have the option to work in peace whenever you need your own space.
+              Each private room features your own private patio and surf rack, a king-sized bed, ensuite bathroom, and desk.
             </p>
           </>
         }
