@@ -105,11 +105,16 @@ export default async function Cowork() {
         className="bg-black-sand"
         headerClassName="text-dusk-glow-200"
         content={
-          <Gallery
-            arrowClassName="text-dusk-glow-200"
-            selectorClassName="bg-dusk-glow-200"
-            images={officeGalleryImages}
-          />
+          <>
+            <Gallery
+              arrowClassName="text-dusk-glow-200"
+              selectorClassName="bg-dusk-glow-200"
+              images={officeGalleryImages}
+            />
+            <p className="mx-auto mt-10 w-8/12 max-w-3xl text-left md:w-3/5">
+              Get a glimpse of our inspiring space and see why Cocomanu is more than just a coworking space.
+            </p>
+          </>
         }
       />
 

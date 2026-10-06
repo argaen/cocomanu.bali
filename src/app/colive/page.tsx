@@ -107,22 +107,21 @@ export default async function Colive() {
         )}
       />
 
-      <div className="flex items-center justify-center text-black-sand p-20 md:px-[100px] lg:px-[300px] xl:px-[500px]">
-        <p>
-          Each private room features a queen-sized bed, ensuite bathrooms and a desk so you have the option to work in peace whenever you need your own space.
-        </p>
-      </div>
-
       <Section
         header="Your Room"
         headerClassName="text-ocean-blue-200"
         className="bg-black-sand"
         content={
-          <Gallery
-            arrowClassName="text-ocean-blue-200"
-            selectorClassName="bg-ocean-blue-200"
-            images={roomGalleryImages}
-          />
+          <>
+            <Gallery
+              arrowClassName="text-ocean-blue-200"
+              selectorClassName="bg-ocean-blue-200"
+              images={roomGalleryImages}
+            />
+            <p className="mx-auto mt-10 w-8/12 max-w-3xl text-left md:w-3/5">
+              Each private room features a queen-sized bed, ensuite bathrooms and a desk so you have the option to work in peace whenever you need your own space.
+            </p>
+          </>
         }
       />
 
