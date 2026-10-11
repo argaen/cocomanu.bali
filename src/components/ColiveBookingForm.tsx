@@ -16,10 +16,18 @@ type ColiveBookingFormProps = {
   pricing: ColivePricing[];
   /** ISO YYYY-MM-DD nights when all rooms are occupied */
   unavailableNights?: string[];
+  /** Next sequential ID from Notion (e.g. B-0013); falls back to a random ref when missing. */
+  nextBookingId?: string | null;
 };
+
+const MIN_NIGHTS = 3;
 
 function startOfDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function addDays(date: Date, days: number): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
 }
 
 function toIsoDate(date: Date): string {
@@ -47,6 +55,11 @@ function formatDisplayDate(date?: Date): string {
   });
 }
 
+function canStartMinimumStay(checkIn: Date, unavailable: Set<string>): boolean {
+  const start = startOfDay(checkIn);
+  return !rangeIncludesUnavailableNight(start, addDays(start, MIN_NIGHTS), unavailable);
+}
+
 function rangeIncludesUnavailableNight(
   from: Date,
   to: Date,
@@ -64,6 +77,7 @@ function rangeIncludesUnavailableNight(
 export default function ColiveBookingForm({
   pricing,
   unavailableNights = [],
+  nextBookingId,
 }: ColiveBookingFormProps) {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
@@ -83,8 +97,8 @@ export default function ColiveBookingForm({
 
   const bookingId = useMemo(() => {
     if (!startDate || !endDate || nights <= 0) return '';
-    return createBookingId();
-  }, [startDate, endDate, nights]);
+    return nextBookingId || createBookingId();
+  }, [startDate, endDate, nights, nextBookingId]);
 
   const whatsappMessage = useMemo(() => {
     if (!startDate || !endDate || nights <= 0 || !bookingId) return '';
@@ -132,13 +146,14 @@ export default function ColiveBookingForm({
     const matchers: Matcher[] = [{ before: tomorrow }];
 
     if (selectingEnd && rangeStart) {
+      const earliestCheckOut = addDays(rangeStart, MIN_NIGHTS);
       matchers.push((date) => {
         const day = startOfDay(date);
-        if (day.getTime() <= rangeStart.getTime()) return true;
+        if (day.getTime() < earliestCheckOut.getTime()) return true;
         return rangeIncludesUnavailableNight(rangeStart, day, unavailableSet);
       });
     } else {
-      matchers.push((date) => unavailableSet.has(toIsoDate(date)));
+      matchers.push((date) => !canStartMinimumStay(date, unavailableSet));
     }
 
     return matchers;
@@ -158,12 +173,15 @@ export default function ColiveBookingForm({
     if (
       nextStart
       && nextEnd
-      && rangeIncludesUnavailableNight(nextStart, nextEnd, unavailableSet)
+      && (
+        nightsBetweenDates(nextStart, nextEnd) < MIN_NIGHTS
+        || rangeIncludesUnavailableNight(nextStart, nextEnd, unavailableSet)
+      )
     ) {
       return;
     }
 
-    if (nextStart && unavailableSet.has(toIsoDate(nextStart)) && !nextEnd) {
+    if (nextStart && !nextEnd && !canStartMinimumStay(nextStart, unavailableSet)) {
       return;
     }
 
@@ -187,7 +205,7 @@ export default function ColiveBookingForm({
     if (!resetOnNextPick || modifiers.disabled) return;
 
     const nextStart = startOfDay(day);
-    if (unavailableSet.has(toIsoDate(nextStart))) return;
+    if (!canStartMinimumStay(nextStart, unavailableSet)) return;
 
     setDraftRange({ from: nextStart, to: undefined });
     setStartDate(nextStart);
@@ -224,7 +242,7 @@ export default function ColiveBookingForm({
     <div className="mx-auto mt-10 w-full max-w-3xl rounded-xl border border-ocean-blue-300/30 bg-white-water p-5 text-black-sand shadow-sm md:p-6">
       <h3 className="text-2xl font-bold text-ocean-blue-200">Check your stay price</h3>
       <p className="mt-1 text-sm text-black-sand/70">
-        Pick your check in and check out dates to calculate your total.
+        Pick your check in and check out dates to calculate your total. Minimum stay is {MIN_NIGHTS} nights.
       </p>
 
       <div ref={popoverRef} className="relative mt-4 rounded-xl border border-ocean-blue-300/50 bg-rainy-day/70 p-4">

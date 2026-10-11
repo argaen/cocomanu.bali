@@ -22,6 +22,7 @@ import PricingTierPrice from '@/components/PricingTierPrice';
 import ColiveBookingForm from '@/components/ColiveBookingForm';
 import {
   getColivePricing,
+  getNextColiveBookingId,
   getUnavailableColiveNights,
 } from '@/lib/notion';
 import { listLocalSiteImages, resolveLocalSiteImage } from '@/lib/site-images';
@@ -55,9 +56,10 @@ function isNightlyEntry(name: string): boolean {
 }
 
 export default async function Colive() {
-  const [pricing, unavailableNights] = await Promise.all([
+  const [pricing, unavailableNights, nextBookingId] = await Promise.all([
     getColivePricing(),
     getUnavailableColiveNights(),
+    getNextColiveBookingId(),
   ]);
 
   const heroSrc = resolveLocalSiteImage('colive_1');
@@ -194,7 +196,11 @@ export default async function Colive() {
               )}
             </div>
             {pricing.length > 0 ? (
-              <ColiveBookingForm pricing={pricing} unavailableNights={unavailableNights} />
+              <ColiveBookingForm
+                pricing={pricing}
+                unavailableNights={unavailableNights}
+                nextBookingId={nextBookingId}
+              />
             ) : null}
           </>
         }

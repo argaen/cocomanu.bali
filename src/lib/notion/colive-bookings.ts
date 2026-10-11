@@ -95,6 +95,44 @@ async function queryFutureBookings(): Promise<ColiveBooking[]> {
   return bookings;
 }
 
+/** Next sequential booking ID (e.g. B-0013) based on the highest `B-NNNN` in Notion, or null on failure. */
+export async function getNextColiveBookingId(): Promise<string | null> {
+  const databaseId = (DATABASES as Record<string, string>)['colive-bookings'];
+  if (!databaseId) return null;
+
+  let max = 0;
+  let cursor: string | undefined;
+
+  try {
+    do {
+      const response = await notion.databases.query({
+        database_id: databaseId,
+        start_cursor: cursor,
+        page_size: 100,
+      });
+
+      for (const page of response.results as DatabaseObjectResponse[]) {
+        const title = (page.properties.ID as { title?: { plain_text: string }[] })?.title
+          ?.map((t) => t.plain_text)
+          .join('')
+          .trim() ?? '';
+        const match = title.match(/^B-(\d+)$/i);
+        if (match) max = Math.max(max, Number(match[1]));
+      }
+
+      cursor = response.has_more ? response.next_cursor ?? undefined : undefined;
+    } while (cursor);
+  } catch (error) {
+    const e = error as { code?: string; message?: string };
+    console.warn(
+      `[getNextColiveBookingId] Failed query for database ${databaseId}: ${e.code ?? 'unknown'} - ${e.message ?? 'unknown error'}`,
+    );
+    return null;
+  }
+
+  return `B-${String(max + 1).padStart(4, '0')}`;
+}
+
 /**
  * Nights (ISO YYYY-MM-DD) when all rooms are occupied.
  * A booking Period [check-in, check-out] occupies nights [check-in, check-out).

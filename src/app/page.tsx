@@ -81,7 +81,7 @@ export default function Home() {
               imageInnerClassName="scale-[1.01]"
               linkClassName="bg-dusk-glow-200 before:bg-dusk-glow-100"
               title="The Perfect Tropical Office"
-              text="Everything you need to focus: High-speed WiFi, proper office chairs, phone booths, indoor AC, and an outdoor coffee bar for those refreshing breaks."
+              text="Everything you need to stay focused is here: fast WiFi, air-conditioned indoor spaces, office chairs, phone booths, an open-air café, and a rooftop for when you need a break."
               href="/cowork"
             />
           }
@@ -103,7 +103,7 @@ export default function Home() {
               imageInnerClassName="scale-[1.01]"
               linkClassName="bg-ocean-blue-200 before:bg-ocean-blue-100"
               title="Home Away From Home"
-              text="Miss the comfort and routine? You'll have a private ensuite in a villa with a shared full kitchen, a pool overlooking the river and seamless access to our coworking space."
+              text="Missing a bit of comfort and routine? You’ll have your own private bathroom and patio, a shared kitchen, and natural pool — all connected to the coworking space."
               href="/colive"
             />
           }
@@ -124,7 +124,7 @@ export default function Home() {
               imageClassName="intersect:animate-fade-left intersect-once"
               linkClassName="bg-moss-green-200 before:bg-moss-green-100"
               title="Nature At Home"
-              text="Our plants are for you, enjoy exploring our food forest, discover new tropical forests and learn how we transformed a rice padi back into a jungle."
+              text="Take a walk through our 2,000 sqm fruit and vegetable garden, unwind by the ponds, and say hello to our friendly farm animals whenever you need a reset."
               href="/garden"
               linkText="Coming soon"
               linkDisabled
