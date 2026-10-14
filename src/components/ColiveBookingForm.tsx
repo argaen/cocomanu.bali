@@ -283,7 +283,7 @@ export default function ColiveBookingForm({
           </div>
         </div>
         {isCalendarOpen ? (
-          <div className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-30 rounded-xl border border-ocean-blue-300/60 bg-white-water p-3 shadow-xl md:left-auto md:right-4 md:w-[44rem]">
+          <div className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-30 rounded-xl border border-ocean-blue-300/60 bg-white-water p-2 shadow-xl sm:p-3 md:left-auto md:right-4 md:w-[44rem]">
             <p className="mb-2 text-sm font-medium text-black-sand/80">Choose your stay dates</p>
             <DayPicker
               mode="range"
@@ -301,13 +301,8 @@ export default function ColiveBookingForm({
               classNames={{
                 day: 'text-sm',
               }}
+              modifiersClassNames={{ booked: 'booking-day-booked' }}
               modifiersStyles={{
-                booked: {
-                  backgroundColor: 'var(--color-dusk-glow-200)',
-                  color: 'var(--color-white-water)',
-                  opacity: 1,
-                  borderRadius: '9999px',
-                },
                 selected: {
                   backgroundColor: 'var(--color-ocean-blue-200)',
                   color: 'var(--color-white-water)',

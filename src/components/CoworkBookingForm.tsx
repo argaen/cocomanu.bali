@@ -185,7 +185,7 @@ export default function CoworkBookingForm({ pricing }: CoworkBookingFormProps) {
           </div>
         </div>
         {isCalendarOpen ? (
-          <div className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-30 rounded-xl border border-dusk-glow-300/60 bg-white-water p-3 shadow-xl md:left-auto md:right-4 md:w-[44rem]">
+          <div className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-30 rounded-xl border border-dusk-glow-300/60 bg-white-water p-2 shadow-xl sm:p-3 md:left-auto md:right-4 md:w-[44rem]">
             <p className="mb-2 text-sm font-medium text-black-sand/80">Choose your pass dates</p>
             <DayPicker
               mode="range"

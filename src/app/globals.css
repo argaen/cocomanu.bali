@@ -175,6 +175,43 @@ h2 {
   border-radius: 9999px;
 }
 
+.booking-range-calendar .booking-day-booked.rdp-disabled {
+  opacity: 1;
+}
+
+.booking-range-calendar .booking-day-booked .rdp-day_button {
+  @apply bg-dusk-glow-200 text-white-water;
+}
+
+/* Fixed 44px day cells overflow narrow phones; let the grid shrink to the popup width. */
+@media (max-width: 639px) {
+  .booking-range-calendar,
+  .booking-range-calendar .rdp-months,
+  .booking-range-calendar .rdp-month {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .booking-range-calendar .rdp-month_grid {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .booking-range-calendar .rdp-day {
+    width: auto;
+    height: auto;
+    padding: 1px;
+  }
+
+  .booking-range-calendar .rdp-day_button {
+    width: 100%;
+    max-width: var(--rdp-day_button-width);
+    height: auto;
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
+}
+
 @theme inline {
  --radius-sm: calc(var(--radius) - 4px);
  --radius-md: calc(var(--radius) - 2px);
