@@ -131,3 +131,13 @@ export type ColivePricing = {
   minimumLength: number;
   includes: string[];
 };
+
+export type FaqItem = {
+  id: string;
+  question: string;
+  answer: string;
+  /** Notion `Page` select/multi-select values this FAQ belongs to (e.g. Colive, Cowork). */
+  pages: string[];
+  /** Optional sort order from Notion `Order`. */
+  order: number;
+};

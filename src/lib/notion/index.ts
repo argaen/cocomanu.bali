@@ -5,5 +5,6 @@ export { getProducts, getProduct, getProductDetail, formatProductPriceDisplay, f
 export { estimateCoworkingTotalFromDays, getCoworkingPricing } from './coworking-pricing';
 export { estimateColiveTotalFromNights, getColivePricing } from './colive-pricing';
 export { getNextColiveBookingId, getUnavailableColiveNights } from './colive-bookings';
+export { getFaqsForPage } from './faq';
 
-export type { ColivePricing, CoworkingPriceEstimate, CoworkingPricing, Plant, Product, ProductQuantitySpec } from './types';
+export type { ColivePricing, CoworkingPriceEstimate, CoworkingPricing, FaqItem, Plant, Product, ProductQuantitySpec } from './types';

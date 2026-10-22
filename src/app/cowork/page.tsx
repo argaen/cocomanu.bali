@@ -22,7 +22,8 @@ import Gallery from '@/components/Gallery';
 import PricingCard from '@/components/PricingCard';
 import PricingTierPrice from '@/components/PricingTierPrice';
 import CoworkBookingForm from '@/components/CoworkBookingForm';
-import { getCoworkingPricing } from '@/lib/notion';
+import FaqSection from '@/components/FaqSection';
+import { getCoworkingPricing, getFaqsForPage } from '@/lib/notion';
 import { listLocalSiteImages, resolveLocalSiteImage } from '@/lib/site-images';
 import {
   IMAGE_QUALITY_DECORATIVE,
@@ -48,7 +49,10 @@ function isDailyEntry(name: string): boolean {
 }
 
 export default async function Cowork() {
-  const pricing = await getCoworkingPricing();
+  const [pricing, faqs] = await Promise.all([
+    getCoworkingPricing(),
+    getFaqsForPage('cowork'),
+  ]);
   const heroSrc = resolveLocalSiteImage('cowork_1');
   const coliveImage = resolveLocalSiteImage('colive_1');
   const officeGalleryImages = listLocalSiteImages('cowork_')
@@ -192,6 +196,8 @@ export default async function Cowork() {
           </>
         }
       />
+
+      <FaqSection items={faqs} />
 
       {coliveImage ? (
         <div className="relative isolate w-full h-[550px] lg:h-[700px]">
