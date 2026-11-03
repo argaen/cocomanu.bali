@@ -105,8 +105,11 @@ export default async function Colive() {
             <p className="mb-4">
               Finding a home on the road as a digital nomad isn&apos;t easy. You want to connect with others but party hostels aren&apos;t your vibe. You crave routine, comfort and privacy, but staying alone in an Airbnb can feel isolating.
             </p>
+            <p className="mb-4">
+              That&apos;s why we created our coliving space with long-term stay in mind. With a full kitchen, a refreshing natural pool and an edible garden, it&apos;s easy to find balance and community - all just steps away from our coworking space.
+            </p>
             <p>
-              That&apos;s why we created our coliving space with long-term stay in mind. With a full kitchen and living room, a refreshing pool and a lush edible garden, it&apos;s easy to find balance and community - all just steps away from our coworking space.
+              Note: We&apos;re still working on the pool and outdoor areas, hence the discounted rates below!
             </p>
           </div>
         )}
