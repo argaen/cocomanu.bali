@@ -3,18 +3,20 @@ import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
 
-import TopNav from '@/components/TopNav';
+import CafeMenu from '@/components/CafeMenu';
 import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
-import Gallery from '@/components/Gallery';
-
 import { CafeIllustration, LowWasteIllustration } from '@/components/svg';
+import { getCafeMenu } from '@/lib/notion';
 import { resolveLocalSiteImage } from '@/lib/site-images';
 import {
   IMAGE_QUALITY_DECORATIVE,
   IMAGE_QUALITY_HERO,
   IMAGE_SIZES_FULL_VIEWPORT,
 } from '@/lib/next-image';
+
+/** Refresh Notion menu periodically (ISR). */
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Cocomanu - Cafe",
@@ -25,16 +27,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Cafe() {
-  const gardenImage = resolveLocalSiteImage('garden_1');
+export default async function Cafe() {
+  const cafeImage = resolveLocalSiteImage('cafe_1');
+  const menu = await getCafeMenu();
 
   return (
     <div>
       <div id="hero" className="relative isolate">
-        {gardenImage ? (
+        {cafeImage ? (
           <Image
             alt="Cafe"
-            src={gardenImage}
+            src={cafeImage}
             quality={IMAGE_QUALITY_HERO}
             fill
             className="z-0 object-cover"
@@ -42,11 +45,8 @@ export default function Cafe() {
             sizes={IMAGE_SIZES_FULL_VIEWPORT}
           />
         ) : null}
-        <div className="absolute z-10 w-screen top-0">
-          <TopNav />
-        </div>
         <main className="relative z-10 flex h-screen items-center justify-center">
-          <h1 className="text-dawn-rays-200 animate-fade-up animate-duration-500 animate-delay-1000">Garden</h1>
+          <h1 className="text-dawn-rays-200 animate-fade-up animate-duration-500 animate-delay-1000">Cafe</h1>
         </main>
       </div>
 
@@ -61,7 +61,6 @@ export default function Cafe() {
             <p>
               Our cafe is open to all - coworking guests, coliving residents and anyone passing through Yeh Sumbul looking for something fresh and nourishing.
             </p>
-
           </div>
         )}
       />
@@ -89,65 +88,17 @@ export default function Cafe() {
       />
 
       <Section
-        header="The Ecosystem"
-        headerClassName="text-moss-green-200"
+        header="Menu"
+        headerClassName="text-dawn-rays-200"
         className="bg-black-sand"
-        content={
-          <Gallery
-            arrowClassName="fill-moss-green-200 disabled:fill-moss-green-300"
-            selectorClassName="bg-moss-green-200"
-            images={
-              gardenImage
-                ? [
-                    {
-                      src: gardenImage,
-                      alt: 'Garden1',
-                      caption: 'Acerola',
-                    },
-                    {
-                      src: gardenImage,
-                      alt: 'Garden2',
-                      caption: 'Mango',
-                    },
-                    {
-                      src: gardenImage,
-                      alt: 'Garden2',
-                      caption: 'Mango',
-                    },
-                    {
-                      src: gardenImage,
-                      alt: 'Garden2',
-                      caption: 'Mango',
-                    },
-                  ]
-                : []
-            }
-          />
-        }
+        content={<CafeMenu items={menu} />}
       />
 
-      <Section
-        header="Learn More"
-        headerClassName="text-moss-green-200"
-        className="bg-black-sand"
-        content={
-          <div>
-            <div className="flex px-10 md:px-6 lg:px-12 justify-center items-center">
-              <div className="md:w-4/6 lg:w-3/6 space-y-4">
-                <p>
-                  Each plant in our garden plays a role in the ecosystem we&apos;ve built. If you&apos;re the curious type, delve deeper into our library of the species we grow, how we use them and how they support each other.
-                </p>
-              </div>
-            </div>
-          </div>
-        }
-      />
-
-      {gardenImage ? (
+      {cafeImage ? (
         <div className="relative isolate w-full h-[550px] lg:h-[700px]">
           <Image
             alt="Try our meals"
-            src={gardenImage}
+            src={cafeImage}
             quality={IMAGE_QUALITY_DECORATIVE}
             loading="lazy"
             fill
@@ -162,7 +113,7 @@ export default function Cafe() {
                 className="cta bg-dawn-rays-200 before:bg-dawn-rays-100"
               >
                 <span className="flex items-center py-1 px-2 z-10">
-                  Garden
+                  Cafe
                   <ArrowRightIcon className="size-4 ml-1 font-bold"/>
                 </span>
               </Link>

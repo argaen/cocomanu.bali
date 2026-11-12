@@ -18,6 +18,7 @@ export const DATABASES = {
   'colive-pricing': '342452d3e01380a1a1f9f707c4292770',
   'colive-bookings': '342452d3e01380269ea2ee2d05116f68',
   faq: '3fc452d3e013800bb4b9f7a81a6f407a',
+  'cafe-menu': '042452d3e0138375b12d81f10e52b57c',
 } as const;
 
 /** WhatsApp number for `wa.me` links: digits only, no `+` (+62 812-2987-0979). */

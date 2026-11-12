@@ -132,6 +132,16 @@ export type ColivePricing = {
   includes: string[];
 };
 
+export type CafeMenuItem = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  category: string;
+  slug: string;
+};
+
 export type FaqItem = {
   id: string;
   question: string;

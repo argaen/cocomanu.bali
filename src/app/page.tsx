@@ -15,6 +15,7 @@ export default function Home() {
   const gardenImage = resolveLocalSiteImage('garden_1');
   const coworkImage = resolveLocalSiteImage('cowork_1');
   const coliveImage = resolveLocalSiteImage('colive_1');
+  const cafeImage = resolveLocalSiteImage('cafe_1');
 
   return (
     <main role="main">
@@ -109,25 +110,23 @@ export default function Home() {
           }
         />
       ) : null}
-      {gardenImage ? (
+      {cafeImage ? (
         <Section
           className="!py-0"
-          header="Garden"
-          headerClassName="text-moss-green-200 sm:hidden mt-12 -mb-7 pb-0"
+          header="Cafe"
+          headerClassName="text-dawn-rays-200 sm:hidden mt-12 -mb-7 pb-0"
           content={
             <HeroImageContent
-              header="Garden"
-              headerClassName="sm:text-moss-green-200"
-              header2ClassName="text-moss-green-300"
-              image={gardenImage}
-              contentClassName="bg-moss-green-100"
+              header="Cafe"
+              headerClassName="sm:text-dawn-rays-200"
+              header2ClassName="text-dawn-rays-300"
+              image={cafeImage}
+              contentClassName="bg-dawn-rays-100"
               imageClassName="intersect:animate-fade-left intersect-once"
-              linkClassName="bg-moss-green-200 before:bg-moss-green-100"
-              title="Nature At Home"
-              text="Take a walk through our 2,000 sqm fruit and vegetable garden, unwind by the ponds, and say hello to our friendly farm animals whenever you need a reset."
-              href="/garden"
-              linkText="Coming soon"
-              linkDisabled
+              linkClassName="bg-dawn-rays-200 before:bg-dawn-rays-100"
+              title="Food from the Garden"
+              text="Our cafe is open to all - coworking guests, coliving residents and anyone passing through Yeh Sumbul looking for something fresh and nourishing."
+              href="/cafe"
             />
           }
         />
