@@ -5,8 +5,8 @@ import { useMemo, useState } from 'react';
 
 import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
 import SearchBox from '@/components/SearchBox';
+import { formatPriceNumberAsK } from '@/lib/notion/product-price-format';
 import type { CafeMenuItem } from '@/lib/notion/types';
-import { formatPriceNumberAsK } from '@/lib/notion';
 import {
   blurPlaceholderProps,
   IMAGE_QUALITY_CARD,

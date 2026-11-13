@@ -7,7 +7,7 @@ import CafeMenu from '@/components/CafeMenu';
 import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
 import { CafeIllustration, LowWasteIllustration } from '@/components/svg';
-import { getCafeMenu } from '@/lib/notion';
+import { getCafeMenu } from '@/lib/notion/cafe-menu';
 import { resolveLocalSiteImage } from '@/lib/site-images';
 import {
   IMAGE_QUALITY_DECORATIVE,
