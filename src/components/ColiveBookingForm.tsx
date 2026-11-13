@@ -5,6 +5,7 @@ import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { DayPicker, type DateRange, type Matcher } from 'react-day-picker';
 
 import { estimateColiveTotalFromNights, formatCompactPrice, formatPriceNumberAsK } from '@/lib/notion';
+import { trackPurchase } from '@/lib/analytics';
 import {
   buildColiveBookingWhatsappMessage,
   buildWhatsappBookingUrl,
@@ -374,6 +375,22 @@ export default function ColiveBookingForm({
             target="_blank"
             rel="noopener noreferrer nofollow"
             className="cta before:bg-ocean-blue-100 inline-flex min-h-14 min-w-56 cursor-pointer items-center justify-center rounded-md bg-ocean-blue-200 px-5 py-2 font-medium text-white-water"
+            onClick={() => {
+              trackPurchase({
+                transactionId: bookingId,
+                value: total,
+                vertical: 'colive',
+                items: [
+                  {
+                    item_id: 'colive-stay',
+                    item_name: 'Colive stay',
+                    item_variant: `${nights} night${nights > 1 ? 's' : ''}`,
+                    price: nightlyRate,
+                    quantity: nights,
+                  },
+                ],
+              });
+            }}
           >
             <span className="z-10 flex flex-col items-center leading-tight">
               <span>Book via WhatsApp</span>

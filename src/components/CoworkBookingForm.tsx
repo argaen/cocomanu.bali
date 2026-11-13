@@ -5,6 +5,7 @@ import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { DayPicker, type DateRange } from 'react-day-picker';
 
 import { estimateCoworkingTotalFromDays, formatCompactPrice, formatPriceNumberAsK } from '@/lib/notion';
+import { trackPurchase } from '@/lib/analytics';
 import {
   buildCoworkBookingWhatsappMessage,
   buildWhatsappBookingUrl,
@@ -260,6 +261,20 @@ export default function CoworkBookingForm({ pricing }: CoworkBookingFormProps) {
             target="_blank"
             rel="noopener noreferrer nofollow"
             className="cta before:bg-dusk-glow-100 inline-flex min-h-14 min-w-56 cursor-pointer items-center justify-center rounded-md bg-dusk-glow-200 px-5 py-2 font-medium text-white-water"
+            onClick={() => {
+              if (!estimate) return;
+              trackPurchase({
+                transactionId: bookingId,
+                value: estimate.totalIdr,
+                vertical: 'cowork',
+                items: estimate.lines.map((line) => ({
+                  item_id: line.tierName.toLowerCase().replace(/\s+/g, '-'),
+                  item_name: line.tierName,
+                  price: line.unitPriceIdr,
+                  quantity: line.quantity,
+                })),
+              });
+            }}
           >
             <span className="z-10 flex flex-col items-center leading-tight">
               <span>Book via WhatsApp</span>

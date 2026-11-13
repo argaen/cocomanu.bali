@@ -14,8 +14,8 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
-import { sendGAEvent } from '@next/third-parties/google';
 import { formatPriceNumberAsK } from '@/lib/notion/product-price-format';
+import { trackPurchase } from '@/lib/analytics';
 import {
   buildOrderWhatsappMessage,
   buildWhatsappOrderUrl,
@@ -154,17 +154,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       0,
     );
     const url = buildWhatsappOrderUrl(message);
-    sendGAEvent('event', 'purchase', {
-      transaction_id: orderId,
+    trackPurchase({
+      transactionId: orderId,
       value: totalIdr,
-      currency: 'IDR',
-      items: lines.map((line, index) => ({
+      vertical: 'shop',
+      items: lines.map((line) => ({
         item_id: line.productId,
         item_name: line.name,
         item_variant: line.packLabel,
         price: line.unitPriceIdr,
         quantity: line.quantity,
-        index,
       })),
     });
     clearCart();
