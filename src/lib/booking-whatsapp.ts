@@ -91,8 +91,9 @@ export function buildWhatsappBookingUrl(message: string): string {
 
 export type CoworkBookingWhatsappInput = {
   startDate: Date;
-  endDate: Date;
-  days: number;
+  validUntil: Date;
+  includedDays: number;
+  validityDays: number;
   lines: { tierName: string; quantity: number; totalIdr: number }[];
   totalIdr: number;
   bookingId?: string;
@@ -100,8 +101,9 @@ export type CoworkBookingWhatsappInput = {
 
 export function buildCoworkBookingWhatsappMessage({
   startDate,
-  endDate,
-  days,
+  validUntil,
+  includedDays,
+  validityDays,
   lines,
   totalIdr,
   bookingId = createCoworkBookingId(),
@@ -118,12 +120,12 @@ export function buildCoworkBookingWhatsappMessage({
     `${WA.person} Name: [Your Name]`,
     `${WA.email} Email: [Your Email]`,
     '',
-    `${WA.calendar} Pass period (inclusive):`,
-    `First day: ${formatStayDate(startDate)}`,
-    `Last day: ${formatStayDate(endDate)}`,
-    `Days: ${days}`,
+    `${WA.calendar} Start date: ${formatStayDate(startDate)}`,
+    `Valid until: ${formatStayDate(validUntil)}`,
+    `Days included: ${includedDays}`,
+    `Validity: ${validityDays} day${validityDays > 1 ? 's' : ''}`,
     '',
-    'Passes:',
+    'Pass:',
     ...passLines,
     '',
     `${WA.money} Total:`,

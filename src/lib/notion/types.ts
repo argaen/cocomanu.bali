@@ -102,8 +102,10 @@ export type CoworkingPricing = {
   dailyPrice: number;
   /** Fraction off from Notion `Discount` (0–1). `0.2` = 20% off; `0` = full price. */
   discount: number;
-  /** Pass length in days (1 = daily, 7 = weekly, 30 = monthly, …). */
-  durationDays: number;
+  /** Days of coworking included in the pass (Notion `Days`). */
+  includedDays: number;
+  /** Calendar days the pass can be used within from the start date (Notion `Validity`). */
+  validityDays: number;
   includes: string[];
 };
 

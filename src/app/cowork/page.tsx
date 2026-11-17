@@ -19,8 +19,6 @@ import {
   Rooftop,
 } from '@/components/svg';
 import Gallery from '@/components/Gallery';
-import PricingCard from '@/components/PricingCard';
-import PricingTierPrice from '@/components/PricingTierPrice';
 import CoworkBookingForm from '@/components/CoworkBookingForm';
 import FaqSection from '@/components/FaqSection';
 import { getCoworkingPricing, getFaqsForPage } from '@/lib/notion';
@@ -42,11 +40,6 @@ export const metadata: Metadata = {
     index: false,
   },
 };
-
-function isDailyEntry(name: string): boolean {
-  const normalized = name.trim().toLowerCase();
-  return normalized === 'daily' || normalized === 'daily pass' || normalized === 'day pass';
-}
 
 export default async function Cowork() {
   const [pricing, faqs] = await Promise.all([
@@ -168,32 +161,11 @@ export default async function Cowork() {
         className="bg-black-sand"
         headerClassName="text-moss-green-200"
         content={
-          <>
-            <div className="mx-auto grid max-w-6xl grid-cols-1 justify-items-center gap-y-12 gap-6 px-6 md:grid-cols-3 md:items-stretch md:gap-10 lg:gap-12">
-              {pricing.length > 0 ? (
-                pricing.map((item) => (
-                  <PricingCard
-                    key={item.id}
-                    title={item.name}
-                    perks={item.includes}
-                    price={(
-                      <PricingTierPrice
-                        price={item.price}
-                        discount={item.discount}
-                        periodRate={!isDailyEntry(item.name) && item.dailyPrice > 0 ? item.dailyPrice : undefined}
-                        periodLabel="/day"
-                      />
-                    )}
-                  />
-                ))
-              ) : (
-                <p className="text-center text-white-water/80">Pricing details are coming soon.</p>
-              )}
-            </div>
-            {pricing.length > 0 ? (
-              <CoworkBookingForm pricing={pricing} />
-            ) : null}
-          </>
+          pricing.length > 0 ? (
+            <CoworkBookingForm pricing={pricing} />
+          ) : (
+            <p className="text-center text-white-water/80">Pricing details are coming soon.</p>
+          )
         }
       />
 

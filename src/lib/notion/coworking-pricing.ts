@@ -23,14 +23,16 @@ export async function getCoworkingPricing(): Promise<CoworkingPricing[]> {
       database_id: databaseId,
       sorts: [
         {
-          property: 'Minimum length',
+          property: 'Price',
           direction: 'ascending',
         },
       ],
     });
 
     const rows = response.results as DatabaseObjectResponse[];
-    return rows.map(pageToCoworkingPricing);
+    return rows
+      .map(pageToCoworkingPricing)
+      .sort((a, b) => a.price - b.price);
   } catch (error) {
     const e = error as { code?: string; message?: string };
     console.warn(
@@ -55,16 +57,25 @@ function pageToCoworkingPricing(page: DatabaseObjectResponse): CoworkingPricing 
     .map((s) => s.replace(/^[•\-\s]+/, '').trim())
     .filter(Boolean);
 
+  const includedDays =
+    numberFromProperty(page.properties.Days)
+    || numberFromProperty(page.properties.Duration)
+    || numberFromProperty(page.properties['Minimum length'])
+    || numberFromProperty(page.properties['Minimum Length'])
+    || inferDurationDaysFromName(name);
+
+  const validityDays =
+    numberFromProperty(page.properties.Validity)
+    || includedDays;
+
   return {
     id: page.id,
     name,
     price: numberFromProperty(page.properties.Price),
     dailyPrice: numberFromProperty(page.properties['Daily Price']),
     discount: discountFromProperty(page.properties.Discount),
-    durationDays:
-      numberFromProperty(page.properties['Minimum length'])
-      || numberFromProperty(page.properties['Minimum Length'])
-      || inferDurationDaysFromName(name),
+    includedDays,
+    validityDays: Math.max(validityDays, includedDays),
     includes,
   };
 }
@@ -137,8 +148,8 @@ export function estimateCoworkingTotalFromDays(
   }
 
   const tiers = pricing
-    .filter((tier) => tier.durationDays > 0 && tier.price > 0)
-    .sort((a, b) => b.durationDays - a.durationDays);
+    .filter((tier) => tier.includedDays > 0 && tier.price > 0)
+    .sort((a, b) => b.includedDays - a.includedDays);
 
   if (tiers.length === 0) {
     return { days, lines: [], totalIdr: 0, dailyRateIdr: 0 };
@@ -150,7 +161,7 @@ export function estimateCoworkingTotalFromDays(
 
   while (remaining > 0) {
     const tier =
-      tiers.find((entry) => entry.durationDays <= remaining) ?? smallestTier;
+      tiers.find((entry) => entry.includedDays <= remaining) ?? smallestTier;
     const unitPriceIdr = tierUnitPrice(tier);
     const existing = lineMap.get(tier.id);
 
@@ -166,7 +177,7 @@ export function estimateCoworkingTotalFromDays(
       });
     }
 
-    remaining -= tier.durationDays;
+    remaining -= tier.includedDays;
   }
 
   const lines = Array.from(lineMap.values());
