@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 
 import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
@@ -37,14 +38,12 @@ import {
 /** Refresh Notion bookings/pricing periodically (ISR). */
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Cocomanu - Coliving",
-  description: "Our Coliving space",
+export const metadata: Metadata = pageMetadata({
+  title: 'Cocomanu - Coliving',
+  description: 'Our Coliving space',
+  path: '/colive',
   keywords: ['Coliving', 'Sumbul', 'Medewi'],
-  robots: {
-    index: false,
-  },
-};
+});
 
 function isNightlyEntry(name: string): boolean {
   const normalized = name.trim().toLowerCase();

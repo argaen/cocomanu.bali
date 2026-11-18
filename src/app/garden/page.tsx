@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 
 import TopNav from '@/components/TopNav';
 import Introduction from '@/components/Introduction';
@@ -18,14 +19,12 @@ import {
 } from '@/lib/next-image';
 import { PlantCollection } from '@/components/PlantCollection';
 
-export const metadata: Metadata = {
-  title: "Cocomanu - Tropical Garden",
-  description: "Discover our tropical garden",
+export const metadata: Metadata = pageMetadata({
+  title: 'Cocomanu - Tropical Garden',
+  description: 'Discover our tropical garden',
+  path: '/garden',
   keywords: ['garden', 'tropical', 'organic'],
-  robots: {
-    index: false,
-  },
-};
+});
 
 export default async function Garden() {
   const [plants, mapPlants] = await Promise.all([

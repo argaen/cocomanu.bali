@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 
 import Introduction from '@/components/Introduction';
 import Section from '@/components/Section';
@@ -32,14 +33,12 @@ import {
 /** Refresh Notion pricing periodically (ISR). */
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Cocomanu - Coworking",
-  description: "Our Coworking space",
+export const metadata: Metadata = pageMetadata({
+  title: 'Cocomanu - Coworking',
+  description: 'Our Coworking space',
+  path: '/cowork',
   keywords: ['Coworking', 'Sumbul', 'Medewi'],
-  robots: {
-    index: false,
-  },
-};
+});
 
 export default async function Cowork() {
   const [pricing, faqs] = await Promise.all([

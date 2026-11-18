@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 
 import ShopProductsSection from '@/components/ShopProductsSection';
 import { getProducts } from '@/lib/notion';
@@ -9,14 +10,12 @@ import type { ShopItem } from '@/components/ShopCollection';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Cocomanu - Shop",
-  description: "Shop products from Cocomanu",
+export const metadata: Metadata = pageMetadata({
+  title: 'Cocomanu - Shop',
+  description: 'Shop products from Cocomanu',
+  path: '/shop',
   keywords: ['shop', 'products', 'cocomanu'],
-  robots: {
-    index: false,
-  },
-};
+});
 
 export default async function Shop() {
   const products = await getProducts();

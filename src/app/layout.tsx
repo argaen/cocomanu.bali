@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: 'Cocomanu',
     description: 'Where work & life flow',
     type: 'website',
-    url: 'https://www.cocomanu.com',
+    url: '/',
     siteName: 'Cocomanu',
     images: [
       {

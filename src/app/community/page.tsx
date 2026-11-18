@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 
 import Introduction from '@/components/Introduction';
 import { CommunityIllustration } from '@/components/svg';
@@ -10,14 +11,12 @@ import {
   IMAGE_SIZES_FULL_VIEWPORT,
 } from '@/lib/next-image';
 
-export const metadata: Metadata = {
-  title: "Cocomanu - Community",
-  description: "Our Community",
+export const metadata: Metadata = pageMetadata({
+  title: 'Cocomanu - Community',
+  description: 'Our Community',
+  path: '/community',
   keywords: ['Community', 'Sumbul', 'Medewi'],
-  robots: {
-    index: false,
-  },
-};
+});
 
 export default function Community() {
   return (

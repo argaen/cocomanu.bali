@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/page-metadata';
 
 import CafeMenu from '@/components/CafeMenu';
 import Introduction from '@/components/Introduction';
@@ -18,14 +19,12 @@ import {
 /** Refresh Notion menu periodically (ISR). */
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Cocomanu - Cafe",
-  description: "Try our meals",
+export const metadata: Metadata = pageMetadata({
+  title: 'Cocomanu - Cafe',
+  description: 'Try our meals',
+  path: '/cafe',
   keywords: ['food', 'meals', 'break'],
-  robots: {
-    index: false,
-  },
-};
+});
 
 export default async function Cafe() {
   const cafeImage = resolveLocalSiteImage('cafe_1');
