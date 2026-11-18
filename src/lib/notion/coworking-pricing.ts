@@ -32,7 +32,7 @@ export async function getCoworkingPricing(): Promise<CoworkingPricing[]> {
     const rows = response.results as DatabaseObjectResponse[];
     return rows
       .map(pageToCoworkingPricing)
-      .sort((a, b) => a.price - b.price);
+      .sort(compareCoworkingPricing);
   } catch (error) {
     const e = error as { code?: string; message?: string };
     console.warn(
@@ -78,6 +78,18 @@ function pageToCoworkingPricing(page: DatabaseObjectResponse): CoworkingPricing 
     validityDays: Math.max(validityDays, includedDays),
     includes,
   };
+}
+
+function isFlexPass(name: string): boolean {
+  return name.trim().toLowerCase().includes('flex');
+}
+
+/** Standard passes first (by price), then Flex passes (by price). */
+function compareCoworkingPricing(a: CoworkingPricing, b: CoworkingPricing): number {
+  const aFlex = isFlexPass(a.name);
+  const bFlex = isFlexPass(b.name);
+  if (aFlex !== bFlex) return aFlex ? 1 : -1;
+  return a.price - b.price;
 }
 
 function discountFromProperty(property: unknown): number {
