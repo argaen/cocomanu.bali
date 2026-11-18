@@ -17,7 +17,21 @@ export type CafeMenuProps = {
   items: CafeMenuItem[];
 };
 
-const CATEGORY_ORDER = ['Breakfast', 'Cafe Drinks', 'Sweets'];
+const CATEGORY_ORDER = [
+  'Coffee',
+  'Matcha / Hojicha',
+  'Garden Teas',
+  'Bites',
+  'Sweets',
+];
+
+function normalizeCategory(name: string): string {
+  return name.trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function categoryHeadingId(name: string): string {
+  return `menu-${normalizeCategory(name).replace(/[^a-z0-9]+/g, '-')}`;
+}
 
 function groupByCategory(items: CafeMenuItem[]): { category: string; items: CafeMenuItem[] }[] {
   const groups = new Map<string, CafeMenuItem[]>();
@@ -29,12 +43,20 @@ function groupByCategory(items: CafeMenuItem[]): { category: string; items: Cafe
     else groups.set(category, [item]);
   }
 
-  const known = CATEGORY_ORDER
-    .filter((category) => groups.has(category))
-    .map((category) => ({ category, items: groups.get(category) ?? [] }));
+  const used = new Set<string>();
+  const known: { category: string; items: CafeMenuItem[] }[] = [];
+
+  for (const label of CATEGORY_ORDER) {
+    const matchKey = [...groups.keys()].find(
+      (key) => normalizeCategory(key) === normalizeCategory(label),
+    );
+    if (!matchKey) continue;
+    used.add(matchKey);
+    known.push({ category: label, items: groups.get(matchKey) ?? [] });
+  }
 
   const extra = [...groups.keys()]
-    .filter((category) => !CATEGORY_ORDER.includes(category))
+    .filter((category) => !used.has(category))
     .sort((a, b) => a.localeCompare(b))
     .map((category) => ({ category, items: groups.get(category) ?? [] }));
 
@@ -84,9 +106,9 @@ export default function CafeMenu({ items }: CafeMenuProps) {
       ) : (
         <div className="space-y-12">
           {groupedItems.map((group) => (
-            <section key={group.category} aria-labelledby={`menu-${group.category}`}>
+            <section key={group.category} aria-labelledby={categoryHeadingId(group.category)}>
               <h2
-                id={`menu-${group.category}`}
+                id={categoryHeadingId(group.category)}
                 className="mb-6 !font-josefin !text-2xl font-semibold tracking-wide text-dawn-rays-200 md:!text-3xl"
               >
                 {group.category}

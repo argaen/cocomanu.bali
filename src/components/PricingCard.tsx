@@ -48,9 +48,9 @@ export default function PricingCard({
       <ul className="py-4 space-y-4 text-sm">
         {
           perks.map(perk => (
-            <li key={perk} className="flex">
-              <CheckCircle className="size-4 mr-2" />
-              {perk}
+            <li key={perk} className="flex items-start">
+              <CheckCircle className="mt-0.5 mr-2 size-4 shrink-0" />
+              <span>{perk}</span>
             </li>
           ))
         }
