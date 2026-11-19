@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useMemo, useState } from 'react';
 
 import ProductPlaceholder from '@/assets/images/product_placeholder.webp';
+import CafeHealthTags from '@/components/CafeHealthTags';
 import SearchBox from '@/components/SearchBox';
 import { formatPriceNumberAsK } from '@/lib/notion/product-price-format';
 import type { CafeMenuItem } from '@/lib/notion/types';
@@ -75,6 +76,7 @@ export default function CafeMenu({ items }: CafeMenuProps) {
         item.name.toLowerCase().includes(q)
         || item.description.toLowerCase().includes(q)
         || item.category.toLowerCase().includes(q)
+        || item.healthTags.some((tag) => tag.name.toLowerCase().includes(q))
       );
     });
   }, [items, query]);
@@ -122,9 +124,9 @@ export default function CafeMenu({ items }: CafeMenuProps) {
                   return (
                     <article
                       key={item.id}
-                      className="flex h-full flex-col overflow-hidden rounded-md bg-white-water text-black-sand shadow-md"
+                      className="flex h-full flex-col overflow-visible rounded-md bg-white-water text-black-sand shadow-md"
                     >
-                      <div className="relative h-52 w-full shrink-0 overflow-hidden bg-black-sand/10">
+                      <div className="relative z-0 h-52 w-full shrink-0 overflow-hidden rounded-t-md bg-black-sand/10">
                         <Image
                           alt={item.name}
                           src={imageSrc}
@@ -142,7 +144,7 @@ export default function CafeMenu({ items }: CafeMenuProps) {
                           }
                         />
                       </div>
-                      <div className="flex min-h-0 flex-1 flex-col gap-2 p-4">
+                      <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-2 bg-white-water p-4">
                         <div className="flex items-start justify-between gap-3">
                           <h3 className="text-xl font-bold text-black-sand">{item.name}</h3>
                           {item.price > 0 ? (
@@ -156,6 +158,7 @@ export default function CafeMenu({ items }: CafeMenuProps) {
                             {item.description}
                           </p>
                         ) : null}
+                        <CafeHealthTags tags={item.healthTags} className="mt-auto pt-2" />
                       </div>
                     </article>
                   );

@@ -142,6 +142,8 @@ export type CafeMenuItem = {
   image: string;
   category: string;
   slug: string;
+  /** Notion `Health tags` multi-select (e.g. Gluten-free, Vegan, Contains nuts). */
+  healthTags: { name: string; color: string }[];
 };
 
 export type FaqItem = {

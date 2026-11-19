@@ -2,9 +2,10 @@ import type { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endp
 
 import { cafeMenuImageSlug, resolveLocalCafeImage } from '@/lib/cafe-images';
 import { notion } from './client';
-import { DATABASES } from './constants';
+import { COLOR_MAP, DATABASES } from './constants';
 import type {
   CafeMenuItem,
+  MultiSelectProperty,
   NumberProperty,
   RichTextProperty,
   SelectProperty,
@@ -65,6 +66,9 @@ function pageToCafeMenuItem(page: DatabaseObjectResponse): CafeMenuItem {
     image: resolveLocalCafeImage(slug),
     category: selectNameFromProperty(properties.Category),
     slug,
+    healthTags: healthTagsFromProperty(
+      properties['Health tags'] ?? properties['Health Tags'],
+    ),
   };
 }
 
@@ -91,4 +95,20 @@ function numberFromProperty(property: unknown): number {
 function selectNameFromProperty(property: unknown): string {
   if (!property || typeof property !== 'object') return '';
   return (property as SelectProperty).select?.name?.trim() ?? '';
+}
+
+function healthTagsFromProperty(property: unknown): CafeMenuItem['healthTags'] {
+  if (!property || typeof property !== 'object') return [];
+  const tags = (property as MultiSelectProperty).multi_select;
+  if (!Array.isArray(tags)) return [];
+  return tags
+    .map((tag) => {
+      const name = tag.name.trim();
+      if (!name) return null;
+      return {
+        name,
+        color: COLOR_MAP[tag.color] || COLOR_MAP.default,
+      };
+    })
+    .filter((tag): tag is CafeMenuItem['healthTags'][number] => tag !== null);
 }
