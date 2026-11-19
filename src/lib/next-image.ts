@@ -23,8 +23,14 @@ export const IMAGE_QUALITY_CARD = 75;
 export const IMAGE_SIZES_FULL_VIEWPORT =
   '(orientation: portrait) 150vh, 100vw';
 
-/** Home page section images: full width on mobile, half on sm+. */
-export const IMAGE_SIZES_HALF_VIEWPORT = '(max-width: 639px) 100vw, 50vw';
+/**
+ * Home cowork/colive/cafe blocks (`fill` + `object-cover` in a
+ * `h-[550px] lg:h-[700px]` frame). Slot width is 100vw / 50vw, but a 3:2
+ * photo is cropped to cover the *height*, so the optimizer must target
+ * `height × 3/2` or phones get a ~750w file stretched over 550 CSS px.
+ */
+export const IMAGE_SIZES_HALF_VIEWPORT =
+  '(max-width: 1023px) 825px, 1050px';
 
 /** Gallery carousel: w-8/12 on mobile, w-3/5 from md. */
 export const IMAGE_SIZES_GALLERY = '(max-width: 767px) 67vw, 60vw';
