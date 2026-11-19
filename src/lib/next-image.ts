@@ -1,7 +1,7 @@
 import type { StaticImageData } from 'next/image';
 
 /** Full-viewport hero backgrounds (LCP). */
-export const IMAGE_QUALITY_HERO = 60;
+export const IMAGE_QUALITY_HERO = 75;
 
 /** In-page section photos (half-width on sm+, galleries). */
 export const IMAGE_QUALITY_SECTION = 75;
@@ -12,8 +12,16 @@ export const IMAGE_QUALITY_DECORATIVE = 10;
 /** Product, plant, and blog thumbnails. */
 export const IMAGE_QUALITY_CARD = 75;
 
-/** Full-bleed viewport heroes. */
-export const IMAGE_SIZES_FULL_VIEWPORT = '100vw';
+/**
+ * Full-bleed viewport heroes (`fill` + `object-cover`).
+ *
+ * `100vw` underserves phones: Next.js picks a width ≈ viewport × DPR, then
+ * `object-cover` crops the landscape file to fill 100vh, so the visible crop is
+ * upscaled. Portrait uses `150vh` (≈ 3:2 cover width) so the optimizer can
+ * send the full 2048w source instead of a ~1080w variant.
+ */
+export const IMAGE_SIZES_FULL_VIEWPORT =
+  '(orientation: portrait) 150vh, 100vw';
 
 /** Home page section images: full width on mobile, half on sm+. */
 export const IMAGE_SIZES_HALF_VIEWPORT = '(max-width: 639px) 100vw, 50vw';

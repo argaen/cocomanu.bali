@@ -65,7 +65,7 @@ export default async function Colive() {
   ]);
 
   const heroSrc = resolveLocalSiteImage('colive_1');
-  const gardenImage = resolveLocalSiteImage('garden_1');
+  const cafeImage = resolveLocalSiteImage('cafe_1');
   const roomGalleryImages = listLocalSiteImages('colive_')
     .filter((img) => img.slug !== 'colive_1')
     .map((img) => ({
@@ -213,11 +213,11 @@ export default async function Colive() {
 
       <FaqSection items={faqs} />
 
-      {gardenImage ? (
+      {cafeImage ? (
         <div className="relative isolate w-full h-[550px] lg:h-[700px]">
           <Image
-            alt="Check our Garden"
-            src={gardenImage}
+            alt="Try our meals"
+            src={cafeImage}
             quality={IMAGE_QUALITY_DECORATIVE}
             loading="lazy"
             fill
@@ -225,14 +225,14 @@ export default async function Colive() {
             className="z-0 object-cover contrast-[.25]"
           />
           <div className="relative z-10 flex flex-col h-full items-center justify-center gap-6">
-            <h2>A place to relax and disconnect</h2>
+            <h2>Try our meals</h2>
             <div className="flex justify-center">
               <Link
-                href="/garden"
-                className="cta bg-moss-green-200 before:bg-moss-green-100"
+                href="/cafe"
+                className="cta bg-dawn-rays-200 before:bg-dawn-rays-100"
               >
                 <span className="flex items-center py-1 px-2 z-10">
-                  Garden
+                  Cafe
                   <ArrowRightIcon className="size-4 ml-1 font-bold"/>
                 </span>
               </Link>

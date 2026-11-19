@@ -96,7 +96,7 @@ export default async function Cafe() {
       {cafeImage ? (
         <div className="relative isolate w-full h-[550px] lg:h-[700px]">
           <Image
-            alt="Try our meals"
+            alt="Take a piece of Cocomanu home"
             src={cafeImage}
             quality={IMAGE_QUALITY_DECORATIVE}
             loading="lazy"
@@ -105,14 +105,14 @@ export default async function Cafe() {
             className="z-0 object-cover contrast-[.25]"
           />
           <div className="relative z-10 flex flex-col h-full items-center justify-center gap-6">
-            <h2>Try our meals</h2>
+            <h2>Take a piece of Cocomanu home</h2>
             <div className="flex justify-center">
               <Link
-                href="/cafe"
-                className="cta bg-dawn-rays-200 before:bg-dawn-rays-100"
+                href="/shop"
+                className="cta bg-moss-green-200 before:bg-moss-green-100"
               >
                 <span className="flex items-center py-1 px-2 z-10">
-                  Cafe
+                  Shop
                   <ArrowRightIcon className="size-4 ml-1 font-bold"/>
                 </span>
               </Link>
